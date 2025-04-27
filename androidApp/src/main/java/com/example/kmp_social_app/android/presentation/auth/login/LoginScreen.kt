@@ -1,0 +1,109 @@
+package com.example.kmp_social_app.android.presentation.auth.login
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.kmp_social_app.android.R
+import com.example.kmp_social_app.android.common.components.CustomTetField
+import com.example.kmp_social_app.android.common.components.CustomTopBar
+import com.example.kmp_social_app.android.common.navigation.LocalNavController
+import com.example.kmp_social_app.android.common.components.SubmitButton
+import com.example.kmp_social_app.android.presentation.auth.signup.SignUpEvent
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun LoginScreen() {
+    val viewModel = koinViewModel<LoginViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LoginScreenContent(
+        uiState = uiState,
+        event = viewModel::onEvent
+    )
+}
+
+@Composable
+private fun LoginScreenContent(
+    uiState: LoginUiState,
+    event: (LoginEvent) -> Unit
+) {
+    val navController = LocalNavController.current
+
+    Scaffold(
+        topBar = {
+            CustomTopBar(
+                title = stringResource(R.string.signup_destination_title)
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.background
+    ) { scaffoldPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(scaffoldPadding)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            CustomTetField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.email,
+                onValueChange = { event(LoginEvent.InputEmail(it)) },
+                placeholder = R.string.email_hint,
+                keyboardType = KeyboardType.Email
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            CustomTetField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.password,
+                onValueChange = { event(LoginEvent.InputPassword(it)) },
+                placeholder = R.string.password_hint,
+                keyboardType = KeyboardType.Password,
+                isPasswordTextField = true
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            SubmitButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { }
+            ) {
+                Text(text = stringResource(R.string.signup_button))
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun SignUpScreenContentPreview() {
+    LoginScreenContent(
+        uiState = LoginUiState.Preview,
+        event = {}
+    )
+}
