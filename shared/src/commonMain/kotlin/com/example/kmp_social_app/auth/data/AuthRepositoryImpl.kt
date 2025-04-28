@@ -1,5 +1,6 @@
 package com.example.kmp_social_app.auth.data
 
+import com.example.kmp_social_app.auth.data.dto.SingInRequestDTO
 import com.example.kmp_social_app.auth.data.dto.SingUpRequestDTO
 import com.example.kmp_social_app.auth.domain.AuthRepository
 import com.example.kmp_social_app.auth.domain.model.AuthResult
@@ -38,8 +39,28 @@ internal class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun signIn(email: String, password: String): NetworkResponse<AuthResult> {
-        TODO("Not yet implemented")
+    override suspend fun signIn(
+        email: String,
+        password: String
+    ): NetworkResponse<AuthResult> {
+        return withContext(dispatcher.io) {
+            try {
+                val request = SingInRequestDTO(
+                    email = email,
+                    password = password
+                )
+
+                val response = authService.signIn(request)
+
+                if (response.authData == null) {
+                    NetworkResponse.Failure(message = response.errorMessage)
+                } else {
+                    NetworkResponse.Success(data = response.authData.toAuthResult())
+                }
+            } catch (ex: Exception) {
+                NetworkResponse.Failure(message = ex.message)
+            }
+        }
     }
 }
 

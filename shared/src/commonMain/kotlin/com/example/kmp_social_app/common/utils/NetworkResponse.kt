@@ -5,7 +5,7 @@ sealed class NetworkResponse<T>(
     val message: String? = null
 ) {
 
-    class Failure<T>(data: T? = null, message: String?) : NetworkResponse<T>(data = data, message = message)
+    class Failure<T>(message: String?) : NetworkResponse<T>(message = message)
 
     class Success<T>(data: T) : NetworkResponse<T>(data = data)
 }
