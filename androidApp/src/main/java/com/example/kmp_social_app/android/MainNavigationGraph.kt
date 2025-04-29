@@ -94,7 +94,7 @@ fun MainNavigationGraph() {
                 }
             ) {
                 navigation<AuthGraph>(
-                    startDestination = AuthGraph.SignUpRoute
+                    startDestination = AuthGraph.LoginRoute
                 ) {
                     composable<AuthGraph.SignUpRoute> {
                         SignUpScreen()

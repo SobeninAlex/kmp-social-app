@@ -1,6 +1,7 @@
 package com.example.kmp_social_app.android.presentation.auth.login
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,10 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -25,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomTetField
@@ -107,9 +112,38 @@ private fun LoginScreenContent(
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { event(LoginEvent.OnLoginClick) }
+                onClick = { event(LoginEvent.OnLoginClick) },
+                enabled = !uiState.isLoading
             ) {
                 Text(text = stringResource(R.string.login_button_label))
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            TextButton(
+                onClick = {
+                    navController.navigate(AuthGraph.SignUpRoute)
+                }
+            ) {
+                Text(text = stringResource(R.string.to_create_account))
+            }
+        }
+    }
+
+    if (uiState.isLoading) {
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+            )
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }

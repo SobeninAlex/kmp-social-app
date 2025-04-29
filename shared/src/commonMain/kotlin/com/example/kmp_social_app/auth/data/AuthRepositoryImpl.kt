@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 internal class AuthRepositoryImpl(
     private val dispatcher: DispatcherProvider,
-    private val authService: AuthService
+    private val authApiService: AuthApiService
 ) : AuthRepository {
 
     override suspend fun signUp(
@@ -26,7 +26,7 @@ internal class AuthRepositoryImpl(
                     password = password
                 )
 
-                val response = authService.signUp(request)
+                val response = authApiService.signUp(request)
 
                 if (response.authData == null) {
                     NetworkResponse.Failure(message = response.errorMessage)
@@ -50,7 +50,7 @@ internal class AuthRepositoryImpl(
                     password = password
                 )
 
-                val response = authService.signIn(request)
+                val response = authApiService.signIn(request)
 
                 if (response.authData == null) {
                     NetworkResponse.Failure(message = response.errorMessage)

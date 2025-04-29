@@ -1,6 +1,7 @@
 package com.example.kmp_social_app.common.data
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -19,7 +20,7 @@ import kotlinx.serialization.json.Json
  * нужен IPv4-адрес */
 private const val BASE_URL = "http://192.168.1.153:8080"
 
-internal abstract class KtorApi {
+internal abstract class KtorApiService {
 
     val client = HttpClient {
         install(ContentNegotiation) {
@@ -32,6 +33,11 @@ internal abstract class KtorApi {
         install(Logging) {
             level = LogLevel.ALL
             logger = AndroidLogger
+        }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = 60_000
+            connectTimeoutMillis = 60_000
         }
     }
 

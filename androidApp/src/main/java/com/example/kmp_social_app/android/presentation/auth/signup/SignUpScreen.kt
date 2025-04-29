@@ -116,7 +116,8 @@ private fun SignUpScreenContent(
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { event(SignUpEvent.OnSignUpClick) }
+                onClick = { event(SignUpEvent.OnSignUpClick) },
+                enabled = !uiState.isLoading
             ) {
                 Text(text = stringResource(R.string.signup_button))
             }

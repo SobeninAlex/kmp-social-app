@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.di
 
 import com.example.kmp_social_app.auth.data.AuthRepositoryImpl
-import com.example.kmp_social_app.auth.data.AuthService
+import com.example.kmp_social_app.auth.data.AuthApiService
 import com.example.kmp_social_app.auth.domain.AuthRepository
 import com.example.kmp_social_app.auth.domain.usecase.SignInUseCase
 import com.example.kmp_social_app.auth.domain.usecase.SignUpUseCase
@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 private val authModule = module {
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
-    factory { AuthService() }
+    factory { AuthApiService() }
     factory { SignUpUseCase() }
     factory { SignInUseCase() }
 }
