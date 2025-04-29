@@ -7,4 +7,6 @@ sealed interface SignUpEvent {
     data class InputEmail(val email: String): SignUpEvent
 
     data class InputPassword(val password: String): SignUpEvent
+
+    data object OnSignUpClick : SignUpEvent
 }

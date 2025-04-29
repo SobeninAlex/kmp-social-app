@@ -7,9 +7,11 @@ import kotlinx.coroutines.launch
 open class BaseViewModel : ViewModel() {
 
     protected fun showSnackbar(
-        message: String,
+        message: String?,
         action: SnackbarAction? = null
     ) {
+        if (message.isNullOrEmpty()) return
+
         viewModelScope.launch {
             SnackbarController.sendEvent(
                 event = SnackbarEvent(

@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import com.example.kmp_social_app.android.common.components.CustomTetField
 import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.components.SubmitButton
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
+import com.example.kmp_social_app.android.common.navigation.MainGraph
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -47,6 +49,12 @@ private fun SignUpScreenContent(
     event: (SignUpEvent) -> Unit
 ) {
     val navController = LocalNavController.current
+
+    LaunchedEffect(uiState.authenticationSucceed) {
+        if (uiState.authenticationSucceed) {
+            navController.navigate(MainGraph.HomeRoute)
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -98,7 +106,7 @@ private fun SignUpScreenContent(
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { }
+                onClick = { event(SignUpEvent.OnSignUpClick) }
             ) {
                 Text(text = stringResource(R.string.signup_button))
             }

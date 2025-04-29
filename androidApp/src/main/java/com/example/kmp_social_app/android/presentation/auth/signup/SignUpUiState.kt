@@ -6,7 +6,9 @@ import androidx.compose.runtime.Immutable
 data class SignUpUiState(
     val username: String = "",
     val email: String = "",
-    val password: String = ""
+    val password: String = "",
+    val isAuthenticating: Boolean = false,
+    val authenticationSucceed: Boolean = false,
 ) {
     companion object {
         val Preview = SignUpUiState(
