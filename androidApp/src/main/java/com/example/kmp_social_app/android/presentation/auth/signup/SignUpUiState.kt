@@ -7,8 +7,8 @@ data class SignUpUiState(
     val username: String = "",
     val email: String = "",
     val password: String = "",
-    val isAuthenticating: Boolean = false,
-    val authenticationSucceed: Boolean = false,
+    val isLoading: Boolean = false,
+    val isAuthSuccess: Boolean = false,
 ) {
     companion object {
         val Preview = SignUpUiState(

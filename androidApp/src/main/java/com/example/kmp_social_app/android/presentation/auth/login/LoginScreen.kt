@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,8 @@ import com.example.kmp_social_app.android.common.components.CustomTetField
 import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.components.SubmitButton
+import com.example.kmp_social_app.android.common.navigation.AuthGraph
+import com.example.kmp_social_app.android.common.navigation.MainGraph
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpEvent
 import org.koin.androidx.compose.koinViewModel
 
@@ -51,10 +54,23 @@ private fun LoginScreenContent(
 ) {
     val navController = LocalNavController.current
 
+    LaunchedEffect(uiState.isLoginSuccess) {
+        if (uiState.isLoginSuccess) {
+            navController.navigate(MainGraph.HomeRoute) {
+                popUpTo(AuthGraph) {
+                    inclusive = true
+//                    saveState = true
+                }
+                launchSingleTop = true
+//                restoreState = true
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = stringResource(R.string.signup_destination_title)
+                title = stringResource(R.string.login_destination_title)
             )
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -91,9 +107,9 @@ private fun LoginScreenContent(
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { }
+                onClick = { event(LoginEvent.OnLoginClick) }
             ) {
-                Text(text = stringResource(R.string.signup_button))
+                Text(text = stringResource(R.string.login_button_label))
             }
         }
     }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,11 +23,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomTetField
 import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.components.SubmitButton
+import com.example.kmp_social_app.android.common.navigation.AuthGraph
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
 import org.koin.androidx.compose.koinViewModel
@@ -50,9 +53,16 @@ private fun SignUpScreenContent(
 ) {
     val navController = LocalNavController.current
 
-    LaunchedEffect(uiState.authenticationSucceed) {
-        if (uiState.authenticationSucceed) {
-            navController.navigate(MainGraph.HomeRoute)
+    LaunchedEffect(uiState.isAuthSuccess) {
+        if (uiState.isAuthSuccess) {
+            navController.navigate(MainGraph.HomeRoute) {
+                popUpTo(AuthGraph) {
+                    inclusive = true
+//                    saveState = true
+                }
+                launchSingleTop = true
+//                restoreState = true
+            }
         }
     }
 
@@ -109,6 +119,24 @@ private fun SignUpScreenContent(
                 onClick = { event(SignUpEvent.OnSignUpClick) }
             ) {
                 Text(text = stringResource(R.string.signup_button))
+            }
+        }
+    }
+
+    if (uiState.isLoading) {
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+            )
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
         }
     }

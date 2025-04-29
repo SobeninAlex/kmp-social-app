@@ -5,4 +5,6 @@ sealed interface LoginEvent {
     data class InputEmail(val email: String): LoginEvent
 
     data class InputPassword(val password: String): LoginEvent
+
+    data object OnLoginClick : LoginEvent
 }

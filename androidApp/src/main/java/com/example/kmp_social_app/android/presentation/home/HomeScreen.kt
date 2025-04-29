@@ -47,7 +47,7 @@ private fun HomeScreenContent(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = stringResource(R.string.signup_destination_title)
+                title = "Welcome"
             )
         },
         containerColor = MaterialTheme.colorScheme.background

@@ -27,7 +27,7 @@ class SignUpViewModel(
 
     private fun signUp() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isAuthenticating = true) }
+            _uiState.update { it.copy(isLoading = true) }
 
             runCatching {
                 signUpUseCase(
@@ -38,22 +38,22 @@ class SignUpViewModel(
             }.onSuccess { result ->
                 when (result) {
                     is NetworkResponse.Failure -> {
-                        _uiState.update { it.copy(isAuthenticating = false) }
+                        _uiState.update { it.copy(isLoading = false) }
                         showSnackbar(message = result.message)
                     }
 
                     is NetworkResponse.Success -> {
                         _uiState.update {
                             it.copy(
-                                isAuthenticating = false,
-                                authenticationSucceed = true
+                                isLoading = false,
+                                isAuthSuccess = true
                             )
                         }
                     }
                 }
             }.onFailure { error ->
                 _uiState.update {
-                    it.copy(isAuthenticating = false)
+                    it.copy(isLoading = false)
                 }
                 showSnackbar(message = error.message)
             }
