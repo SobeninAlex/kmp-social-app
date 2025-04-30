@@ -64,10 +64,10 @@ private fun LoginScreenContent(
             navController.navigate(MainGraph.HomeRoute) {
                 popUpTo(AuthGraph) {
                     inclusive = true
-//                    saveState = true
+                    saveState = true
                 }
                 launchSingleTop = true
-//                restoreState = true
+                restoreState = true
             }
         }
     }
@@ -77,8 +77,7 @@ private fun LoginScreenContent(
             CustomTopBar(
                 title = stringResource(R.string.login_destination_title)
             )
-        },
-        containerColor = MaterialTheme.colorScheme.background
+        }
     ) { scaffoldPadding ->
         Column(
             modifier = Modifier

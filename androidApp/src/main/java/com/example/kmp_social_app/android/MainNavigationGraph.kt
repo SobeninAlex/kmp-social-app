@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -31,10 +32,13 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainNavigationGraph() {
+fun MainNavigationGraph(
+    token: String?
+) {
     val navController = rememberNavController()
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val startDestination: Any = if (token.isNullOrEmpty()) AuthGraph else MainGraph
 
     ObserveAsEvent(
         flow = SnackbarController.event,
@@ -67,34 +71,10 @@ fun MainNavigationGraph() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = AuthGraph,
-                enterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
-                        tween(500)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
-                        tween(500)
-                    )
-                },
-                popEnterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
-                        tween(500)
-                    )
-                },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
-                        tween(500)
-                    )
-                }
+                startDestination = startDestination,
             ) {
                 navigation<AuthGraph>(
-                    startDestination = AuthGraph.LoginRoute
+                    startDestination = AuthGraph.LoginRoute,
                 ) {
                     composable<AuthGraph.SignUpRoute> {
                         SignUpScreen()
@@ -106,7 +86,31 @@ fun MainNavigationGraph() {
                 }
 
                 navigation<MainGraph>(
-                    startDestination = MainGraph.HomeRoute
+                    startDestination = MainGraph.HomeRoute,
+                    enterTransition = {
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            tween(250)
+                        )
+                    },
+                    exitTransition = {
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            tween(250)
+                        )
+                    },
+                    popEnterTransition = {
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            tween(250)
+                        )
+                    },
+                    popExitTransition = {
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            tween(250)
+                        )
+                    }
                 ) {
                     composable<MainGraph.HomeRoute> {
                         HomeScreen()

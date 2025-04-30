@@ -9,19 +9,19 @@ val Gray = Color(0xFFF3F3F4)
 
 val Black = Color(0xFF000000)
 
-val Black87 = Color(0xFF18191A)
+val Black87 = Color(0xFF171717)
 val DarkGray = Color(0xFF999A9A)
 
 val Black54 = Color(0xFF373B3F)
-val Black24 = Color(0xFF242526)
+val Black24 = Color(0xFF212023)
 
-val White = Color(0xFFFFFFFF)
+val White = Color(0xFFFDFDFD)
 
 val White87 = Color(0xFFE2E2E2)
 val LightGray = Color(0xFF8A8A8D)
 
 val White36 = Color(0xFFE5E5E5)
-val White76 = Color(0xFFF5F5F5)
+val White76 = Color(0xFFF4F4F4)
 
 internal val LightColors = lightColorScheme(
     secondary = White,

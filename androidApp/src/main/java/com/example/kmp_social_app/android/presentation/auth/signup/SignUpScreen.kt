@@ -58,10 +58,10 @@ private fun SignUpScreenContent(
             navController.navigate(MainGraph.HomeRoute) {
                 popUpTo(AuthGraph) {
                     inclusive = true
-//                    saveState = true
+                    saveState = true
                 }
                 launchSingleTop = true
-//                restoreState = true
+                restoreState = true
             }
         }
     }
@@ -72,8 +72,7 @@ private fun SignUpScreenContent(
             CustomTopBar(
                 title = stringResource(R.string.signup_destination_title)
             )
-        },
-        containerColor = MaterialTheme.colorScheme.background
+        }
     ) { scaffoldPadding ->
         Column(
             modifier = Modifier
