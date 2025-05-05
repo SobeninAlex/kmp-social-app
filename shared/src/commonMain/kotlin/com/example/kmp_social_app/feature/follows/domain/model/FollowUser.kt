@@ -9,7 +9,7 @@ data class FollowUser(
 ) {
 
     companion object {
-        val FAKE = FollowUser(
+        val Preview = FollowUser(
             id = "26797bd8-3596-49a1-943b-92ec2790768f",
             name = "Sara Conor",
             bio = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
@@ -17,7 +17,7 @@ data class FollowUser(
             isFollowing = false
         )
 
-        val FAKE_LIST = listOf(
+        val PreviewFollowUserList = listOf(
             FollowUser(
                 id = "26797bd8-3596-49a1-943b-92ec2790768f",
                 name = "Sara Conor",

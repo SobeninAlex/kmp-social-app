@@ -80,7 +80,7 @@ fun OnBoardingUserCard(
 private fun OnBoardingUserCardPreview() {
     KmpSocialAppTheme {
         OnBoardingUserCard(
-            followUser = FollowUser.FAKE,
+            followUser = FollowUser.Preview,
             onUserClick = {},
             onFollowClick = {}
         )

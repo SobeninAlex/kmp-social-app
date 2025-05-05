@@ -11,7 +11,7 @@ data class Comment(
 ) {
 
     companion object {
-        val Fake = Comment(
+        val Preview = Comment(
             id = "8febfd22-b352-4e12-9951-433f368372ee",
             postId = "06dd0102-88be-4e59-8577-8a9c6ef7d1f7",
             userId = "26797bd8-3596-49a1-943b-92ec2790768f",
@@ -21,7 +21,7 @@ data class Comment(
             createdAt = "30.04.2025 14:25"
         )
 
-        val FakeList = listOf(
+        val PreviewCommentList = listOf(
             Comment(
                 id = "8febfd22-b352-4e12-9951-433f368372ee",
                 postId = "06dd0102-88be-4e59-8577-8a9c6ef7d1f7",

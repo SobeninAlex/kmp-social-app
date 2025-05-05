@@ -95,7 +95,7 @@ private fun CommentListItemPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             CommentListItem(
-                comment = Comment.Fake,
+                comment = Comment.Preview,
                 onProfileClick = {},
                 onMoreIconClick = {}
             )

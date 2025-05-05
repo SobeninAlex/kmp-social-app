@@ -113,7 +113,7 @@ private fun OnBoardingBlockPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             OnBoardingBlock(
-                users = FollowUser.FAKE_LIST,
+                users = FollowUser.PreviewFollowUserList,
                 onUserClick = {},
                 onFollowButtonClick = {a, l -> },
                 onBoardingFinishClick = {}

@@ -50,6 +50,7 @@ fun CustomTopBar(
                     Icon(
                         painter = painterResource(R.drawable.round_arrow_back),
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

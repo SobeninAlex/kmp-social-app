@@ -23,6 +23,7 @@ import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.components.PostListItem
 import com.example.kmp_social_app.android.common.components.PullRefreshLayout
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
+import com.example.kmp_social_app.android.common.navigation.MainGraph
 import com.example.kmp_social_app.android.presentation.home.components.OnBoardingBlock
 import org.koin.androidx.compose.koinViewModel
 
@@ -97,7 +98,7 @@ private fun HomeScreenContent(
                     PostListItem(
                         modifier = Modifier.fillMaxWidth(),
                         post = post,
-                        onPostClick = {},
+                        onPostClick = { navController.navigate(MainGraph.PostDetailRoute(postId = post.postId)) },
                         onProfileClick = {},
                         onLikeClick = {},
                         onCommentClick = {},

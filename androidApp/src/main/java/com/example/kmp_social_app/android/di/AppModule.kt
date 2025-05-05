@@ -9,6 +9,7 @@ import com.example.kmp_social_app.android.presentation.auth.login.LoginViewModel
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpViewModel
 import com.example.kmp_social_app.android.MainViewModel
 import com.example.kmp_social_app.android.presentation.home.HomeViewModel
+import com.example.kmp_social_app.android.presentation.post_detail.PostDetailViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -21,9 +22,18 @@ val appModule = module {
             datastore = get()
         )
     }
+
     viewModelOf(::LoginViewModel)
+
     viewModelOf(::HomeViewModel)
+
     viewModelOf(::MainViewModel)
+
+    viewModel { (postId: String) ->
+        PostDetailViewModel(
+            postId = postId
+        )
+    }
 
     single<DataStore<UserSettings>> {
         DataStoreFactory.create(

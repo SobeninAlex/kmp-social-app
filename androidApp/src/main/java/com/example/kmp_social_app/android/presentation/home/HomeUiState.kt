@@ -14,7 +14,7 @@ data class HomeUiState(
     companion object {
         val Preview = HomeUiState(
             isLoading = false,
-            posts = Post.FakeList,
+            posts = Post.PreviewPostList,
             onBoardingState = OnBoardingState.Preview
         )
     }
@@ -29,7 +29,7 @@ data class OnBoardingState(
     companion object {
         val Preview = OnBoardingState(
             isLoading = false,
-            users = FollowUser.FAKE_LIST,
+            users = FollowUser.PreviewFollowUserList,
             shouldShowOnBoarding = true
         )
     }

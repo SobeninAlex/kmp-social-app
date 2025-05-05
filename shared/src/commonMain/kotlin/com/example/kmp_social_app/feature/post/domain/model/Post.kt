@@ -15,7 +15,7 @@ data class Post(
 ) {
 
     companion object {
-        val Fake = Post(
+        val Preview = Post(
             postId = "06dd0102-88be-4e59-8577-8a9c6ef7d1f7",
             caption = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
             imageUrl = "https://avatars.mds.yandex.net/i?id=37d517f2000da3eb5adbc7c18179ce11_l-5232111-images-thumbs&n=13",
@@ -29,7 +29,7 @@ data class Post(
             isOwnPost = false,
         )
 
-        val FakeList = listOf(
+        val PreviewPostList = listOf(
             Post(
                 postId = "06dd0102-88be-4e59-8577-8a9c6ef7d1f7",
                 caption = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",

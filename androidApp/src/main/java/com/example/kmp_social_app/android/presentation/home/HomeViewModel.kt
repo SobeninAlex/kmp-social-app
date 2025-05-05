@@ -43,7 +43,7 @@ class HomeViewModel : BaseViewModel() {
             updateOnboardingState {
                 it.copy(
                     isLoading = false,
-                    users = FollowUser.FAKE_LIST,
+                    users = FollowUser.PreviewFollowUserList,
                     shouldShowOnBoarding = true
                 )
             }
@@ -54,7 +54,7 @@ class HomeViewModel : BaseViewModel() {
                 it.copy(
                     isLoading = false,
                     isRefreshing = false,
-                    posts = Post.FakeList
+                    posts = Post.PreviewPostList
                 )
             }
         }
