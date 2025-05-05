@@ -1,8 +1,8 @@
 package com.example.kmp_social_app.android.common.theme
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.graphics.Color
 
 val Blue = Color(0xFF1E80F8)
 val Gray = Color(0xFFF3F3F4)
@@ -30,7 +30,7 @@ internal val LightColors = lightColorScheme(
     background = White76,
     onBackground = Black87,
     surface = White,
-    onSurface = Black87
+    onSurface = LightGray
 )
 
 internal val DarkColors = darkColorScheme(
@@ -40,5 +40,5 @@ internal val DarkColors = darkColorScheme(
     background = Black87,
     onBackground = White87,
     surface = Black54,
-    onSurface = White87
+    onSurface = DarkGray
 )

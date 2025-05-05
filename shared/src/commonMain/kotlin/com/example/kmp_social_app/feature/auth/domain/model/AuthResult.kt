@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.auth.domain.model
+package com.example.kmp_social_app.feature.auth.domain.model
 
 data class AuthResult(
     val id: String,

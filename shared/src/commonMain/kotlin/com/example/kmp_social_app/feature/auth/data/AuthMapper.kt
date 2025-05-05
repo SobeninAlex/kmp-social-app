@@ -1,7 +1,7 @@
-package com.example.kmp_social_app.auth.data
+package com.example.kmp_social_app.feature.auth.data
 
-import com.example.kmp_social_app.auth.data.dto.AuthDataDTO
-import com.example.kmp_social_app.auth.domain.model.AuthResult
+import com.example.kmp_social_app.feature.auth.data.dto.AuthDataDTO
+import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
 
 internal fun AuthDataDTO.toAuthResult(): AuthResult {
     return AuthResult(

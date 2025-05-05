@@ -1,6 +1,6 @@
-package com.example.kmp_social_app.auth.domain
+package com.example.kmp_social_app.feature.auth.domain
 
-import com.example.kmp_social_app.auth.domain.model.AuthResult
+import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
 import com.example.kmp_social_app.common.utils.NetworkResponse
 
 internal interface AuthRepository {

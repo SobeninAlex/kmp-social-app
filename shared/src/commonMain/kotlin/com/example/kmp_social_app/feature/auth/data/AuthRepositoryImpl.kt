@@ -1,9 +1,9 @@
-package com.example.kmp_social_app.auth.data
+package com.example.kmp_social_app.feature.auth.data
 
-import com.example.kmp_social_app.auth.data.dto.SingInRequestDTO
-import com.example.kmp_social_app.auth.data.dto.SingUpRequestDTO
-import com.example.kmp_social_app.auth.domain.AuthRepository
-import com.example.kmp_social_app.auth.domain.model.AuthResult
+import com.example.kmp_social_app.feature.auth.data.dto.SingInRequestDTO
+import com.example.kmp_social_app.feature.auth.data.dto.SingUpRequestDTO
+import com.example.kmp_social_app.feature.auth.domain.AuthRepository
+import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
 import com.example.kmp_social_app.common.utils.DispatcherProvider
 import com.example.kmp_social_app.common.utils.NetworkResponse
 import kotlinx.coroutines.withContext

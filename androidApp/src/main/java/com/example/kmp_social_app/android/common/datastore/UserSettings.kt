@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.common.datastore
 
 import androidx.datastore.core.Serializer
-import com.example.kmp_social_app.auth.domain.model.AuthResult
+import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable

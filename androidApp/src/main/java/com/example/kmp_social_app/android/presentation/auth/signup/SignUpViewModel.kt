@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.android.common.datastore.UserSettings
 import com.example.kmp_social_app.android.common.datastore.toUserSettings
 import com.example.kmp_social_app.android.utils.BaseViewModel
-import com.example.kmp_social_app.auth.domain.usecase.SignUpUseCase
+import com.example.kmp_social_app.feature.auth.domain.usecase.SignUpUseCase
 import com.example.kmp_social_app.common.utils.NetworkResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.auth.data.dto
+package com.example.kmp_social_app.feature.auth.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
