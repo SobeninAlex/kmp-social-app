@@ -18,7 +18,6 @@ import com.example.kmp_social_app.android.common.theme.White
 fun SubmitButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    height: Dp = 48.dp,
     enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     disabledContainerColor: Color = DarkGray,
@@ -34,7 +33,7 @@ fun SubmitButton(
             disabledContainerColor = disabledContainerColor,
             contentColor = contentColor
         ),
-        modifier = modifier.height(height),
+        modifier = modifier,
     ) {
         content()
     }

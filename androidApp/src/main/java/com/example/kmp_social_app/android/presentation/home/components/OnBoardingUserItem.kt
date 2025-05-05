@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.android.presentation.home.onboarding
+package com.example.kmp_social_app.android.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

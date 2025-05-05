@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.android.presentation.home.onboarding
+package com.example.kmp_social_app.android.presentation.home.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke

@@ -20,12 +20,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.kmp_social_app.android.common.navigation.AuthGraph
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
 import com.example.kmp_social_app.android.presentation.auth.login.LoginScreen
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
 import com.example.kmp_social_app.android.presentation.home.HomeScreen
+import com.example.kmp_social_app.android.presentation.post_detail.PostDetailScreen
 import com.example.kmp_social_app.android.utils.ObserveAsEvent
 import com.example.kmp_social_app.android.utils.SnackbarController
 import kotlinx.coroutines.launch
@@ -114,6 +116,12 @@ fun MainNavigationGraph(
                 ) {
                     composable<MainGraph.HomeRoute> {
                         HomeScreen()
+                    }
+
+                    composable<MainGraph.PostDetailRoute> {
+                        val args = it.toRoute<MainGraph.PostDetailRoute>()
+
+                        PostDetailScreen(postId = args.postId)
                     }
                 }
             }

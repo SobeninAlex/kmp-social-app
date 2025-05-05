@@ -18,5 +18,8 @@ data object MainGraph {
 
     @Serializable
     data object HomeRoute
+
+    @Serializable
+    data class PostDetailRoute(val postId: String)
 }
 

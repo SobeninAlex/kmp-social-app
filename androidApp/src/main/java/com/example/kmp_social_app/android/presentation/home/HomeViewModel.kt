@@ -54,7 +54,7 @@ class HomeViewModel : BaseViewModel() {
                 it.copy(
                     isLoading = false,
                     isRefreshing = false,
-                    posts = Post.FAKE_LIST
+                    posts = Post.FakeList
                 )
             }
         }

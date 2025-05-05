@@ -202,7 +202,7 @@ private fun PostListItemPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             PostListItem(
-                post = Post.FAKE,
+                post = Post.Fake,
                 onPostClick = {},
                 onProfileClick = {},
                 onLikeClick = {},
