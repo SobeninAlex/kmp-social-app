@@ -8,6 +8,7 @@ import com.example.kmp_social_app.android.common.datastore.UserSettingsSerialize
 import com.example.kmp_social_app.android.presentation.auth.login.LoginViewModel
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpViewModel
 import com.example.kmp_social_app.android.MainViewModel
+import com.example.kmp_social_app.android.presentation.account.profile.ProfileViewModel
 import com.example.kmp_social_app.android.presentation.home.HomeViewModel
 import com.example.kmp_social_app.android.presentation.post_detail.PostDetailViewModel
 import org.koin.android.ext.koin.androidContext
@@ -32,6 +33,12 @@ val appModule = module {
     viewModel { (postId: String) ->
         PostDetailViewModel(
             postId = postId
+        )
+    }
+
+    viewModel { (userId: String) ->
+        ProfileViewModel(
+            userId = userId
         )
     }
 

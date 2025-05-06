@@ -21,5 +21,8 @@ data object MainGraph {
 
     @Serializable
     data class PostDetailRoute(val postId: String)
+
+    @Serializable
+    data class ProfileRoute(val userId: String)
 }
 

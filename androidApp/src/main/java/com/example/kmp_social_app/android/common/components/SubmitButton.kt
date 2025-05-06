@@ -1,5 +1,6 @@
 package com.example.kmp_social_app.android.common.components
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -21,6 +22,7 @@ fun SubmitButton(
     enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     disabledContainerColor: Color = DarkGray,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     contentColor: Color = White,
     content: @Composable RowScope.() -> Unit
 ) {
@@ -33,6 +35,7 @@ fun SubmitButton(
             disabledContainerColor = disabledContainerColor,
             contentColor = contentColor
         ),
+        contentPadding = contentPadding,
         modifier = modifier,
     ) {
         content()

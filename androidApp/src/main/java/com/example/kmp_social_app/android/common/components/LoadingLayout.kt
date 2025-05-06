@@ -46,7 +46,7 @@ fun LoadingLayout(
         enter = fadeIn(tween(500)),
         exit = fadeOut(tween(500))
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = modifier) {
             content()
         }
     }
@@ -56,7 +56,7 @@ fun LoadingLayout(
         enter = fadeIn(tween(500)),
         exit = fadeOut(tween(500))
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = modifier) {
             loadingContent()
         }
     }

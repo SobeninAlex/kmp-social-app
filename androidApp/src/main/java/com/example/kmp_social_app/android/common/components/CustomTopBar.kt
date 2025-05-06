@@ -21,7 +21,7 @@ import com.example.kmp_social_app.android.R
 @Composable
 fun CustomTopBar(
     title: String,
-    onBackClicked: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
     elevation: Dp = 1.dp,
     containerColor: Color = MaterialTheme.colorScheme.secondary,
     navigationIconContentColor: Color = MaterialTheme.colorScheme.onBackground,
@@ -43,9 +43,9 @@ fun CustomTopBar(
             actionIconContentColor = actionIconContentColor,
         ),
         navigationIcon = {
-            onBackClicked?.let {
+            onBackClick?.let {
                 IconButton(
-                    onClick = onBackClicked
+                    onClick = onBackClick
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.round_arrow_back),

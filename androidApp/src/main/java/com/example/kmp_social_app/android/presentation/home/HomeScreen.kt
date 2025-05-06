@@ -1,6 +1,7 @@
 package com.example.kmp_social_app.android.presentation.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -98,8 +99,12 @@ private fun HomeScreenContent(
                     PostListItem(
                         modifier = Modifier.fillMaxWidth(),
                         post = post,
-                        onPostClick = { navController.navigate(MainGraph.PostDetailRoute(postId = post.postId)) },
-                        onProfileClick = {},
+                        onPostClick = {
+                            navController.navigate(MainGraph.PostDetailRoute(postId = post.postId))
+                        },
+                        onProfileClick = {
+                            navController.navigate(MainGraph.ProfileRoute(userId = it))
+                        },
                         onLikeClick = {},
                         onCommentClick = {},
                         isDetailScreen = false

@@ -23,7 +23,7 @@ import com.example.kmp_social_app.android.common.components.SubmitButton
 import com.example.kmp_social_app.feature.comments.domain.model.Comment
 
 
-fun LazyListScope.commentsBlock(
+fun LazyListScope.postDetailCommentsBlock(
     isLoading: Boolean,
     onAddCommentClick: () -> Unit,
     comments: List<Comment>,

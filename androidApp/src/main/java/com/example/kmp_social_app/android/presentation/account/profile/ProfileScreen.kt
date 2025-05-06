@@ -1,7 +1,8 @@
-package com.example.kmp_social_app.android.presentation.post_detail
+package com.example.kmp_social_app.android.presentation.account.profile
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,46 +12,49 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomTopBar
-import com.example.kmp_social_app.android.common.components.ErrorScreen
 import com.example.kmp_social_app.android.common.components.LoadingLayout
-import com.example.kmp_social_app.android.common.components.PostListItem
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
+import com.example.kmp_social_app.android.common.navigation.MainGraph
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
-import com.example.kmp_social_app.android.presentation.post_detail.components.postDetailCommentsBlock
+import com.example.kmp_social_app.android.presentation.account.profile.components.profileHeaderBlock
+import com.example.kmp_social_app.android.presentation.account.profile.components.profilePostsBlock
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PostDetailScreen(
-    postId: String
+fun ProfileScreen(
+    userId: String
 ) {
-    val viewModel = koinViewModel<PostDetailViewModel>(
+    val viewModel = koinViewModel<ProfileViewModel>(
         parameters = {
-            parametersOf(postId)
+            parametersOf(userId)
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    PostDetailScreenContent(
+    ProfileScreenContent(
         uiState = uiState,
         event = viewModel::onEvent
     )
 }
 
 @Composable
-private fun PostDetailScreenContent(
-    uiState: PostDetailUiState,
-    event: (PostDetailEvent) -> Unit
+private fun ProfileScreenContent(
+    uiState: ProfileUiState,
+    event: (ProfileEvent) -> Unit
 ) {
     val navController = LocalNavController.current
 
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = "",
+                title = stringResource(R.string.profile_destination_title),
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -62,36 +66,27 @@ private fun PostDetailScreenContent(
                 .padding(scaffoldPadding)
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.secondary),
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item {
-                    uiState.post?.let {
-                        PostListItem(
-                            post = it,
-                            onPostClick = {},
-                            onProfileClick = { /**todo*/ },
-                            onLikeClick = { /**todo*/ },
-                            onCommentClick = {},
-                            isDetailScreen = true,
-                        )
-                    }
+                uiState.profile?.let {
+                    profileHeaderBlock(
+                        profile = it,
+                        onFollowClick = {},
+                        onFollowersClick = {},
+                        onFollowingClick = {},
+                    )
                 }
 
-                postDetailCommentsBlock(
-                    isLoading = uiState.commentsState.isLoading,
-                    onAddCommentClick = {},
-                    comments = uiState.commentsState.comments,
-                    onProfileClick = {},
-                    onMoreIconClick = {}
-                )
-            }
-
-            uiState.errorMessage?.let {
-                ErrorScreen(
-                    errorMessage = it,
-                    onClick = { event(PostDetailEvent.Retry) }
+                profilePostsBlock(
+                    isLoading = uiState.postsState.isLoading,
+                    posts = uiState.postsState.posts,
+                    onPostClick = {
+                        navController.navigate(MainGraph.PostDetailRoute(it.postId))
+                    },
+                    onLikeClick = {},
+                    onCommentClick = {}
                 )
             }
         }
@@ -100,13 +95,13 @@ private fun PostDetailScreenContent(
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
-private fun PostDetailScreenContentPreview() {
+private fun ProfileScreenContentPreview() {
     KmpSocialAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
-            PostDetailScreenContent(
-                uiState = PostDetailUiState.Preview,
+            ProfileScreenContent(
+                uiState = ProfileUiState.Preview,
                 event = {}
             )
         }

@@ -24,6 +24,7 @@ import androidx.navigation.toRoute
 import com.example.kmp_social_app.android.common.navigation.AuthGraph
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
+import com.example.kmp_social_app.android.presentation.account.profile.ProfileScreen
 import com.example.kmp_social_app.android.presentation.auth.login.LoginScreen
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
 import com.example.kmp_social_app.android.presentation.home.HomeScreen
@@ -120,8 +121,12 @@ fun MainNavigationGraph(
 
                     composable<MainGraph.PostDetailRoute> {
                         val args = it.toRoute<MainGraph.PostDetailRoute>()
-
                         PostDetailScreen(postId = args.postId)
+                    }
+
+                    composable<MainGraph.ProfileRoute> {
+                        val args = it.toRoute<MainGraph.ProfileRoute>()
+                        ProfileScreen(userId = args.userId)
                     }
                 }
             }
