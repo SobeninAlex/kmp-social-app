@@ -52,6 +52,7 @@ private fun ProfileScreenContent(
     val navController = LocalNavController.current
 
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             CustomTopBar(
                 title = stringResource(R.string.profile_destination_title),

@@ -47,7 +47,7 @@ class ProfileViewModel(
             updatePostsState {
                 it.copy(
                     isLoading = false,
-                    posts = Post.PreviewPostList
+                    posts = emptyList()
                 )
             }
         }
