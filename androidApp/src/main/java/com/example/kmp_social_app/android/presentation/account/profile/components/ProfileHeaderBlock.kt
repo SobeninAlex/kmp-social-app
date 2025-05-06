@@ -1,18 +1,28 @@
 package com.example.kmp_social_app.android.presentation.account.profile.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,13 +47,15 @@ fun LazyListScope.profileHeaderBlock(
     onFollowClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
+    onEditProfileClick: () -> Unit,
 ) = item {
     ProfileHeaderBlock(
         modifier = modifier,
         profile = profile,
         onFollowClick = onFollowClick,
         onFollowersClick = onFollowersClick,
-        onFollowingClick = onFollowingClick
+        onFollowingClick = onFollowingClick,
+        onEditProfileClick = onEditProfileClick
     )
 }
 
@@ -54,6 +66,7 @@ fun ProfileHeaderBlock(
     onFollowClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
+    onEditProfileClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -63,10 +76,29 @@ fun ProfileHeaderBlock(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        CircleImage(
-            imageUrl = profile.avatar,
-            modifier = Modifier.size(100.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CircleImage(
+                imageUrl = profile.avatar,
+                modifier = Modifier.size(100.dp)
+            )
+
+            OutlinedButton(
+                onClick = onEditProfileClick,
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier.size(30.dp),
+                contentPadding = PaddingValues(6.dp),
+                border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Edit,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -141,6 +173,7 @@ private fun ProfileHeaderBlockPreview() {
                 onFollowClick = {},
                 onFollowersClick = {},
                 onFollowingClick = {},
+                onEditProfileClick = {},
             )
         }
     }
@@ -158,6 +191,7 @@ private fun ProfileHeaderBlockPreviewDark() {
                 onFollowClick = {},
                 onFollowersClick = {},
                 onFollowingClick = {},
+                onEditProfileClick = {},
             )
         }
     }

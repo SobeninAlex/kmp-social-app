@@ -24,5 +24,17 @@ data class Profile(
             isFollowing = false,
             isOwnProfile = true
         )
+
+        val Default = Profile(
+            id = "",
+            name = "",
+            email = "",
+            bio = "",
+            avatar = "",
+            followersCount = 0,
+            followingCount = 0,
+            isFollowing = false,
+            isOwnProfile = false
+        )
     }
 }

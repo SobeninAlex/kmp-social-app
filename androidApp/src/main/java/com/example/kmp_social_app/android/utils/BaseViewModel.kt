@@ -21,4 +21,6 @@ open class BaseViewModel : ViewModel() {
             )
         }
     }
+
+    protected val resources = Core.resources
 }

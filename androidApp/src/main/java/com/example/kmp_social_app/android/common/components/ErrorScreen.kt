@@ -31,7 +31,7 @@ fun ErrorScreen(
     ) {
         Text(
             text = errorMessage.ifEmpty { stringResource(R.string.loading_error_message) },
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
 

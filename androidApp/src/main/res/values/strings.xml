@@ -39,4 +39,5 @@
     <string name="create_post_button_label">Create post</string>
     <string name="select_post_image_label">Post image:</string>
     <string name="to_create_account">No account? Create</string>
+    <string name="profile_changed">"Profile changed successfully"</string>
 </resources>

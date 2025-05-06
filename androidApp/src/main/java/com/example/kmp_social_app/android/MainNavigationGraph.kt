@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -16,6 +15,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -24,6 +24,11 @@ import androidx.navigation.toRoute
 import com.example.kmp_social_app.android.common.navigation.AuthGraph
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
+import com.example.kmp_social_app.android.common.navigation.asType
+import com.example.kmp_social_app.android.presentation.account.edit.EditProfileArgs
+import com.example.kmp_social_app.android.presentation.account.edit.EditProfileScreen
+import com.example.kmp_social_app.android.presentation.account.follows.FollowsArgs
+import com.example.kmp_social_app.android.presentation.account.follows.FollowsScreen
 import com.example.kmp_social_app.android.presentation.account.profile.ProfileScreen
 import com.example.kmp_social_app.android.presentation.auth.login.LoginScreen
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
@@ -32,6 +37,7 @@ import com.example.kmp_social_app.android.presentation.post_detail.PostDetailScr
 import com.example.kmp_social_app.android.utils.ObserveAsEvent
 import com.example.kmp_social_app.android.utils.SnackbarController
 import kotlinx.coroutines.launch
+import kotlin.reflect.typeOf
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -127,6 +133,20 @@ fun MainNavigationGraph(
                     composable<MainGraph.ProfileRoute> {
                         val args = it.toRoute<MainGraph.ProfileRoute>()
                         ProfileScreen(userId = args.userId)
+                    }
+
+                    composable<MainGraph.EditProfileRoute>(
+                        typeMap = mapOf(typeOf<EditProfileArgs>() to NavType.asType<EditProfileArgs>())
+                    ) {
+                        val route = it.toRoute<MainGraph.EditProfileRoute>()
+                        EditProfileScreen(route.args)
+                    }
+
+                    composable<MainGraph.FollowsRoute>(
+                        typeMap = mapOf(typeOf<FollowsArgs>() to NavType.asType<FollowsArgs>())
+                    ) {
+                        val route = it.toRoute<MainGraph.FollowsRoute>()
+                        FollowsScreen(route.args)
                     }
                 }
             }

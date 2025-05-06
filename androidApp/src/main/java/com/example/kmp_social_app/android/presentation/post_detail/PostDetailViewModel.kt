@@ -28,7 +28,7 @@ class PostDetailViewModel(
     }
 
     private fun loadDate() {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
         updateCommentsState { it.copy(isLoading = true) }
 
         viewModelScope.launch {

@@ -3,6 +3,7 @@ package com.example.kmp_social_app.android.presentation.home.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,8 +42,10 @@ fun OnBoardingUserCard(
         modifier = modifier
             .height(140.dp)
             .width(130.dp)
-            .clickable { onUserClick() }
-            .background(color = MaterialTheme.colorScheme.secondary)
+            .clickable { onUserClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
     ) {
         Column(
             modifier = Modifier
@@ -60,13 +65,16 @@ fun OnBoardingUserCard(
                 text = followUser.name,
                 style = MaterialTheme.typography.titleSmall,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             FollowButton(
-                modifier = Modifier.fillMaxWidth().heightIn(30.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(30.dp),
                 isOutline = isFollowing,
                 text = if (isFollowing) R.string.unfollow_text_label else R.string.follow_text_label,
                 onClick = { onFollowClick(!isFollowing) }
@@ -79,10 +87,14 @@ fun OnBoardingUserCard(
 @Composable
 private fun OnBoardingUserCardPreview() {
     KmpSocialAppTheme {
-        OnBoardingUserCard(
-            followUser = FollowUser.Preview,
-            onUserClick = {},
-            onFollowClick = {}
-        )
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            OnBoardingUserCard(
+                followUser = FollowUser.Preview,
+                onUserClick = {},
+                onFollowClick = {}
+            )
+        }
     }
 }

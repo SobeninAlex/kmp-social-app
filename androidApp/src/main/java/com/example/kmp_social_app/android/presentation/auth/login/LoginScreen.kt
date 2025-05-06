@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomTetField
 import com.example.kmp_social_app.android.common.components.CustomTopBar
+import com.example.kmp_social_app.android.common.components.LoadingDialog
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.components.SubmitButton
 import com.example.kmp_social_app.android.common.navigation.AuthGraph
@@ -129,22 +130,7 @@ private fun LoginScreenContent(
     }
 
     if (uiState.isLoading) {
-        Dialog(
-            onDismissRequest = {},
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            )
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-        }
+        LoadingDialog()
     }
 }
 

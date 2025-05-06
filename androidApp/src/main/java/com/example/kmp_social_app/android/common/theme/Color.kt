@@ -15,7 +15,7 @@ val DarkGray = Color(0xFF999A9A)
 val Black54 = Color(0xFF373B3F)
 val Black24 = Color(0xFF212023)
 
-val White = Color(0xFFFDFDFD)
+val White = Color(0xFFFFFFFF)
 
 val White87 = Color(0xFFE2E2E2)
 val LightGray = Color(0xFF8A8A8D)

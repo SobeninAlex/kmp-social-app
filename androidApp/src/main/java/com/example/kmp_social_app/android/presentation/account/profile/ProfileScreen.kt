@@ -22,6 +22,10 @@ import com.example.kmp_social_app.android.common.components.LoadingLayout
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
+import com.example.kmp_social_app.android.presentation.account.edit.EditProfileArgs
+import com.example.kmp_social_app.android.presentation.account.edit.toProfileArgs
+import com.example.kmp_social_app.android.presentation.account.follows.FollowsArgs
+import com.example.kmp_social_app.android.presentation.account.follows.FollowsType
 import com.example.kmp_social_app.android.presentation.account.profile.components.profileHeaderBlock
 import com.example.kmp_social_app.android.presentation.account.profile.components.profilePostsBlock
 import org.koin.androidx.compose.koinViewModel
@@ -75,8 +79,33 @@ private fun ProfileScreenContent(
                     profileHeaderBlock(
                         profile = it,
                         onFollowClick = {},
-                        onFollowersClick = {},
-                        onFollowingClick = {},
+                        onFollowersClick = {
+                            navController.navigate(
+                                MainGraph.FollowsRoute(
+                                    args = FollowsArgs(
+                                        userId = it.id,
+                                        followsType = FollowsType.FOLLOWERS
+                                    )
+                                )
+                            )
+                        },
+                        onFollowingClick = {
+                            navController.navigate(
+                                MainGraph.FollowsRoute(
+                                    args = FollowsArgs(
+                                        userId = it.id,
+                                        followsType = FollowsType.FOLLOWING
+                                    )
+                                )
+                            )
+                        },
+                        onEditProfileClick = {
+                            navController.navigate(
+                                MainGraph.EditProfileRoute(
+                                    EditProfileArgs(profile = uiState.profile.toProfileArgs())
+                                )
+                            )
+                        },
                     )
                 }
 
