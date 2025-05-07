@@ -26,8 +26,8 @@ class HomeViewModel : BaseViewModel() {
     }
 
     private fun loadContent() {
-        _uiState.update { it.copy(isLoading = true) }
         updateOnboardingState { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true) }
         loadData()
     }
 
@@ -38,7 +38,7 @@ class HomeViewModel : BaseViewModel() {
 
     private fun loadData() {
         viewModelScope.launch {
-            delay(1000)
+            delay(3000)
 
             updateOnboardingState {
                 it.copy(
@@ -48,7 +48,7 @@ class HomeViewModel : BaseViewModel() {
                 )
             }
 
-            delay(1000)
+            delay(2000)
 
             _uiState.update {
                 it.copy(
