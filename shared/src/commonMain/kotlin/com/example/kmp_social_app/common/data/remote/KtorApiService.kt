@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.common.data
+package com.example.kmp_social_app.common.data.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout

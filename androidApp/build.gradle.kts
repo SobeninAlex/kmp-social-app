@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.core.splashscreen)
-    implementation(libs.datastore.preferences)
     implementation(libs.koin.core)
     implementation(libs.koin.androidx.compose)
     implementation(libs.lifecycle.runtime.compose)

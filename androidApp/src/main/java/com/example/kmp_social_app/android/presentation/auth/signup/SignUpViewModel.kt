@@ -1,12 +1,9 @@
 package com.example.kmp_social_app.android.presentation.auth.signup
 
-import androidx.datastore.core.DataStore
 import androidx.lifecycle.viewModelScope
-import com.example.kmp_social_app.android.common.datastore.UserSettings
-import com.example.kmp_social_app.android.common.datastore.toUserSettings
 import com.example.kmp_social_app.android.utils.BaseViewModel
-import com.example.kmp_social_app.feature.auth.domain.usecase.SignUpUseCase
 import com.example.kmp_social_app.common.utils.NetworkResponse
+import com.example.kmp_social_app.feature.auth.domain.usecase.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,7 +11,6 @@ import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val signUpUseCase: SignUpUseCase,
-    private val datastore: DataStore<UserSettings>
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpUiState())
@@ -47,10 +43,6 @@ class SignUpViewModel(
                     }
 
                     is NetworkResponse.Success -> {
-                        response.data?.let { authResult ->
-                            datastore.updateData { authResult.toUserSettings() }
-                        }
-
                         _uiState.update {
                             it.copy(
                                 isLoading = false,

@@ -23,6 +23,7 @@ private val utilsModule = module {
 }
 
 fun getSharedModules() = listOf(
+    platformModule,
     authModule,
     utilsModule
 )

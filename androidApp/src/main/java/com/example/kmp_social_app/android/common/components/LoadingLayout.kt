@@ -25,7 +25,7 @@ fun LoadingLayout(
     animationMillis: Long = 0,
     loadingContent: @Composable BoxScope.() -> Unit = {
         Box(modifier = modifier.fillMaxSize()) {
-            CircularProgressIndicator(
+            CustomRotatingDotsLoader(
                 modifier = Modifier.align(Alignment.Center)
             )
         }

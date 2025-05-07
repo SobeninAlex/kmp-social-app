@@ -33,7 +33,7 @@ class ProfileViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            delay(1000)
+            delay(4000)
 
             _uiState.update {
                 it.copy(
@@ -42,7 +42,7 @@ class ProfileViewModel(
                 )
             }
 
-            delay(1000)
+            delay(3000)
 
             updatePostsState {
                 it.copy(

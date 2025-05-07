@@ -7,7 +7,7 @@ import com.example.kmp_social_app.feature.profile.domain.model.Profile
 @Immutable
 data class ProfileUiState(
     val isLoading: Boolean = false,
-    val profile: Profile? = null,
+    val profile: Profile = Profile.Default,
     val postsState: PostsState = PostsState(),
 ) {
 

@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.android
+package com.example.kmp_social_app.android.presentation.main
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -42,12 +42,12 @@ import kotlin.reflect.typeOf
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainNavigationGraph(
-    token: String?
+    uiState: MainUiState.Success
 ) {
     val navController = rememberNavController()
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val startDestination: Any = if (token.isNullOrEmpty()) AuthGraph else MainGraph
+    val startDestination: Any = if (uiState.currentUser.token.isEmpty()) AuthGraph else MainGraph
 
     ObserveAsEvent(
         flow = SnackbarController.event,

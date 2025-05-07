@@ -85,18 +85,20 @@ fun ProfileHeaderBlock(
                 modifier = Modifier.size(100.dp)
             )
 
-            OutlinedButton(
-                onClick = onEditProfileClick,
-                shape = MaterialTheme.shapes.small,
-                modifier = Modifier.size(30.dp),
-                contentPadding = PaddingValues(6.dp),
-                border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Edit,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+            if (profile.isOwnProfile) {
+                OutlinedButton(
+                    onClick = onEditProfileClick,
+                    shape = MaterialTheme.shapes.small,
+                    modifier = Modifier.size(30.dp),
+                    contentPadding = PaddingValues(6.dp),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Edit,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
 
@@ -150,13 +152,16 @@ fun ProfileHeaderBlock(
                     .clickable { onFollowingClick() }
             )
 
-            FollowButton(
-                onClick = onFollowClick,
-                contentPadding = PaddingValues(horizontal = 28.dp),
-                modifier = Modifier.height(34.dp),
-                text = R.string.follow_text_label,
-                isOutline = profile.isOwnProfile || profile.isFollowing,
-            )
+            if (!profile.isOwnProfile) {
+                FollowButton(
+                    onClick = onFollowClick,
+                    contentPadding = PaddingValues(horizontal = 28.dp),
+                    modifier = Modifier.height(34.dp),
+                    text = if (profile.isFollowing) R.string.unfollow_text_label else R.string.follow_text_label,
+                    isOutline = profile.isFollowing,
+                )
+            }
+
         }
     }
 }
@@ -169,7 +174,7 @@ private fun ProfileHeaderBlockPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             ProfileHeaderBlock(
-                profile = Profile.Preview,
+                profile = Profile.Preview.copy(isOwnProfile = false, isFollowing = false),
                 onFollowClick = {},
                 onFollowersClick = {},
                 onFollowingClick = {},

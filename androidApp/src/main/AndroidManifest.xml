@@ -10,9 +10,9 @@
         android:name=".KmpSocialApplication"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Splash">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
