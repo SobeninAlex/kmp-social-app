@@ -9,28 +9,13 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val posts: List<Post> = emptyList(),
-    val onBoardingState: OnBoardingState = OnBoardingState()
+    val users: List<FollowUser> = emptyList(),
+    val showUsersRecommendation: Boolean = true,
 ) {
     companion object {
         val Preview = HomeUiState(
-            isLoading = false,
             posts = Post.PreviewPostList,
-            onBoardingState = OnBoardingState.Preview
-        )
-    }
-}
-
-@Immutable
-data class OnBoardingState(
-    val isLoading: Boolean = false,
-    val users: List<FollowUser> = emptyList(),
-    val shouldShowOnBoarding: Boolean = false,
-) {
-    companion object {
-        val Preview = OnBoardingState(
-            isLoading = false,
             users = FollowUser.PreviewFollowUserList,
-            shouldShowOnBoarding = true
         )
     }
 }

@@ -60,7 +60,8 @@ private fun FollowsScreenContent(
             isLoading = uiState.isLoading,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(scaffoldPadding)
+                .padding(scaffoldPadding),
+            loadingContent = { /* todo shimmer */ }
         ) {
             if (uiState.followsUsers.isEmpty()) {
                 EmptyScreen(title = "Not find Users")

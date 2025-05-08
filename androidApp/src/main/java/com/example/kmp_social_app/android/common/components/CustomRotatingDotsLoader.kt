@@ -1,5 +1,6 @@
 package com.example.kmp_social_app.android.common.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -7,6 +8,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -23,6 +26,7 @@ import kotlin.math.sin
 @Composable
 fun CustomRotatingDotsLoader(
     modifier: Modifier = Modifier,
+    isLoading: Boolean = true,
     colors: List<Color> = listOf(
         Color(0xFFFF1200), //Red
         Color(0xFF14B91E), //Green
@@ -62,24 +66,31 @@ fun CustomRotatingDotsLoader(
     val dotRadiusPx = with(LocalDensity.current) { dotRadius.toPx() }
     val numDots = colors.size
 
-    Canvas(modifier = modifier.size((maxOrbitRadius + dotRadius) * 2)) {
-        val center = Offset(size.width / 2, size.height / 2)
+    AnimatedVisibility(
+        modifier = modifier,
+        visible = isLoading,
+        enter = fadeIn(tween(500)),
+        exit = fadeOut(tween(500))
+    ) {
+        Canvas(modifier = Modifier.size((maxOrbitRadius + dotRadius) * 2)) {
+            val center = Offset(size.width / 2, size.height / 2)
 
-        colors.forEachIndexed { index, color ->
-            //Базовый угол для каждой точки, чтобы они были равномерно распределены
-            val baseAngleOffset = (360f / numDots) * index
-            //Текущий угол точки с учетом общего вращения
-            val currentDotAngleDegrees = (rotationAngle + baseAngleOffset) % 360f
-            val currentDotAngleRadians = Math.toRadians(currentDotAngleDegrees.toDouble())
+            colors.forEachIndexed { index, color ->
+                //Базовый угол для каждой точки, чтобы они были равномерно распределены
+                val baseAngleOffset = (360f / numDots) * index
+                //Текущий угол точки с учетом общего вращения
+                val currentDotAngleDegrees = (rotationAngle + baseAngleOffset) % 360f
+                val currentDotAngleRadians = Math.toRadians(currentDotAngleDegrees.toDouble())
 
-            val x = center.x + (currentOrbitRadiusPx * cos(currentDotAngleRadians)).toFloat()
-            val y = center.y + (currentOrbitRadiusPx * sin(currentDotAngleRadians)).toFloat()
+                val x = center.x + (currentOrbitRadiusPx * cos(currentDotAngleRadians)).toFloat()
+                val y = center.y + (currentOrbitRadiusPx * sin(currentDotAngleRadians)).toFloat()
 
-            drawCircle(
-                color = color,
-                radius = dotRadiusPx,
-                center = Offset(x, y)
-            )
+                drawCircle(
+                    color = color,
+                    radius = dotRadiusPx,
+                    center = Offset(x, y)
+                )
+            }
         }
     }
 }

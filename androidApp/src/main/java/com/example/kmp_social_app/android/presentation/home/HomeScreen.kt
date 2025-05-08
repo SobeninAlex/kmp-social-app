@@ -1,10 +1,14 @@
 package com.example.kmp_social_app.android.presentation.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,7 +26,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomRotatingDotsLoader
 import com.example.kmp_social_app.android.common.components.CustomTopBar
-import com.example.kmp_social_app.android.common.components.LoadingLayout
 import com.example.kmp_social_app.android.common.components.PostListItem
 import com.example.kmp_social_app.android.common.components.PullRefreshLayout
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
@@ -67,74 +69,55 @@ private fun HomeScreenContent(
             )
         },
     ) { scaffoldPadding ->
-        LoadingLayout(
-            isLoading = uiState.onBoardingState.isLoading,
-            modifier = Modifier.fillMaxSize()
+        PullRefreshLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(scaffoldPadding),
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = { event(HomeEvent.Refresh) },
         ) {
-            PullRefreshLayout(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(scaffoldPadding),
-                isRefreshing = uiState.isRefreshing,
-                onRefresh = { event(HomeEvent.Refresh) },
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (uiState.onBoardingState.shouldShowOnBoarding && uiState.onBoardingState.users.isNotEmpty()) {
-                        item {
-                            OnBoardingBlock(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .animateItem(),
-                                users = uiState.onBoardingState.users,
-                                onUserClick = {},
-                                onFollowButtonClick = { follow, FollowUser -> },
-                                onBoardingFinishClick = {}
-                            )
-                        }
+                if (uiState.showUsersRecommendation && uiState.users.isNotEmpty()) {
+                    item {
+                        OnBoardingBlock(
+                            modifier = Modifier.fillMaxWidth().animateItem(),
+                            users = uiState.users,
+                            onUserClick = {},
+                            onFollowButtonClick = { follow, FollowUser -> },
+                            onBoardingFinishClick = { event(HomeEvent.OnBoardingFinishClick) }
+                        )
                     }
+                }
 
-                    if (uiState.isLoading) {
-                        item {
-                            CustomRotatingDotsLoader(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .animateItem(
-                                        fadeInSpec = tween(500),
-                                        fadeOutSpec = tween(500)
-                                    ),
-                            )
-                        }
-                    } else {
-                        items(
-                            items = uiState.posts,
-                            key = { it.postId },
-                        ) { post ->
-                            PostListItem(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .animateItem(
-                                        fadeInSpec = tween(500),
-                                        fadeOutSpec = tween(500)
-                                    ),
-                                post = post,
-                                onPostClick = {
-                                    navController.navigate(MainGraph.PostDetailRoute(postId = post.postId))
-                                },
-                                onProfileClick = {
-                                    navController.navigate(MainGraph.ProfileRoute(userId = it))
-                                },
-                                onLikeClick = {},
-                                onCommentClick = {},
-                                isDetailScreen = false
-                            )
-                        }
-                    }
+                items(
+                    items = uiState.posts,
+                    key = { it.postId },
+                ) { post ->
+                    PostListItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItem(),
+                        post = post,
+                        onPostClick = {
+                            navController.navigate(MainGraph.PostDetailRoute(postId = post.postId))
+                        },
+                        onProfileClick = {
+                            navController.navigate(MainGraph.ProfileRoute(userId = it))
+                        },
+                        onLikeClick = {},
+                        onCommentClick = {},
+                        isDetailScreen = false
+                    )
                 }
             }
 
+            CustomRotatingDotsLoader(
+                isLoading = uiState.isLoading,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

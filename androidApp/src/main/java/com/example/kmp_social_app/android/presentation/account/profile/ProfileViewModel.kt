@@ -27,37 +27,27 @@ class ProfileViewModel(
 
     private fun loadContent() {
         _uiState.update { it.copy(isLoading = true) }
-        updatePostsState { it.copy(isLoading = true) }
         loadData()
     }
 
     private fun loadData() {
         viewModelScope.launch {
-            delay(4000)
+            delay(2500)
 
             _uiState.update {
                 it.copy(
-                    isLoading = false,
                     profile = Profile.Preview
                 )
             }
 
-            delay(3000)
+            delay(1000)
 
-            updatePostsState {
+            _uiState.update {
                 it.copy(
                     isLoading = false,
                     posts = Post.PreviewPostList
                 )
             }
-        }
-    }
-
-    private fun updatePostsState(update: (PostsState) -> PostsState) {
-        _uiState.update { oldState ->
-            oldState.copy(
-                postsState = update(oldState.postsState)
-            )
         }
     }
 }

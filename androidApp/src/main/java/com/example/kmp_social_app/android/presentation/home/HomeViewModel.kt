@@ -22,11 +22,19 @@ class HomeViewModel : BaseViewModel() {
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.Refresh -> refreshContent()
+            is HomeEvent.OnBoardingFinishClick -> hideOnboarding()
+        }
+    }
+
+    private fun hideOnboarding() {
+        _uiState.update {
+            it.copy(
+                showUsersRecommendation = false
+            )
         }
     }
 
     private fun loadContent() {
-        updateOnboardingState { it.copy(isLoading = true) }
         _uiState.update { it.copy(isLoading = true) }
         loadData()
     }
@@ -38,17 +46,15 @@ class HomeViewModel : BaseViewModel() {
 
     private fun loadData() {
         viewModelScope.launch {
-            delay(3000)
+            delay(2500)
 
-            updateOnboardingState {
+            _uiState.update {
                 it.copy(
-                    isLoading = false,
                     users = FollowUser.PreviewFollowUserList,
-                    shouldShowOnBoarding = true
                 )
             }
 
-            delay(2000)
+            delay(1000)
 
             _uiState.update {
                 it.copy(
@@ -59,13 +65,4 @@ class HomeViewModel : BaseViewModel() {
             }
         }
     }
-
-    private fun updateOnboardingState(update: (OnBoardingState) -> OnBoardingState) {
-        _uiState.update { oldState ->
-            oldState.copy(
-                onBoardingState = update(oldState.onBoardingState)
-            )
-        }
-    }
-
 }

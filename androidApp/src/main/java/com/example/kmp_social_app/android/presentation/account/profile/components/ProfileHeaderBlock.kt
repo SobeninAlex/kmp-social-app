@@ -50,7 +50,7 @@ fun LazyListScope.profileHeaderBlock(
     onEditProfileClick: () -> Unit,
 ) = item {
     ProfileHeaderBlock(
-        modifier = modifier,
+        modifier = modifier.animateItem(),
         profile = profile,
         onFollowClick = onFollowClick,
         onFollowersClick = onFollowersClick,

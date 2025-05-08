@@ -36,8 +36,8 @@ internal abstract class KtorApiService {
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 60_000
-            connectTimeoutMillis = 60_000
+            requestTimeoutMillis = 30_000
+            connectTimeoutMillis = 30_000
         }
     }
 
