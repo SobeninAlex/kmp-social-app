@@ -5,4 +5,5 @@ fun getSharedModules() = listOf(
     utilsModule,
     authModule,
     followsModule,
+    postModule,
 )

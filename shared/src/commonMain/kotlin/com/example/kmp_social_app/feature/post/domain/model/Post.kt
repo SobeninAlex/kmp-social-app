@@ -6,12 +6,12 @@ data class Post(
     val imageUrl: String?,
     val likesCount: Int,
     val commentsCount: Int,
-    val userId: String,
     val createdAt: String,
+    val userId: String,
     val userName: String,
     val userAvatar: String?,
-    val isLiked: Boolean,
-    val isOwnPost: Boolean,
+    val isLiked: Boolean = false,
+    val isOwnPost: Boolean = false,
 ) {
 
     companion object {

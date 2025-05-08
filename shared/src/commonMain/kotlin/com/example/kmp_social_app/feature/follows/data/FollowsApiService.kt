@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.feature.follows.data
 
 import com.example.kmp_social_app.common.data.remote.KtorApiService
-import com.example.kmp_social_app.common.data.BaseResponseDTO
+import com.example.kmp_social_app.common.utils.SimpleResponseDTO
 import com.example.kmp_social_app.common.utils.QueryParams
 import com.example.kmp_social_app.feature.follows.data.dto.FollowsRequestDTO
 import com.example.kmp_social_app.feature.follows.data.dto.FollowsResponseDTO
@@ -13,25 +13,25 @@ import io.ktor.client.request.setBody
 
 internal class FollowsApiService : KtorApiService() {
 
-    suspend fun follow(token: String, request: FollowsRequestDTO): BaseResponseDTO {
+    suspend fun follow(token: String, request: FollowsRequestDTO): SimpleResponseDTO {
         return client.post {
-            endPoint("/follows/follow")
+            route("/follows/follow")
             setToken(token)
             setBody(request)
-        }.body<BaseResponseDTO>()
+        }.body<SimpleResponseDTO>()
     }
 
-    suspend fun unfollow(token: String, request: FollowsRequestDTO): BaseResponseDTO {
+    suspend fun unfollow(token: String, request: FollowsRequestDTO): SimpleResponseDTO {
         return client.post {
-            endPoint("/follows/unfollow")
+            route("/follows/unfollow")
             setToken(token)
             setBody(request)
-        }.body<BaseResponseDTO>()
+        }.body<SimpleResponseDTO>()
     }
 
     suspend fun getFollowingSuggestions(token: String, userId: String): FollowsResponseDTO {
         return client.get {
-            endPoint("/follows/suggestions")
+            route("/follows/suggestions")
             setToken(token)
             parameter(key = QueryParams.USER_ID, value = userId)
         }.body<FollowsResponseDTO>()

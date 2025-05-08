@@ -10,8 +10,8 @@ import kotlinx.coroutines.withContext
 
 internal class FollowsRepositoryImpl(
     private val dispatcher: DispatcherProvider,
-    private val followsApiService: FollowsApiService,
     private val userPreferences: UserPreferences,
+    private val followsApiService: FollowsApiService,
 ) : FollowsRepository {
 
     override suspend fun getFollowingSuggestions(): NetworkResponse<List<FollowUser>> {
@@ -57,12 +57,12 @@ internal class FollowsRepositoryImpl(
                 }
 
                 if (response.isSuccess) {
-
+                    NetworkResponse.Success(data = response.isSuccess)
                 } else {
-
+                    NetworkResponse.Failure(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
-
+                NetworkResponse.Failure(message = ex.message)
             }
         }
     }

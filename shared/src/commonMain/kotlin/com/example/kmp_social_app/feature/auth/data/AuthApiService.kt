@@ -12,13 +12,13 @@ internal class AuthApiService : KtorApiService() {
 
     suspend fun signUp(request: SingUpRequestDTO): AuthResponseDTO {
         return client.post {
-            endPoint(path = "/signup")
+            route(path = "/signup")
             setBody(request)
         }.body<AuthResponseDTO>()
     }
 
     suspend fun signIn(request: SingInRequestDTO): AuthResponseDTO = client.post {
-        endPoint(path = "/signin")
+        route(path = "/signin")
         setBody(request)
     }.body()
 }

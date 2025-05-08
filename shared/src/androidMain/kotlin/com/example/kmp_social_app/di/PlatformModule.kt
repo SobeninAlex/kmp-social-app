@@ -8,6 +8,8 @@ import com.example.kmp_social_app.common.data.UserSettingsSerializer
 import com.example.kmp_social_app.common.data.local.PREFERENCES_FILE_NAME
 import com.example.kmp_social_app.common.data.local.UserPreferences
 import com.example.kmp_social_app.common.data.local.UserSettings
+import com.example.kmp_social_app.common.utils.AndroidHttpLog
+import com.example.kmp_social_app.common.utils.HttpLog
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -18,6 +20,8 @@ actual val platformModule: Module = module {
             datastore = get()
         )
     }
+
+    single<HttpLog> { AndroidHttpLog() }
 
     single<DataStore<UserSettings>> {
         DataStoreFactory.create(

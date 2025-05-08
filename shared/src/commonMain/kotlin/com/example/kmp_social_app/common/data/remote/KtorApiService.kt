@@ -1,21 +1,22 @@
 package com.example.kmp_social_app.common.data.remote
 
+import com.example.kmp_social_app.common.utils.HttpLog
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.LoggingFormat
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
 import io.ktor.http.ContentType
-import io.ktor.http.append
 import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /** Если запущен сервак локально то тут надо указвать не адрес локал хочта,
  * а IP-адрес компьютера в локальной сети.
@@ -23,13 +24,16 @@ import kotlinx.serialization.json.Json
  * нужен IPv4-адрес */
 private const val BASE_URL = "http://192.168.1.153:8080"
 
-internal abstract class KtorApiService {
+internal abstract class KtorApiService: KoinComponent {
+
+    private val httpLog by inject<HttpLog>()
 
     val client = HttpClient {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
                 useAlternativeNames = false
+                prettyPrint = true
             })
         }
 
@@ -37,10 +41,9 @@ internal abstract class KtorApiService {
             level = LogLevel.ALL
             logger = object : Logger {
                 override fun log(message: String) {
-                    println("http -> $message")
+                    httpLog.log("KtorClient", message)
                 }
             }
-            format = LoggingFormat.OkHttp
         }
 
         install(HttpTimeout) {
@@ -49,7 +52,7 @@ internal abstract class KtorApiService {
         }
     }
 
-    fun HttpRequestBuilder.endPoint(path: String) {
+    fun HttpRequestBuilder.route(path: String) {
         url {
             takeFrom(BASE_URL)
             path(path)
@@ -60,19 +63,6 @@ internal abstract class KtorApiService {
     fun HttpRequestBuilder.setToken(token: String) {
         headers {
             append(name = "Authorization", value = "Bearer $token")
-        }
-    }
-}
-
-private object AndroidLogger : Logger {
-    private const val TAG = "KtorClient"
-    override fun log(message: String) {
-        val maxLogSize = 4000
-        for (i in 0..message.length / maxLogSize) {
-            val start = i * maxLogSize
-            var end = (i + 1) * maxLogSize
-            end = if (end > message.length) message.length else end
-            println("$TAG -> ${message.substring(start, end)}")
         }
     }
 }

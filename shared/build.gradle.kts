@@ -36,6 +36,8 @@ kotlin {
             api(libs.koin.core)
             api(libs.ktor.client.logging)
             implementation(libs.datastore.preferences.core)
+            implementation(libs.kotlinx.datetime)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
