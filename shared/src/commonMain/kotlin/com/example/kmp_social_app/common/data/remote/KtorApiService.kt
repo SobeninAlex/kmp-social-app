@@ -6,8 +6,11 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.LoggingFormat
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.headers
 import io.ktor.http.ContentType
+import io.ktor.http.append
 import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.http.takeFrom
@@ -32,7 +35,12 @@ internal abstract class KtorApiService {
 
         install(Logging) {
             level = LogLevel.ALL
-            logger = AndroidLogger
+            logger = object : Logger {
+                override fun log(message: String) {
+                    println("http -> $message")
+                }
+            }
+            format = LoggingFormat.OkHttp
         }
 
         install(HttpTimeout) {
@@ -46,6 +54,12 @@ internal abstract class KtorApiService {
             takeFrom(BASE_URL)
             path(path)
             contentType(ContentType.Application.Json)
+        }
+    }
+
+    fun HttpRequestBuilder.setToken(token: String) {
+        headers {
+            append(name = "Authorization", value = "Bearer $token")
         }
     }
 }

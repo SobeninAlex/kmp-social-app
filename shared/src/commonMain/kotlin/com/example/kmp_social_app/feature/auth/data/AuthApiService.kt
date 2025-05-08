@@ -10,10 +10,12 @@ import io.ktor.client.request.setBody
 
 internal class AuthApiService : KtorApiService() {
 
-    suspend fun signUp(request: SingUpRequestDTO): AuthResponseDTO = client.post {
-        endPoint(path = "/signup")
-        setBody(request)
-    }.body()
+    suspend fun signUp(request: SingUpRequestDTO): AuthResponseDTO {
+        return client.post {
+            endPoint(path = "/signup")
+            setBody(request)
+        }.body<AuthResponseDTO>()
+    }
 
     suspend fun signIn(request: SingInRequestDTO): AuthResponseDTO = client.post {
         endPoint(path = "/signin")

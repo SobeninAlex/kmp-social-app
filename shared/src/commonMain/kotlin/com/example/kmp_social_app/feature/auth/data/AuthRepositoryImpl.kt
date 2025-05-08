@@ -31,7 +31,9 @@ internal class AuthRepositoryImpl(
 
                 val response = authApiService.signUp(request)
 
-                if (response.authData == null) {
+                if (response.errorMessage != null) {
+                    NetworkResponse.Failure(message = response.errorMessage)
+                } else if (response.authData == null) {
                     NetworkResponse.Failure(message = response.errorMessage)
                 } else {
                     userPreferences.setUserSettings(
