@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.presentation.account.profile
 
 import androidx.lifecycle.viewModelScope
-import com.example.kmp_social_app.android.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.feature.post.domain.model.Post
 import com.example.kmp_social_app.feature.profile.domain.model.Profile
 import kotlinx.coroutines.delay
@@ -21,7 +21,7 @@ class ProfileViewModel(
         loadContent()
     }
 
-    fun onEvent(event: ProfileEvent) {
+    fun onAction(action: ProfileAction) {
 
     }
 

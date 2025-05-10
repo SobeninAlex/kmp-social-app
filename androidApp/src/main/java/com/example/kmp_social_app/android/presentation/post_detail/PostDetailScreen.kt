@@ -36,14 +36,14 @@ fun PostDetailScreen(
 
     PostDetailScreenContent(
         uiState = uiState,
-        event = viewModel::onEvent
+        action = viewModel::onAction
     )
 }
 
 @Composable
 private fun PostDetailScreenContent(
     uiState: PostDetailUiState,
-    event: (PostDetailEvent) -> Unit
+    action: (PostDetailAction) -> Unit
 ) {
     val navController = LocalNavController.current
 
@@ -91,7 +91,7 @@ private fun PostDetailScreenContent(
             uiState.errorMessage?.let {
                 ErrorScreen(
                     errorMessage = it,
-                    onClick = { event(PostDetailEvent.Retry) }
+                    onClick = { action(PostDetailAction.Retry) }
                 )
             }
         }
@@ -107,7 +107,7 @@ private fun PostDetailScreenContentPreview() {
         ) {
             PostDetailScreenContent(
                 uiState = PostDetailUiState.Preview,
-                event = {}
+                action = {}
             )
         }
     }

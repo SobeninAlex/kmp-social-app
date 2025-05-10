@@ -4,7 +4,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-val Blue = Color(0xFF1E80F8)
+val Blue = Color(0xFF0B26E0)
 val Gray = Color(0xFFF3F3F4)
 
 val Black = Color(0xFF000000)

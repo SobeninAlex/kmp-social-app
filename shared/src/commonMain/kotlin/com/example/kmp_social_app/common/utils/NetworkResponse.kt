@@ -1,11 +1,8 @@
 package com.example.kmp_social_app.common.utils
 
-sealed class NetworkResponse<T>(
-    val data: T? = null,
-    val message: String? = null
-) {
+sealed interface NetworkResponse<T> {
 
-    class Failure<T>(message: String?) : NetworkResponse<T>(message = message)
+    class Success<T>(val data: T) : NetworkResponse<T>
 
-    class Success<T>(data: T) : NetworkResponse<T>(data = data)
+    class Failure<T>(val message: String?) : NetworkResponse<T>
 }

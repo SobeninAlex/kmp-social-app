@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.android.utils
+package com.example.kmp_social_app.android.common.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

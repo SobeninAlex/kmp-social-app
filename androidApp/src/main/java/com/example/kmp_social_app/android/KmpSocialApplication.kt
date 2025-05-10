@@ -2,8 +2,8 @@ package com.example.kmp_social_app.android
 
 import android.app.Application
 import com.example.kmp_social_app.android.di.appModule
-import com.example.kmp_social_app.android.utils.Core
-import com.example.kmp_social_app.android.utils.CoreProvider
+import com.example.kmp_social_app.android.common.utils.Core
+import com.example.kmp_social_app.android.common.utils.CoreProvider
 import com.example.kmp_social_app.di.getSharedModules
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext

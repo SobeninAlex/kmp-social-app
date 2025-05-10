@@ -2,7 +2,7 @@ package com.example.kmp_social_app.android.presentation.account.edit
 
 import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.android.R
-import com.example.kmp_social_app.android.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.feature.profile.domain.model.Profile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +25,11 @@ class EditProfileViewModel(
         }
     }
 
-    fun onEvent(event: EditProfileEvent) {
-        when (event) {
-            is EditProfileEvent.EditBio -> editBio(event.bio)
-            is EditProfileEvent.EditName -> editName(event.name)
-            is EditProfileEvent.OnUpdateProfileClick -> updateProfile()
+    fun onAction(action: EditProfileAction) {
+        when (action) {
+            is EditProfileAction.EditBio -> editBio(action.bio)
+            is EditProfileAction.EditName -> editName(action.name)
+            is EditProfileAction.OnUpdateProfileClick -> updateProfile()
         }
     }
 

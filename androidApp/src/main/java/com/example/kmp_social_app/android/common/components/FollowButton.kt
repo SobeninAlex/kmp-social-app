@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.theme.Black87
+import com.example.kmp_social_app.android.common.theme.White87
 
 @Composable
 fun FollowButton(
@@ -47,7 +48,7 @@ fun FollowButton(
             style = MaterialTheme.typography.labelLarge.copy(
                 fontSize = 12.sp
             ),
-            color = MaterialTheme.colorScheme.onBackground
+            color = if (isOutline) MaterialTheme.colorScheme.onBackground else White87
         )
     }
 }

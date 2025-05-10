@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.presentation.post_detail
 
 import androidx.lifecycle.viewModelScope
-import com.example.kmp_social_app.android.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.feature.comments.domain.model.Comment
 import com.example.kmp_social_app.feature.post.domain.model.Post
 import kotlinx.coroutines.delay
@@ -21,9 +21,9 @@ class PostDetailViewModel(
         loadDate()
     }
 
-    fun onEvent(event: PostDetailEvent) {
-        when (event) {
-            is PostDetailEvent.Retry -> loadDate()
+    fun onAction(action: PostDetailAction) {
+        when (action) {
+            is PostDetailAction.Retry -> loadDate()
         }
     }
 

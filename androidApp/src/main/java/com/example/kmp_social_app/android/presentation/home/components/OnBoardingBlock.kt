@@ -31,7 +31,7 @@ fun OnBoardingBlock(
     modifier: Modifier = Modifier,
     users: List<FollowUser>,
     onUserClick: (FollowUser) -> Unit,
-    onFollowButtonClick: (Boolean, FollowUser) -> Unit,
+    onFollowButtonClick: (FollowUser) -> Unit,
     onBoardingFinishClick: () -> Unit,
 ) {
     Column(
@@ -85,7 +85,7 @@ private fun UsersRow(
     modifier: Modifier = Modifier,
     users: List<FollowUser>,
     onUserClick: (FollowUser) -> Unit,
-    onFollowButtonClick: (Boolean, FollowUser) -> Unit
+    onFollowButtonClick: (FollowUser) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -97,9 +97,10 @@ private fun UsersRow(
             key = { it.id }
         ) { user ->
             OnBoardingUserCard(
+                modifier = Modifier.animateItem(),
                 followUser = user,
                 onUserClick = { onUserClick(user) },
-                onFollowClick = { isFollow -> onFollowButtonClick(isFollow, user) }
+                onFollowClick = { onFollowButtonClick(user) }
             )
         }
     }
@@ -115,7 +116,24 @@ private fun OnBoardingBlockPreview() {
             OnBoardingBlock(
                 users = FollowUser.PreviewFollowUserList,
                 onUserClick = {},
-                onFollowButtonClick = {a, l -> },
+                onFollowButtonClick = {},
+                onBoardingFinishClick = {}
+            )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun OnBoardingBlockPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            OnBoardingBlock(
+                users = FollowUser.PreviewFollowUserList,
+                onUserClick = {},
+                onFollowButtonClick = {},
                 onBoardingFinishClick = {}
             )
         }

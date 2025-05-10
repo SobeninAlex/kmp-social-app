@@ -1,5 +1,6 @@
 package com.example.kmp_social_app.common.data.remote
 
+import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.HttpLog
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -17,12 +18,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-
-/** Если запущен сервак локально то тут надо указвать не адрес локал хочта,
- * а IP-адрес компьютера в локальной сети.
- * В консоли ipconfig
- * нужен IPv4-адрес */
-private const val BASE_URL = "http://192.168.1.153:8080"
 
 internal abstract class KtorApiService: KoinComponent {
 
@@ -47,14 +42,14 @@ internal abstract class KtorApiService: KoinComponent {
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 30_000
-            connectTimeoutMillis = 30_000
+            requestTimeoutMillis = 60_000
+            connectTimeoutMillis = 60_000
         }
     }
 
     fun HttpRequestBuilder.route(path: String) {
         url {
-            takeFrom(BASE_URL)
+            takeFrom(Constants.BASE_URL)
             path(path)
             contentType(ContentType.Application.Json)
         }

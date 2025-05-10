@@ -10,7 +10,7 @@ import com.example.kmp_social_app.android.presentation.auth.signup.SignUpViewMod
 import com.example.kmp_social_app.android.presentation.home.HomeViewModel
 import com.example.kmp_social_app.android.presentation.main.MainViewModel
 import com.example.kmp_social_app.android.presentation.post_detail.PostDetailViewModel
-import com.example.kmp_social_app.android.utils.CoreProvider
+import com.example.kmp_social_app.android.common.utils.CoreProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf

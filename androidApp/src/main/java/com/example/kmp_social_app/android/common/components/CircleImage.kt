@@ -17,17 +17,20 @@ fun CircleImage(
     imageUrl: String?,
     onClick: () -> Unit = {}
 ) {
+    val placeholder = if (isSystemInDarkTheme()) {
+        painterResource(R.drawable.img_mock_picture_dark)
+    } else {
+        painterResource(R.drawable.img_mock_picture_light)
+    }
+
     AsyncImage(
         model = imageUrl,
         contentDescription = null,
+        placeholder = placeholder,
+        error = placeholder,
+        contentScale = ContentScale.Crop,
         modifier = modifier
             .clip(CircleShape)
-            .clickable { onClick() },
-        placeholder = if (isSystemInDarkTheme()) {
-            painterResource(R.drawable.img_mock_picture_dark)
-        } else {
-            painterResource(R.drawable.img_mock_picture_light)
-        },
-        contentScale = ContentScale.Crop
+            .clickable  { onClick() }
     )
 }

@@ -50,14 +50,14 @@ fun EditProfileScreen(
 
     EditProfileScreenContent(
         uiState = uiState,
-        event = viewModel::onEvent
+        action = viewModel::onAction
     )
 }
 
 @Composable
 private fun EditProfileScreenContent(
     uiState: EditProfileUiState,
-    event: (EditProfileEvent) -> Unit
+    action: (EditProfileAction) -> Unit
 ) {
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
@@ -118,7 +118,7 @@ private fun EditProfileScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 isSingleLine = true,
                 value = uiState.profile.name,
-                onValueChange = { event(EditProfileEvent.EditName(it)) },
+                onValueChange = { action(EditProfileAction.EditName(it)) },
                 placeholder = R.string.username_hint
             )
 
@@ -126,13 +126,13 @@ private fun EditProfileScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 isSingleLine = false,
                 value = uiState.profile.bio,
-                onValueChange = { event(EditProfileEvent.EditBio(it)) },
+                onValueChange = { action(EditProfileAction.EditBio(it)) },
                 placeholder = R.string.user_bio_hint
             )
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { event(EditProfileEvent.OnUpdateProfileClick) },
+                onClick = { action(EditProfileAction.OnUpdateProfileClick) },
             ) {
                 Text(
                     text = stringResource(R.string.upload_changes_text),
@@ -152,6 +152,6 @@ private fun EditProfileScreenContent(
 private fun EditProfileScreenContentPreview() {
     EditProfileScreenContent(
         uiState = EditProfileUiState.Preview,
-        event = {}
+        action = {}
     )
 }

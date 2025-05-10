@@ -1,14 +1,8 @@
 package com.example.kmp_social_app.android.presentation.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -40,7 +34,7 @@ fun HomeScreen() {
 
     HomeScreenContent(
         uiState = uiState,
-        event = viewModel::onEvent
+        action = viewModel::onAction
     )
 }
 
@@ -48,7 +42,7 @@ fun HomeScreen() {
 @Composable
 private fun HomeScreenContent(
     uiState: HomeUiState,
-    event: (HomeEvent) -> Unit
+    action: (HomeAction) -> Unit
 ) {
     val navController = LocalNavController.current
 
@@ -74,7 +68,7 @@ private fun HomeScreenContent(
                 .fillMaxSize()
                 .padding(scaffoldPadding),
             isRefreshing = uiState.isRefreshing,
-            onRefresh = { event(HomeEvent.Refresh) },
+            onRefresh = { action(HomeAction.Refresh) },
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -85,9 +79,15 @@ private fun HomeScreenContent(
                         OnBoardingBlock(
                             modifier = Modifier.fillMaxWidth().animateItem(),
                             users = uiState.users,
-                            onUserClick = {},
-                            onFollowButtonClick = { follow, FollowUser -> },
-                            onBoardingFinishClick = { event(HomeEvent.OnBoardingFinishClick) }
+                            onUserClick = { user ->
+                                navController.navigate(MainGraph.ProfileRoute(user.id))
+                            },
+                            onFollowButtonClick = { followUser ->
+                                action(HomeAction.OnFollowButtonClick(followedUser = followUser))
+                            },
+                            onBoardingFinishClick = {
+                                action(HomeAction.OnBoardingFinishClick)
+                            }
                         )
                     }
                 }
@@ -107,8 +107,12 @@ private fun HomeScreenContent(
                         onProfileClick = {
                             navController.navigate(MainGraph.ProfileRoute(userId = it))
                         },
-                        onLikeClick = {},
-                        onCommentClick = {},
+                        onLikeClick = {
+                            action(HomeAction.OnLikeClick(post = post))
+                        },
+                        onCommentClick = {
+                            action(HomeAction.OnCommentClick(post = post))
+                        },
                         isDetailScreen = false
                     )
                 }
@@ -127,6 +131,6 @@ private fun HomeScreenContent(
 private fun SignUpScreenContentPreview() {
     HomeScreenContent(
         uiState = HomeUiState.Preview,
-        event = {}
+        action = {}
     )
 }

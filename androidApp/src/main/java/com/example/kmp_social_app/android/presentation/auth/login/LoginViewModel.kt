@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.presentation.auth.login
 
 import androidx.lifecycle.viewModelScope
-import com.example.kmp_social_app.android.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.common.utils.NetworkResponse
 import com.example.kmp_social_app.feature.auth.domain.usecase.SignInUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +16,11 @@ class LoginViewModel(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun onEvent(event: LoginEvent) {
-        when (event) {
-            is LoginEvent.InputEmail -> changeEmail(event.email)
-            is LoginEvent.InputPassword -> changePassword(event.password)
-            is LoginEvent.OnLoginClick -> login()
+    fun onAction(action: LoginAction) {
+        when (action) {
+            is LoginAction.InputEmail -> changeEmail(action.email)
+            is LoginAction.InputPassword -> changePassword(action.password)
+            is LoginAction.OnLoginClick -> login()
         }
     }
 

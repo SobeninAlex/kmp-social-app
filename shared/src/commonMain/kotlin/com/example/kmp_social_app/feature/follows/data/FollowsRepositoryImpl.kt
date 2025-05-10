@@ -23,7 +23,8 @@ internal class FollowsRepositoryImpl(
                 )
 
                 if (response.isSuccess) {
-                    NetworkResponse.Success(data = response.follows.map { it.toFollowUser() })
+                    NetworkResponse.Success(data = response.follows.map {
+                        it.toFollowUser() })
                 } else {
                     NetworkResponse.Failure(message = response.errorMessage)
                 }

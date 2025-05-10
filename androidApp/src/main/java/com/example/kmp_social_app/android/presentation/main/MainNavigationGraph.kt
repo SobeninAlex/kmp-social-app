@@ -34,8 +34,8 @@ import com.example.kmp_social_app.android.presentation.auth.login.LoginScreen
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
 import com.example.kmp_social_app.android.presentation.home.HomeScreen
 import com.example.kmp_social_app.android.presentation.post_detail.PostDetailScreen
-import com.example.kmp_social_app.android.utils.ObserveAsEvent
-import com.example.kmp_social_app.android.utils.SnackbarController
+import com.example.kmp_social_app.android.common.utils.ObserveAsEvent
+import com.example.kmp_social_app.android.common.utils.SnackbarController
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 

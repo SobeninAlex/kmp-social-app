@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,14 +36,14 @@ fun FollowsScreen(
 
     FollowsScreenContent(
         uiState = uiState,
-        event = viewModel::onEvent
+        action = viewModel::onAction
     )
 }
 
 @Composable
 private fun FollowsScreenContent(
     uiState: FollowsUiState,
-    event: (FollowsEvent) -> Unit
+    action: (FollowsAction) -> Unit
 ) {
     val navController = LocalNavController.current
 
@@ -70,7 +69,7 @@ private fun FollowsScreenContent(
             uiState.errorMessage?.let {
                 ErrorScreen(
                     errorMessage = it,
-                    onClick = { event(FollowsEvent.Retry) }
+                    onClick = { action(FollowsAction.Retry) }
                 )
             }
 
@@ -98,6 +97,6 @@ private fun FollowsScreenContent(
 private fun FollowsScreenContentPreview() {
     FollowsScreenContent(
         uiState = FollowsUiState.Preview,
-        event = {}
+        action = {}
     )
 }

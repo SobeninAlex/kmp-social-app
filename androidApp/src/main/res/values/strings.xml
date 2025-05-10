@@ -13,7 +13,7 @@
     <string name="unfollow_text_label">Unfollow</string>
     <string name="onboarding_title">Welcome to Social App</string>
     <string name="onboarding_guidance_subtitle">Posts from people you follow will appear here. Follow some people to get started.</string>
-    <string name="onboarding_button_text">Done</string>
+    <string name="onboarding_button_text">Hide</string>
     <string name="trending_posts_title">Trending Posts</string>
     <string name="posts_label">Posts:</string>
     <string name="post_detail_destination_title">Post detail</string>

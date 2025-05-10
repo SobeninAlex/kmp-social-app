@@ -1,9 +1,8 @@
 package com.example.kmp_social_app.android.presentation.home.components
 
-import androidx.compose.foundation.background
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,9 +33,8 @@ import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
 fun OnBoardingUserCard(
     modifier: Modifier = Modifier,
     followUser: FollowUser,
-    isFollowing: Boolean = true,
     onUserClick: () -> Unit,
-    onFollowClick: (Boolean) -> Unit
+    onFollowClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -75,17 +73,33 @@ fun OnBoardingUserCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(30.dp),
-                isOutline = isFollowing,
-                text = if (isFollowing) R.string.unfollow_text_label else R.string.follow_text_label,
-                onClick = { onFollowClick(!isFollowing) }
+                isOutline = followUser.isFollowing,
+                text = if (followUser.isFollowing) R.string.unfollow_text_label else R.string.follow_text_label,
+                onClick = { onFollowClick() }
             )
         }
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun OnBoardingUserCardPreview() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            OnBoardingUserCard(
+                followUser = FollowUser.Preview,
+                onUserClick = {},
+                onFollowClick = {}
+            )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun OnBoardingUserCardPreviewDark() {
     KmpSocialAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background

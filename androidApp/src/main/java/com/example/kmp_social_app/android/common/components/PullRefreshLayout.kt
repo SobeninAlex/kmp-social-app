@@ -29,7 +29,7 @@ fun PullRefreshLayout(
     content: @Composable BoxScope.() -> Unit
 ) {
     val indicatorColors: List<Color> = listOf(
-        Color(0xFF008EFF),
+        Color(0xFF0B26E0),
         Color(0xFFFF1200),
         Color(0xFF14B91E),
         Color(0xFFFFBF00)
@@ -54,7 +54,7 @@ fun PullRefreshLayout(
     val currentIndicatorColor = if (isRefreshing) {
         indicatorColors[currentColorIndex]
     } else {
-        Color(0xFF008EFF)
+        Color(0xFF0B26E0)
     }
 
     PullToRefreshBox(

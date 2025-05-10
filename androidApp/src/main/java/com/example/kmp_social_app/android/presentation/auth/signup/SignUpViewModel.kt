@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.presentation.auth.signup
 
 import androidx.lifecycle.viewModelScope
-import com.example.kmp_social_app.android.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.common.utils.NetworkResponse
 import com.example.kmp_social_app.feature.auth.domain.usecase.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +16,12 @@ class SignUpViewModel(
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun onEvent(event: SignUpEvent) {
-        when (event) {
-            is SignUpEvent.InputEmail -> changeEmail(event.email)
-            is SignUpEvent.InputPassword -> changePassword(event.password)
-            is SignUpEvent.InputUsername -> changeUsername(event.username)
-            is SignUpEvent.OnSignUpClick -> signUp()
+    fun onAction(action: SignUpAction) {
+        when (action) {
+            is SignUpAction.InputEmail -> changeEmail(action.email)
+            is SignUpAction.InputPassword -> changePassword(action.password)
+            is SignUpAction.InputUsername -> changeUsername(action.username)
+            is SignUpAction.OnSignUpClick -> signUp()
         }
     }
 

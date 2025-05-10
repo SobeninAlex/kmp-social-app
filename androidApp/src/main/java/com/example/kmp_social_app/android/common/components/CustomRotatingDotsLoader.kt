@@ -30,7 +30,7 @@ fun CustomRotatingDotsLoader(
     colors: List<Color> = listOf(
         Color(0xFFFF1200), //Red
         Color(0xFF14B91E), //Green
-        Color(0xFF008EFF), //Blue
+        Color(0xFF0B26E0), //Blue
         Color(0xFFFFBF00)  //Yellow
     ),
     dotRadius: Dp = 6.dp,

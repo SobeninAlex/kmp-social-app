@@ -1,6 +1,6 @@
 package com.example.kmp_social_app.android.presentation.account.follows
 
-sealed interface FollowsEvent {
+sealed interface FollowsAction {
 
-    data object Retry : FollowsEvent
+    data object Retry : FollowsAction
 }

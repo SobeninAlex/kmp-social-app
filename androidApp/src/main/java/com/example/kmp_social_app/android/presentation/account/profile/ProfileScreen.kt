@@ -45,14 +45,14 @@ fun ProfileScreen(
 
     ProfileScreenContent(
         uiState = uiState,
-        event = viewModel::onEvent
+        action = viewModel::onAction
     )
 }
 
 @Composable
 private fun ProfileScreenContent(
     uiState: ProfileUiState,
-    event: (ProfileEvent) -> Unit
+    action: (ProfileAction) -> Unit
 ) {
     val navController = LocalNavController.current
 
@@ -139,7 +139,7 @@ private fun ProfileScreenContentPreview() {
         ) {
             ProfileScreenContent(
                 uiState = ProfileUiState.Preview,
-                event = {}
+                action = {}
             )
         }
     }
