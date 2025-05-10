@@ -55,7 +55,7 @@ class SignUpViewModel(
                 _uiState.update {
                     it.copy(isLoading = false)
                 }
-                showSnackbar(message = error.message)
+                throw error
             }
         }
     }

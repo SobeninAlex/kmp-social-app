@@ -46,7 +46,7 @@ class LoginViewModel(
                 }
             }.onFailure { error ->
                 _uiState.update { it.copy(isLoading = false) }
-                showSnackbar(message = error.message)
+                throw error
             }
         }
     }

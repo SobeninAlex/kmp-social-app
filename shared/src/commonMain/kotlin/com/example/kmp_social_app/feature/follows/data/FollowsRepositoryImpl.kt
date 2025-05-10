@@ -29,7 +29,7 @@ internal class FollowsRepositoryImpl(
                     NetworkResponse.Failure(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }
@@ -63,7 +63,7 @@ internal class FollowsRepositoryImpl(
                     NetworkResponse.Failure(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }

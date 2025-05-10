@@ -16,4 +16,8 @@ internal class AndroidUserPreferences(
     override suspend fun setUserSettings(userSettings: UserSettings) {
         datastore.updateData { userSettings }
     }
+
+    override suspend fun clearUserSetting() {
+        datastore.updateData { UserSettings() }
+    }
 }

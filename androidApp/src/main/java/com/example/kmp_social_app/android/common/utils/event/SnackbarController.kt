@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.android.common.utils
+package com.example.kmp_social_app.android.common.utils.event
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

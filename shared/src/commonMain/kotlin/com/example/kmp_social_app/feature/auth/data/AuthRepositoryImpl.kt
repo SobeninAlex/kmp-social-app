@@ -42,7 +42,7 @@ internal class AuthRepositoryImpl(
                     NetworkResponse.Success(data = response.authData.toAuthResult())
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }
@@ -69,7 +69,7 @@ internal class AuthRepositoryImpl(
                     NetworkResponse.Success(data = response.authData.toAuthResult())
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }

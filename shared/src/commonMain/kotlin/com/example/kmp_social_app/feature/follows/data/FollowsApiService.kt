@@ -18,7 +18,9 @@ internal class FollowsApiService : KtorApiService() {
             route("/follows/follow")
             setToken(token)
             setBody(request)
-        }.body<SimpleResponseDTO>()
+        }
+            .checkAuth()
+            .body<SimpleResponseDTO>()
     }
 
     suspend fun unfollow(token: String, request: FollowsRequestDTO): SimpleResponseDTO {
@@ -26,7 +28,9 @@ internal class FollowsApiService : KtorApiService() {
             route("/follows/unfollow")
             setToken(token)
             setBody(request)
-        }.body<SimpleResponseDTO>()
+        }
+            .checkAuth()
+            .body<SimpleResponseDTO>()
     }
 
     suspend fun getFollowingSuggestions(token: String, userId: String): FollowsResponseDTO {
@@ -34,6 +38,8 @@ internal class FollowsApiService : KtorApiService() {
             route("/follows/suggestions")
             setToken(token)
             parameter(key = QueryParams.USER_ID, value = userId)
-        }.body<FollowsResponseDTO>()
+        }
+            .checkAuth()
+            .body<FollowsResponseDTO>()
     }
 }

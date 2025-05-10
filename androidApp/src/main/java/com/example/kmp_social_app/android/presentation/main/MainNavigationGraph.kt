@@ -34,8 +34,9 @@ import com.example.kmp_social_app.android.presentation.auth.login.LoginScreen
 import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
 import com.example.kmp_social_app.android.presentation.home.HomeScreen
 import com.example.kmp_social_app.android.presentation.post_detail.PostDetailScreen
-import com.example.kmp_social_app.android.common.utils.ObserveAsEvent
-import com.example.kmp_social_app.android.common.utils.SnackbarController
+import com.example.kmp_social_app.android.common.utils.event.ObserveAsEvent
+import com.example.kmp_social_app.android.common.utils.event.SnackbarController
+import com.example.kmp_social_app.android.common.utils.event.UnauthorizedController
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
@@ -65,6 +66,17 @@ fun MainNavigationGraph(
             if (result == SnackbarResult.ActionPerformed) {
                 event.snackbarAction?.action?.invoke()
             }
+        }
+    }
+
+    ObserveAsEvent(
+        flow = UnauthorizedController.event
+    ) {
+        navController.navigate(AuthGraph) {
+            popUpTo(MainGraph) {
+                inclusive = true
+            }
+            launchSingleTop = true
         }
     }
 

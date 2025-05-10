@@ -1,11 +1,14 @@
 package com.example.kmp_social_app.android.presentation.home
 
-import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
+import com.example.kmp_social_app.android.common.utils.DefaultPagingManager
+import com.example.kmp_social_app.android.common.utils.PagingManager
+import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.NetworkResponse
 import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
 import com.example.kmp_social_app.feature.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.kmp_social_app.feature.follows.domain.usecase.GetFollowingSuggestionsUseCase
+import com.example.kmp_social_app.feature.post.domain.model.Post
 import com.example.kmp_social_app.feature.post.domain.usecase.GetFeedPostsUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +25,8 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val postsPagingManager by lazy { createPostsPagingManager() }
+
     init {
         loadContent()
     }
@@ -30,7 +35,7 @@ class HomeViewModel(
         when (action) {
             is HomeAction.Refresh -> refreshContent()
             is HomeAction.OnBoardingFinishClick -> hideOnboarding()
-            is HomeAction.LoadMorePosts -> TODO()
+            is HomeAction.LoadMorePosts -> loadMorePosts()
             is HomeAction.OnFollowButtonClick -> followUser(user = action.followedUser)
             is HomeAction.OnLikeClick -> TODO()
             is HomeAction.OnCommentClick -> TODO()
@@ -46,13 +51,14 @@ class HomeViewModel(
                     is NetworkResponse.Failure -> {
                         showSnackbar(message = response.message)
                     }
+
                     is NetworkResponse.Success -> {
                         refreshContent()
                     }
                 }
 
             }.onFailure { error ->
-                showSnackbar(message = error.message)
+                throw error
             }
         }
     }
@@ -72,13 +78,14 @@ class HomeViewModel(
 
     private fun refreshContent() {
         _uiState.update { it.copy(isRefreshing = true) }
+        postsPagingManager.reset()
         loadData()
     }
 
     private fun loadData() {
         if (uiState.value.showUsersRecommendation) {
             viewModelScope.launch {
-                delay(1000) //todo: test
+                delay(1500) //todo: test
                 runCatching {
                     getFollowingSuggestionsUseCase()
                 }.onSuccess { response ->
@@ -96,10 +103,12 @@ class HomeViewModel(
                         }
                     }
                 }.onFailure { error ->
-                    showSnackbar(message = error.message)
+                    throw error
                 }
             }
         }
+
+        loadMorePosts()
 
 //        //todo: test
 //        viewModelScope.launch {
@@ -113,31 +122,69 @@ class HomeViewModel(
 //            }
 //        }
 
-        viewModelScope.launch {
-            delay(2000) //todo: test
-            runCatching {
-                getFeedPostsUseCase(page = 0, pageSize = 10)
-            }.onSuccess { response ->
-                when (response) {
-                    is NetworkResponse.Failure -> {
-                        _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
-                        showSnackbar(message = response.message)
-                    }
+//        viewModelScope.launch {
+//            delay(2000) //todo: test
+//            runCatching {
+//                getFeedPostsUseCase(page = 0, pageSize = 10)
+//            }.onSuccess { response ->
+//                when (response) {
+//                    is NetworkResponse.Failure -> {
+//                        _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
+//                        showSnackbar(message = response.message)
+//                    }
+//
+//                    is NetworkResponse.Success -> {
+//                        _uiState.update {
+//                            it.copy(
+//                                isLoading = false,
+//                                isRefreshing = false,
+//                                posts = response.data
+//                            )
+//                        }
+//                    }
+//                }
+//            }.onFailure { error ->
+//                _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
+//                throw error
+//            }
+//        }
 
-                    is NetworkResponse.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                isRefreshing = false,
-                                posts = response.data
-                            )
-                        }
-                    }
-                }
-            }.onFailure { error ->
-                _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
-                showSnackbar(message = error.message)
-            }
+    }
+
+    private fun loadMorePosts() {
+        viewModelScope.launch {
+            delay(3000) //todo: test
+            postsPagingManager.loadItems()
         }
+    }
+
+    private fun createPostsPagingManager(): PagingManager<Post> {
+        return DefaultPagingManager(
+            onRequest = { page ->
+                getFeedPostsUseCase(page = page, pageSize = Constants.DEFAULT_PAGE_SIZE)
+            },
+            onSuccess = { postsBucket, page ->
+                val endReached = postsBucket.size < Constants.DEFAULT_PAGE_SIZE
+
+                val posts = if (page == Constants.INITIAL_PAGE) {
+                    postsBucket
+                } else {
+                    _uiState.value.posts + postsBucket
+                }
+
+                _uiState.update {
+                    it.copy(
+                        posts = posts,
+                        endReached = endReached
+                    )
+                }
+            },
+            onFailure = { message, page ->
+                showSnackbar(message = message)
+            },
+            onLoadStateChange = { isLoading ->
+                _uiState.update { it.copy(isLoading = isLoading, isRefreshing = false) }
+            }
+        )
     }
 }

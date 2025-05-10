@@ -2,6 +2,7 @@ package com.example.kmp_social_app.common.data.remote
 
 import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.HttpLog
+import com.example.kmp_social_app.common.utils.UnauthorizedException
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -10,7 +11,9 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.http.takeFrom
@@ -58,6 +61,14 @@ internal abstract class KtorApiService: KoinComponent {
     fun HttpRequestBuilder.setToken(token: String) {
         headers {
             append(name = "Authorization", value = "Bearer $token")
+        }
+    }
+
+    fun HttpResponse.checkAuth(): HttpResponse {
+        return if (this.status == HttpStatusCode.Unauthorized) {
+            throw UnauthorizedException()
+        } else {
+            this
         }
     }
 }

@@ -24,6 +24,10 @@ internal class IOSUserPreferences(
     override suspend fun setUserSettings(userSettings: UserSettings) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun clearUserSetting() {
+        TODO("Not yet implemented")
+    }
 }
 
 @OptIn(ExperimentalForeignApi::class)

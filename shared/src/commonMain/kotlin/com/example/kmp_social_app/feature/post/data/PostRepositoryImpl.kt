@@ -3,6 +3,7 @@ package com.example.kmp_social_app.feature.post.data
 import com.example.kmp_social_app.common.data.local.UserPreferences
 import com.example.kmp_social_app.common.utils.DispatcherProvider
 import com.example.kmp_social_app.common.utils.NetworkResponse
+import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.feature.post.data.dto.PostLikeRequestDTO
 import com.example.kmp_social_app.feature.post.domain.PostRepository
 import com.example.kmp_social_app.feature.post.domain.model.Post
@@ -32,10 +33,11 @@ internal class PostRepositoryImpl(
                 if (response.isSuccess) {
                     NetworkResponse.Success(data = response.posts.map { it.toPost() })
                 } else {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
+//                    NetworkResponse.Failure(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }
@@ -71,7 +73,7 @@ internal class PostRepositoryImpl(
                     NetworkResponse.Failure(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
-                NetworkResponse.Failure(message = ex.message)
+                throw ex
             }
         }
     }

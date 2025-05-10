@@ -7,4 +7,6 @@ internal interface UserPreferences {
     suspend fun getUserSettings(): UserSettings
 
     suspend fun setUserSettings(userSettings: UserSettings)
+
+    suspend fun clearUserSetting()
 }

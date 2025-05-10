@@ -10,6 +10,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.HttpStatusCode
 
 internal class PostApiService : KtorApiService() {
 
@@ -18,7 +19,9 @@ internal class PostApiService : KtorApiService() {
             route("/post/likes/add")
             setToken(token)
             setBody(request)
-        }.body<SimpleResponseDTO>()
+        }
+            .checkAuth()
+            .body<SimpleResponseDTO>()
     }
 
     suspend fun unlikePost(token: String, request: PostLikeRequestDTO): SimpleResponseDTO {
@@ -26,7 +29,9 @@ internal class PostApiService : KtorApiService() {
             route("/post/likes/remove")
             setToken(token)
             setBody(request)
-        }.body<SimpleResponseDTO>()
+        }
+            .checkAuth()
+            .body<SimpleResponseDTO>()
     }
 
     suspend fun getFeedPosts(
@@ -34,13 +39,15 @@ internal class PostApiService : KtorApiService() {
         userId: String,
         page: Int,
         pageSize: Int
-    ) : PostsResponseDTO {
+    ): PostsResponseDTO {
         return client.get {
             route("/posts/feed")
             setToken(token)
             parameter(key = QueryParams.USER_ID, value = userId)
             parameter(key = QueryParams.PAGE, value = page)
             parameter(key = QueryParams.PAGE_SIZE, value = pageSize)
-        }.body<PostsResponseDTO>()
+        }
+            .checkAuth()
+            .body<PostsResponseDTO>()
     }
 }

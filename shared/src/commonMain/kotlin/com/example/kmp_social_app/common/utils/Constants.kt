@@ -7,7 +7,7 @@ object Constants {
      * нужен IPv4-адрес */
     internal const val BASE_URL = "http://192.168.1.153:8080"
 
-    fun String.toCurrentUrl(): String {
-        return "$BASE_URL${this.substring(21)}"
-    }
+    const val INITIAL_PAGE = 0
+    const val UNEXPECTED_ERROR_MESSAGE = "Oops! Something went wrong ;("
+    const val DEFAULT_PAGE_SIZE = 5
 }

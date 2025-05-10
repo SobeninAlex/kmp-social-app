@@ -1,6 +1,6 @@
 package com.example.kmp_social_app.feature.follows.data
 
-import com.example.kmp_social_app.common.utils.Constants.toCurrentUrl
+import com.example.kmp_social_app.common.utils.toCurrentUrl
 import com.example.kmp_social_app.feature.follows.data.dto.FollowUserDTO
 import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
 
