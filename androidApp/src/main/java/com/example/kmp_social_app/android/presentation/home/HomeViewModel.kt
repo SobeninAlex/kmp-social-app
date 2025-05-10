@@ -4,7 +4,6 @@ import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.android.common.utils.DefaultPagingManager
 import com.example.kmp_social_app.android.common.utils.PagingManager
 import com.example.kmp_social_app.common.utils.Constants
-import com.example.kmp_social_app.common.utils.NetworkResponse
 import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
 import com.example.kmp_social_app.feature.follows.domain.usecase.FollowOrUnfollowUseCase
 import com.example.kmp_social_app.feature.follows.domain.usecase.GetFollowingSuggestionsUseCase
@@ -46,17 +45,8 @@ class HomeViewModel(
         viewModelScope.launch {
             runCatching {
                 followOrUnfollowUseCase(followedUserId = user.id, shouldFollow = !user.isFollowing)
-            }.onSuccess { response ->
-                when (response) {
-                    is NetworkResponse.Failure -> {
-                        showSnackbar(message = response.message)
-                    }
-
-                    is NetworkResponse.Success -> {
-                        refreshContent()
-                    }
-                }
-
+            }.onSuccess { isSuccess ->
+                if (isSuccess) refreshContent()
             }.onFailure { error ->
                 throw error
             }
@@ -89,19 +79,7 @@ class HomeViewModel(
                 runCatching {
                     getFollowingSuggestionsUseCase()
                 }.onSuccess { response ->
-                    when (response) {
-                        is NetworkResponse.Failure -> {
-                            showSnackbar(message = response.message)
-                        }
-
-                        is NetworkResponse.Success -> {
-                            _uiState.update {
-                                it.copy(
-                                    users = response.data,
-                                )
-                            }
-                        }
-                    }
+                    _uiState.update { it.copy(users = response,) }
                 }.onFailure { error ->
                     throw error
                 }
@@ -179,8 +157,8 @@ class HomeViewModel(
                     )
                 }
             },
-            onFailure = { message, page ->
-                showSnackbar(message = message)
+            onFailure = { ex, page ->
+                throw ex
             },
             onLoadStateChange = { isLoading ->
                 _uiState.update { it.copy(isLoading = isLoading, isRefreshing = false) }

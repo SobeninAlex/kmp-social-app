@@ -7,6 +7,7 @@ import com.example.kmp_social_app.android.common.utils.event.SnackbarController
 import com.example.kmp_social_app.android.common.utils.event.SnackbarEvent
 import com.example.kmp_social_app.android.common.utils.event.UnauthorizedController
 import com.example.kmp_social_app.common.data.local.UserSettings
+import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.common.utils.UnauthorizedException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -36,16 +37,10 @@ open class BaseViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    private fun sendUnauthorizedEvent() {
-        viewModelScope.launch {
-            dataStore.updateData { UserSettings() }
-            UnauthorizedController.sendEvent()
-        }
-    }
-
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         when (throwable) {
             is UnauthorizedException -> sendUnauthorizedEvent()
+            is SomethingWrongException -> showSnackbar(message = throwable.message)
             else -> showSnackbar(message = throwable.message)
         }
     }
@@ -55,4 +50,11 @@ open class BaseViewModel : ViewModel(), KoinComponent {
     )
 
     protected val resources = Core.resources
+
+    private fun sendUnauthorizedEvent() {
+        viewModelScope.launch {
+            dataStore.updateData { UserSettings() }
+            UnauthorizedController.sendEvent()
+        }
+    }
 }

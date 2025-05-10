@@ -1,8 +1,8 @@
 package com.example.kmp_social_app.feature.auth.domain.usecase
 
+import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.feature.auth.domain.AuthRepository
 import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
-import com.example.kmp_social_app.common.utils.NetworkResponse
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -14,17 +14,17 @@ class SignUpUseCase : KoinComponent {
         name: String,
         email: String,
         password: String
-    ): NetworkResponse<AuthResult> {
+    ): AuthResult {
         if (name.isBlank() || name.length < 3) {
-            return NetworkResponse.Failure(message = "Invalid name")
+            throw SomethingWrongException(message = "Invalid name")
         }
 
         if (email.isBlank() || "@" !in email) {
-            return NetworkResponse.Failure(message = "Invalid email")
+            throw SomethingWrongException(message = "Invalid email")
         }
 
         if (password.isBlank() || password.length < 4) {
-            return NetworkResponse.Failure(message = "Invalid password")
+            throw SomethingWrongException(message = "Invalid password")
         }
 
         return repository.signUp(

@@ -2,7 +2,7 @@ package com.example.kmp_social_app.feature.follows.data
 
 import com.example.kmp_social_app.common.data.local.UserPreferences
 import com.example.kmp_social_app.common.utils.DispatcherProvider
-import com.example.kmp_social_app.common.utils.NetworkResponse
+import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.feature.follows.data.dto.FollowsRequestDTO
 import com.example.kmp_social_app.feature.follows.domain.FollowsRepository
 import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
@@ -14,7 +14,7 @@ internal class FollowsRepositoryImpl(
     private val followsApiService: FollowsApiService,
 ) : FollowsRepository {
 
-    override suspend fun getFollowingSuggestions(): NetworkResponse<List<FollowUser>> {
+    override suspend fun getFollowingSuggestions(): List<FollowUser> {
         return withContext(dispatcher.io) {
             try {
                 val response = followsApiService.getFollowingSuggestions(
@@ -23,10 +23,9 @@ internal class FollowsRepositoryImpl(
                 )
 
                 if (response.isSuccess) {
-                    NetworkResponse.Success(data = response.follows.map {
-                        it.toFollowUser() })
+                    response.follows.map { it.toFollowUser() }
                 } else {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
                 throw ex
@@ -37,7 +36,7 @@ internal class FollowsRepositoryImpl(
     override suspend fun followOrUnfollow(
         followedUserId: String,
         shouldFollow: Boolean
-    ): NetworkResponse<Boolean> {
+    ): Boolean {
         return withContext(dispatcher.io) {
             try {
                 val request = FollowsRequestDTO(
@@ -58,9 +57,9 @@ internal class FollowsRepositoryImpl(
                 }
 
                 if (response.isSuccess) {
-                    NetworkResponse.Success(data = response.isSuccess)
+                    true
                 } else {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
                 }
             } catch (ex: Exception) {
                 throw ex

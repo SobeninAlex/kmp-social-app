@@ -7,7 +7,7 @@ import com.example.kmp_social_app.feature.auth.data.dto.SingUpRequestDTO
 import com.example.kmp_social_app.feature.auth.domain.AuthRepository
 import com.example.kmp_social_app.feature.auth.domain.model.AuthResult
 import com.example.kmp_social_app.common.utils.DispatcherProvider
-import com.example.kmp_social_app.common.utils.NetworkResponse
+import com.example.kmp_social_app.common.utils.SomethingWrongException
 import kotlinx.coroutines.withContext
 
 internal class AuthRepositoryImpl(
@@ -20,7 +20,7 @@ internal class AuthRepositoryImpl(
         name: String,
         email: String,
         password: String
-    ): NetworkResponse<AuthResult> {
+    ): AuthResult {
         return withContext(dispatcher.io) {
             try {
                 val request = SingUpRequestDTO(
@@ -32,14 +32,13 @@ internal class AuthRepositoryImpl(
                 val response = authApiService.signUp(request)
 
                 if (response.errorMessage != null) {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
                 } else if (response.authData == null) {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
                 } else {
-                    userPreferences.setUserSettings(
-                        response.authData.toAuthResult().toUserSettings()
-                    )
-                    NetworkResponse.Success(data = response.authData.toAuthResult())
+                    response.authData.toAuthResult().also {
+                        userPreferences.setUserSettings(it.toUserSettings())
+                    }
                 }
             } catch (ex: Exception) {
                 throw ex
@@ -50,7 +49,7 @@ internal class AuthRepositoryImpl(
     override suspend fun signIn(
         email: String,
         password: String
-    ): NetworkResponse<AuthResult> {
+    ): AuthResult {
         return withContext(dispatcher.io) {
             try {
                 val request = SingInRequestDTO(
@@ -61,12 +60,11 @@ internal class AuthRepositoryImpl(
                 val response = authApiService.signIn(request)
 
                 if (response.authData == null) {
-                    NetworkResponse.Failure(message = response.errorMessage)
+                    throw SomethingWrongException(message = response.errorMessage)
                 } else {
-                    userPreferences.setUserSettings(
-                        response.authData.toAuthResult().toUserSettings()
-                    )
-                    NetworkResponse.Success(data = response.authData.toAuthResult())
+                    response.authData.toAuthResult().also {
+                        userPreferences.setUserSettings(it.toUserSettings())
+                    }
                 }
             } catch (ex: Exception) {
                 throw ex

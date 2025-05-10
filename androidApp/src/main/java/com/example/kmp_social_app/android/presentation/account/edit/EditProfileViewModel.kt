@@ -1,6 +1,5 @@
 package com.example.kmp_social_app.android.presentation.account.edit
 
-import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.feature.profile.domain.model.Profile

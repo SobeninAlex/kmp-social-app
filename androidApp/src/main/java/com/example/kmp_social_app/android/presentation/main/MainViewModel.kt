@@ -1,7 +1,6 @@
 package com.example.kmp_social_app.android.presentation.main
 
 import androidx.datastore.core.DataStore
-import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.common.data.local.UserSettings
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import kotlinx.coroutines.flow.SharingStarted

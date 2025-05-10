@@ -1,6 +1,5 @@
 package com.example.kmp_social_app.feature.post.domain
 
-import com.example.kmp_social_app.common.utils.NetworkResponse
 import com.example.kmp_social_app.feature.post.domain.model.Post
 
 internal interface PostRepository {
@@ -8,10 +7,10 @@ internal interface PostRepository {
     suspend fun getFeedPosts(
         page: Int,
         pageSize: Int
-    ): NetworkResponse<List<Post>>
+    ): List<Post>
 
     suspend fun likeOrUnlikePost(
         postId: String,
         shouldLike: Boolean
-    ): NetworkResponse<Boolean>
+    ): Boolean
 }

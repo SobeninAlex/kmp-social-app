@@ -1,6 +1,5 @@
 package com.example.kmp_social_app.android.presentation.post_detail
 
-import androidx.lifecycle.viewModelScope
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.feature.comments.domain.model.Comment
 import com.example.kmp_social_app.feature.post.domain.model.Post
