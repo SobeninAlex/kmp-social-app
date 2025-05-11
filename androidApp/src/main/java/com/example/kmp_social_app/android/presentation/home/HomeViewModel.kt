@@ -9,6 +9,7 @@ import com.example.kmp_social_app.feature.follows.domain.usecase.FollowOrUnfollo
 import com.example.kmp_social_app.feature.follows.domain.usecase.GetFollowingSuggestionsUseCase
 import com.example.kmp_social_app.feature.post.domain.model.Post
 import com.example.kmp_social_app.feature.post.domain.usecase.GetFeedPostsUseCase
+import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,7 @@ class HomeViewModel(
     private val getFollowingSuggestionsUseCase: GetFollowingSuggestionsUseCase,
     private val followOrUnfollowUseCase: FollowOrUnfollowUseCase,
     private val getFeedPostsUseCase: GetFeedPostsUseCase,
+    private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -36,8 +38,41 @@ class HomeViewModel(
             is HomeAction.OnBoardingFinishClick -> hideOnboarding()
             is HomeAction.LoadMorePosts -> loadMorePosts()
             is HomeAction.OnFollowButtonClick -> followUser(user = action.followedUser)
-            is HomeAction.OnLikeClick -> TODO()
+            is HomeAction.OnLikeClick -> likeOrUnlike(post = action.post)
             is HomeAction.OnCommentClick -> TODO()
+        }
+    }
+
+    private fun likeOrUnlike(post: Post) {
+        updatePost(post.postId) { it.copy(enabledLike = false) }
+        viewModelScope.launch {
+            val operation = if (post.isLiked) -1 else +1
+            runCatching {
+                likeOrUnlikeUseCase(post)
+            }.onSuccess {
+                updatePost(post.postId) {
+                    it.copy(
+                        isLiked = !it.isLiked,
+                        likesCount = it.likesCount.plus(operation)
+                    )
+                }
+                updatePost(post.postId) { it.copy(enabledLike = true) }
+            }.onFailure { error ->
+                updatePost(post.postId) { it.copy(enabledLike = true) }
+                throw error
+            }
+        }
+    }
+
+    private fun updatePost(postId: String, update: (Post) -> Post) {
+        _uiState.update { state ->
+            state.copy(
+                posts = state.posts.map {
+                    if (it.postId == postId) {
+                        update(it)
+                    } else it
+                }
+            )
         }
     }
 
@@ -67,14 +102,14 @@ class HomeViewModel(
     }
 
     private fun refreshContent() {
-        _uiState.update { it.copy(isRefreshing = true) }
+        _uiState.update { it.copy(isRefreshing = true, endReached = true) }
         postsPagingManager.reset()
         loadData()
     }
 
     private fun loadData() {
-        if (uiState.value.showUsersRecommendation) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (uiState.value.showUsersRecommendation) {
                 delay(1500) //todo: test
                 runCatching {
                     getFollowingSuggestionsUseCase()
@@ -84,54 +119,13 @@ class HomeViewModel(
                     throw error
                 }
             }
+
+            loadMorePosts()
         }
-
-        loadMorePosts()
-
-//        //todo: test
-//        viewModelScope.launch {
-//            delay(1000)
-//            _uiState.update {
-//                it.copy(
-//                    isLoading = false,
-//                    isRefreshing = false,
-//                    posts = Post.PreviewPostList
-//                )
-//            }
-//        }
-
-//        viewModelScope.launch {
-//            delay(2000) //todo: test
-//            runCatching {
-//                getFeedPostsUseCase(page = 0, pageSize = 10)
-//            }.onSuccess { response ->
-//                when (response) {
-//                    is NetworkResponse.Failure -> {
-//                        _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
-//                        showSnackbar(message = response.message)
-//                    }
-//
-//                    is NetworkResponse.Success -> {
-//                        _uiState.update {
-//                            it.copy(
-//                                isLoading = false,
-//                                isRefreshing = false,
-//                                posts = response.data
-//                            )
-//                        }
-//                    }
-//                }
-//            }.onFailure { error ->
-//                _uiState.update { it.copy(isLoading = false, isRefreshing = false) }
-//                throw error
-//            }
-//        }
-
     }
 
     private fun loadMorePosts() {
         viewModelScope.launch {
-            delay(3000) //todo: test
             postsPagingManager.loadItems()
         }
     }
@@ -139,15 +133,16 @@ class HomeViewModel(
     private fun createPostsPagingManager(): PagingManager<Post> {
         return DefaultPagingManager(
             onRequest = { page ->
+                delay(1500) //todo: test
                 getFeedPostsUseCase(page = page, pageSize = Constants.DEFAULT_PAGE_SIZE)
             },
-            onSuccess = { postsBucket, page ->
-                val endReached = postsBucket.size < Constants.DEFAULT_PAGE_SIZE
+            onSuccess = { items, page ->
+                val endReached = items.size < Constants.DEFAULT_PAGE_SIZE
 
                 val posts = if (page == Constants.INITIAL_PAGE) {
-                    postsBucket
+                    items
                 } else {
-                    _uiState.value.posts + postsBucket
+                    _uiState.value.posts + items
                 }
 
                 _uiState.update {
@@ -161,7 +156,11 @@ class HomeViewModel(
                 throw ex
             },
             onLoadStateChange = { isLoading ->
-                _uiState.update { it.copy(isLoading = isLoading, isRefreshing = false) }
+                if (_uiState.value.isRefreshing) {
+                    _uiState.update { it.copy(isRefreshing = isLoading) }
+                } else {
+                    _uiState.update { it.copy(isLoading = isLoading) }
+                }
             }
         )
     }

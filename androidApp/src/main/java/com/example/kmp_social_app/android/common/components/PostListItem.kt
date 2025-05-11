@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -77,8 +80,10 @@ fun PostListItem(
         PostLikesRow(
             likesCount = post.likesCount,
             commentsCount = post.commentsCount,
+            isLiked = post.isLiked,
             onLikeClick = onLikeClick,
-            onCommentClick = onCommentClick
+            onCommentClick = onCommentClick,
+            enabledLike = post.enabledLike
         )
 
         Text(
@@ -89,7 +94,47 @@ fun PostListItem(
             overflow = TextOverflow.Ellipsis
         )
     }
+}
 
+@Composable
+fun PostListItemShimmer(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.secondary)
+    ) {
+        PostItemHeaderShimmer(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1.0f)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        PostLikesRowShimmer(
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .height(40.dp)
+                .clip(shape = MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+    }
 }
 
 @Composable
@@ -144,10 +189,49 @@ private fun PostItemHeader(
 }
 
 @Composable
+private fun PostItemHeaderShimmer(
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(30.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Box(
+            modifier = Modifier
+                .size(4.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Box(
+            modifier = Modifier
+                .height(14.dp)
+                .fillMaxWidth(0.5f)
+                .clip(MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+    }
+}
+
+@Composable
 private fun PostLikesRow(
     modifier: Modifier = Modifier,
     likesCount: Int,
     commentsCount: Int,
+    isLiked: Boolean,
+    enabledLike: Boolean,
     onLikeClick: () -> Unit,
     onCommentClick: () -> Unit,
 ) {
@@ -157,39 +241,74 @@ private fun PostLikesRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = onLikeClick
+            onClick = onLikeClick,
+            enabled = enabledLike,
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = if (isLiked) Color.Red else MaterialTheme.colorScheme.onSurface
+            )
         ) {
             Icon(
-                painter = painterResource(R.drawable.like_icon_outlined),
+                painter = if (isLiked) {
+                    painterResource(R.drawable.like_icon_filled)
+                } else {
+                    painterResource(R.drawable.like_icon_outlined)
+                },
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
             )
         }
 
         Text(
             text = "$likesCount",
-            style = MaterialTheme.typography.titleSmall.copy(
-                fontSize = 18.sp
-            )
+            style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp),
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.width(8.dp))
 
         IconButton(
-            onClick = onCommentClick
+            onClick = onCommentClick,
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
         ) {
             Icon(
                 painter = painterResource(R.drawable.chat_icon_outlined),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
             )
         }
 
         Text(
             text = "$commentsCount",
-            style = MaterialTheme.typography.titleSmall.copy(
-                fontSize = 18.sp
-            )
+            style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+private fun PostLikesRowShimmer(
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(height = 26.dp, width = 42.dp)
+                .clip(shape = MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Box(
+            modifier = Modifier
+                .size(height = 26.dp, width = 42.dp)
+                .clip(shape = MaterialTheme.shapes.small)
+                .background(color = MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
         )
     }
 }
@@ -208,6 +327,48 @@ private fun PostListItemPreview() {
                 onLikeClick = {},
                 onCommentClick = {}
             )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun PostListItemShimmerPreview() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            PostListItemShimmer()
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun PostListItemPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            PostListItem(
+                post = Post.Preview,
+                onPostClick = {},
+                onProfileClick = {},
+                onLikeClick = {},
+                onCommentClick = {}
+            )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun PostListItemShimmerPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            PostListItemShimmer()
         }
     }
 }

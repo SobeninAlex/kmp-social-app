@@ -21,6 +21,20 @@ open class BaseViewModel : ViewModel(), KoinComponent {
 
     private val dataStore by inject<DataStore<UserSettings>>()
 
+    protected val resources = Core.resources
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        when (throwable) {
+            is UnauthorizedException -> sendUnauthorizedEvent()
+            is SomethingWrongException -> showSnackbar(message = throwable.message)
+            else -> showSnackbar(message = throwable.message)
+        }
+    }
+
+    protected val viewModelScope = CoroutineScope(
+        Dispatchers.Main.immediate + SupervisorJob() + exceptionHandler
+    )
+
     protected fun showSnackbar(
         message: String?,
         action: SnackbarAction? = null
@@ -36,20 +50,6 @@ open class BaseViewModel : ViewModel(), KoinComponent {
             )
         }
     }
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        when (throwable) {
-            is UnauthorizedException -> sendUnauthorizedEvent()
-            is SomethingWrongException -> showSnackbar(message = throwable.message)
-            else -> showSnackbar(message = throwable.message)
-        }
-    }
-
-    protected val viewModelScope = CoroutineScope(
-        Dispatchers.Main.immediate + SupervisorJob() + exceptionHandler
-    )
-
-    protected val resources = Core.resources
 
     private fun sendUnauthorizedEvent() {
         viewModelScope.launch {

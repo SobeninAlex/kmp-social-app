@@ -12,8 +12,8 @@ data class Post(
     val userAvatar: String?,
     val isLiked: Boolean = false,
     val isOwnPost: Boolean = false,
+    val enabledLike: Boolean = true,
 ) {
-
     companion object {
         val Preview = Post(
             postId = "06dd0102-88be-4e59-8577-8a9c6ef7d1f7",

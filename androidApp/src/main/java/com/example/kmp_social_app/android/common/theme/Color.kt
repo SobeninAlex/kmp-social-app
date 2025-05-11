@@ -23,6 +23,12 @@ val LightGray = Color(0xFF8A8A8D)
 val White36 = Color(0xFFE5E5E5)
 val White76 = Color(0xFFF4F4F4)
 
+val BlackColor10 = Color(0x1A11161C)
+val WhiteColor50 = Color(0x80FFFFFF)
+val GrayColor10 = Color(0xFFEDEFF0)
+val InverseSurfaceLight = Color(0xFFE1E4E8)
+val InverseSurfaceDark = Color(0xFF2C2B2D)
+
 internal val LightColors = lightColorScheme(
     secondary = White,
     primary = Blue,
@@ -30,7 +36,8 @@ internal val LightColors = lightColorScheme(
     background = White76,
     onBackground = Black87,
     surface = White,
-    onSurface = LightGray
+    onSurface = LightGray,
+    inverseSurface = InverseSurfaceLight,
 )
 
 internal val DarkColors = darkColorScheme(
@@ -40,5 +47,6 @@ internal val DarkColors = darkColorScheme(
     background = Black87,
     onBackground = White87,
     surface = Black54,
-    onSurface = DarkGray
+    onSurface = DarkGray,
+    inverseSurface = InverseSurfaceDark,
 )

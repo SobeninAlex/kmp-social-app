@@ -6,5 +6,6 @@ internal class AndroidHttpLog : HttpLog {
 
     override fun log(tag: String, message: String) {
         Log.d(tag, message)
+        Log.d(tag, "=========================================================================")
     }
 }

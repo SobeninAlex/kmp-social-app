@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +25,7 @@ import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CustomRotatingDotsLoader
 import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.components.PostListItem
+import com.example.kmp_social_app.android.common.components.PostListItemShimmer
 import com.example.kmp_social_app.android.common.components.PullRefreshLayout
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.navigation.MainGraph
@@ -45,6 +50,19 @@ private fun HomeScreenContent(
     action: (HomeAction) -> Unit
 ) {
     val navController = LocalNavController.current
+
+    val lazyListState = rememberLazyListState()
+
+    val shouldLoadMorePosts by remember {
+        derivedStateOf {
+            if (lazyListState.layoutInfo.totalItemsCount == 0) {
+                false
+            } else {
+                val lastVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.last()
+                (lastVisibleItem.index == lazyListState.layoutInfo.totalItemsCount - 1)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -72,12 +90,15 @@ private fun HomeScreenContent(
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 if (uiState.showUsersRecommendation && uiState.users.isNotEmpty()) {
                     item {
                         OnBoardingBlock(
-                            modifier = Modifier.fillMaxWidth().animateItem(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem(),
                             users = uiState.users,
                             onUserClick = { user ->
                                 navController.navigate(MainGraph.ProfileRoute(user.id))
@@ -113,8 +134,18 @@ private fun HomeScreenContent(
                         onCommentClick = {
                             action(HomeAction.OnCommentClick(post = post))
                         },
-                        isDetailScreen = false
+                        isDetailScreen = false,
                     )
+                }
+
+                if (uiState.isLoading && !uiState.endReached) {
+                    item {
+                        PostListItemShimmer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem()
+                        )
+                    }
                 }
             }
 
@@ -122,6 +153,12 @@ private fun HomeScreenContent(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )
+        }
+    }
+
+    LaunchedEffect(shouldLoadMorePosts) {
+        if (shouldLoadMorePosts && !uiState.endReached) {
+            action(HomeAction.LoadMorePosts)
         }
     }
 }

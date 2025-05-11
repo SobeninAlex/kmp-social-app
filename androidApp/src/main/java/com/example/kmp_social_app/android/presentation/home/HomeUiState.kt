@@ -11,7 +11,7 @@ data class HomeUiState(
     val posts: List<Post> = emptyList(),
     val users: List<FollowUser> = emptyList(),
     val showUsersRecommendation: Boolean = true,
-    val endReached: Boolean = false,
+    val endReached: Boolean = true,
 ) {
     companion object {
         val Preview = HomeUiState(
