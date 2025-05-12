@@ -2,14 +2,14 @@ package com.example.kmp_social_app.android.presentation.account.edit
 
 import android.os.Parcelable
 import com.example.kmp_social_app.android.common.navigation.StringSanitizer
-import com.example.kmp_social_app.feature.profile.domain.model.Profile
+import com.example.kmp_social_app.feature.account.domain.model.Profile
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
 @Parcelize
 class EditProfileArgs(
-    val profile: ProfileArgs
+    val profileArgs: ProfileArgs
 ) : Parcelable
 
 @Serializable
@@ -34,7 +34,8 @@ fun ProfileArgs.toProfile() = Profile(
     avatar = avatar,
     followersCount = followersCount,
     followingCount = followingCount,
-    isFollowing = isFollowing
+    isFollowing = isFollowing,
+    isOwnProfile = isOwnProfile
 )
 
 fun Profile.toProfileArgs() = ProfileArgs(
@@ -45,5 +46,6 @@ fun Profile.toProfileArgs() = ProfileArgs(
     avatar = avatar,
     followersCount = followersCount,
     followingCount = followingCount,
-    isFollowing = isFollowing
+    isFollowing = isFollowing,
+    isOwnProfile = isOwnProfile,
 )

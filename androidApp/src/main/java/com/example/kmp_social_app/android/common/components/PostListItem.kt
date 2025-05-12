@@ -104,6 +104,7 @@ fun PostListItemShimmer(
         modifier = modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.secondary)
+            .shimmerLinearGradient()
     ) {
         PostItemHeaderShimmer(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)

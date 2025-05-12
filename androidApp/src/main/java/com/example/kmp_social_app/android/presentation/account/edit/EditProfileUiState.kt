@@ -1,7 +1,7 @@
 package com.example.kmp_social_app.android.presentation.account.edit
 
 import androidx.compose.runtime.Immutable
-import com.example.kmp_social_app.feature.profile.domain.model.Profile
+import com.example.kmp_social_app.feature.account.domain.model.Profile
 
 @Immutable
 data class EditProfileUiState(

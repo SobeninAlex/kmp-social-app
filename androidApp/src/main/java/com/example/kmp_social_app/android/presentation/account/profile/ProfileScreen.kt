@@ -102,7 +102,7 @@ private fun ProfileScreenContent(
                         onEditProfileClick = {
                             navController.navigate(
                                 MainGraph.EditProfileRoute(
-                                    EditProfileArgs(profile = profile.toProfileArgs())
+                                    EditProfileArgs(profileArgs = profile.toProfileArgs())
                                 )
                             )
                         },

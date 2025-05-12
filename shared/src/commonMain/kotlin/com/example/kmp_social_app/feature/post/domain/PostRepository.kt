@@ -13,4 +13,10 @@ internal interface PostRepository {
         postId: String,
         shouldLike: Boolean
     ): Boolean
+
+    suspend fun getPostsByUserId(
+        userId: String,
+        page: Int,
+        pageSize: Int
+    ) : List<Post>
 }

@@ -5,22 +5,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -39,7 +34,7 @@ import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CircleImage
 import com.example.kmp_social_app.android.common.components.FollowButton
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
-import com.example.kmp_social_app.feature.profile.domain.model.Profile
+import com.example.kmp_social_app.feature.account.domain.model.Profile
 
 fun LazyListScope.profileHeaderBlock(
     modifier: Modifier = Modifier,

@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.feature.profile.domain.model
+package com.example.kmp_social_app.feature.account.domain.model
 
 data class Profile(
     val id: String,
@@ -8,8 +8,8 @@ data class Profile(
     val avatar: String?,
     val followersCount: Int,
     val followingCount: Int,
-    val isFollowing: Boolean = false,
-    val isOwnProfile: Boolean = false,
+    val isFollowing: Boolean,
+    val isOwnProfile: Boolean,
 ) {
     
     companion object {

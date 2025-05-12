@@ -4,6 +4,7 @@ import com.example.kmp_social_app.feature.post.data.PostApiService
 import com.example.kmp_social_app.feature.post.data.PostRepositoryImpl
 import com.example.kmp_social_app.feature.post.domain.PostRepository
 import com.example.kmp_social_app.feature.post.domain.usecase.GetFeedPostsUseCase
+import com.example.kmp_social_app.feature.post.domain.usecase.GetPostsByUserIdUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -14,4 +15,5 @@ internal val postModule = module {
     factory { PostApiService() }
     factory { GetFeedPostsUseCase() }
     factory { LikeOrUnlikeUseCase() }
+    factory { GetPostsByUserIdUseCase() }
 }

@@ -2,7 +2,7 @@ package com.example.kmp_social_app.android.presentation.account.edit
 
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
-import com.example.kmp_social_app.feature.profile.domain.model.Profile
+import com.example.kmp_social_app.feature.account.domain.model.Profile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +19,7 @@ class EditProfileViewModel(
     init {
         _uiState.update { oldState ->
             oldState.copy(
-                profile = args.profile.toProfile()
+                profile = args.profileArgs.toProfile()
             )
         }
     }

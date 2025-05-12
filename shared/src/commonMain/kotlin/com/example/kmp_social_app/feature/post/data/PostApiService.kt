@@ -35,18 +35,36 @@ internal class PostApiService : KtorApiService() {
 
     suspend fun getFeedPosts(
         token: String,
-        userId: String,
+        currentUserId: String,
         page: Int,
         pageSize: Int
     ): PostsResponseDTO {
         return client.get {
             route("/posts/feed")
             setToken(token)
-            parameter(key = QueryParams.USER_ID, value = userId)
+            parameter(key = QueryParams.USER_ID, value = currentUserId)
             parameter(key = QueryParams.PAGE, value = page)
             parameter(key = QueryParams.PAGE_SIZE, value = pageSize)
         }
             .checkAuth()
             .body<PostsResponseDTO>()
+    }
+
+    suspend fun getPostsByUserId(
+        token: String,
+        userId: String,
+        currentUserId: String,
+        page: Int,
+        pageSize: Int
+    ) : PostsResponseDTO {
+        return client.get {
+            route("/posts/$userId")
+            setToken(token)
+            parameter(key = QueryParams.CURRENT_USER_ID, value = currentUserId)
+            parameter(key = QueryParams.PAGE, value = page)
+            parameter(key = QueryParams.PAGE_SIZE, value = pageSize)
+        }
+            .checkAuth()
+            .body()
     }
 }

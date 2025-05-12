@@ -1,7 +1,6 @@
 package com.example.kmp_social_app.feature.auth.data
 
 import com.example.kmp_social_app.common.data.local.UserPreferences
-import com.example.kmp_social_app.common.data.local.toUserSettings
 import com.example.kmp_social_app.feature.auth.data.dto.SingInRequestDTO
 import com.example.kmp_social_app.feature.auth.data.dto.SingUpRequestDTO
 import com.example.kmp_social_app.feature.auth.domain.AuthRepository
