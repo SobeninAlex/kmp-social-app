@@ -34,7 +34,12 @@ val appModule = module {
     }
 
     viewModel { (userId: String) ->
-        ProfileViewModel(userId = userId)
+        ProfileViewModel(
+            userId = userId,
+            getProfileUseCase = get(),
+            getPostsByUserIdUseCase = get(),
+            followOrUnfollowUseCase = get()
+        )
     }
 
     viewModel { (args: EditProfileArgs) ->

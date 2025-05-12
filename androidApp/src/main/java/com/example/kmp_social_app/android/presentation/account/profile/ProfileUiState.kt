@@ -8,7 +8,8 @@ import com.example.kmp_social_app.feature.account.domain.model.Profile
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val profile: Profile? = null,
-    val posts: List<Post>? = null,
+    val posts: List<Post> = emptyList(),
+    val endReached: Boolean = true,
 ) {
 
     companion object {

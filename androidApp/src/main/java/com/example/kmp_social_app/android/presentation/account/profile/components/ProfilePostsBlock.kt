@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -18,17 +19,18 @@ import com.example.kmp_social_app.android.common.components.SubmitButton
 import com.example.kmp_social_app.feature.post.domain.model.Post
 
 fun LazyListScope.profilePostsBlock(
+    isLoading: Boolean,
     posts: List<Post>,
     onPostClick: (Post) -> Unit,
     onLikeClick: (Post) -> Unit,
     onCommentClick: (Post) -> Unit,
     isOwnProfile: Boolean,
 ) {
-    if (posts.isEmpty() && isOwnProfile) {
+    if (posts.isEmpty() && isOwnProfile && !isLoading) {
         item {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .animateItem(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally

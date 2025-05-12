@@ -3,7 +3,6 @@ package com.example.kmp_social_app.android.common.components
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,14 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
 import com.example.kmp_social_app.feature.post.domain.model.Post
@@ -63,18 +60,11 @@ fun PostListItem(
             onProfileClick = { onProfileClick(post.userId) }
         )
 
-        AsyncImage(
+        ImageCard(
             model = post.imageUrl,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
-            contentDescription = null,
-            placeholder = if (isSystemInDarkTheme()) {
-                painterResource(R.drawable.img_mock_picture_dark)
-            } else {
-                painterResource(R.drawable.img_mock_picture_light)
-            },
-            contentScale = ContentScale.Crop
         )
 
         PostLikesRow(
