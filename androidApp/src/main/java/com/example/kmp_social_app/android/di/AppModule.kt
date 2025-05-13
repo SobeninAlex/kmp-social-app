@@ -38,7 +38,8 @@ val appModule = module {
             userId = userId,
             getProfileUseCase = get(),
             getPostsByUserIdUseCase = get(),
-            followOrUnfollowUseCase = get()
+            followOrUnfollowUseCase = get(),
+            likeOrUnlikeUseCase = get(),
         )
     }
 

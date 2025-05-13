@@ -19,7 +19,7 @@ fun <T>ObserveAsEvent(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(lifecycleOwner.lifecycle, key1, key2, flow) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             withContext(Dispatchers.Main.immediate) {
                 flow.collect(onEvent)
             }

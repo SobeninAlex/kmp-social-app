@@ -10,6 +10,7 @@ data class ProfileUiState(
     val profile: Profile? = null,
     val posts: List<Post> = emptyList(),
     val endReached: Boolean = true,
+    val followingOperation: Boolean = false,
 ) {
 
     companion object {

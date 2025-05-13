@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
@@ -39,6 +40,7 @@ import com.example.kmp_social_app.feature.account.domain.model.Profile
 fun LazyListScope.profileHeaderBlock(
     modifier: Modifier = Modifier,
     profile: Profile,
+    followingOperation: Boolean,
     onFollowClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
@@ -47,6 +49,7 @@ fun LazyListScope.profileHeaderBlock(
     ProfileHeaderBlock(
         modifier = modifier.animateItem(),
         profile = profile,
+        followingOperation = followingOperation,
         onFollowClick = onFollowClick,
         onFollowersClick = onFollowersClick,
         onFollowingClick = onFollowingClick,
@@ -58,6 +61,7 @@ fun LazyListScope.profileHeaderBlock(
 fun ProfileHeaderBlock(
     modifier: Modifier = Modifier,
     profile: Profile,
+    followingOperation: Boolean,
     onFollowClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
@@ -142,16 +146,15 @@ fun ProfileHeaderBlock(
                         append(stringResource(R.string.following_text))
                     }
                 },
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable { onFollowingClick() }
+                modifier = Modifier.clickable { onFollowingClick() }.weight(1f)
             )
 
             if (!profile.isOwnProfile) {
                 FollowButton(
+                    modifier = modifier.height(38.dp).width(110.dp),
+                    followingOperation = followingOperation,
                     onClick = onFollowClick,
                     contentPadding = PaddingValues(horizontal = 28.dp),
-                    modifier = Modifier.height(34.dp),
                     text = if (profile.isFollowing) R.string.unfollow_text_label else R.string.follow_text_label,
                     isOutline = profile.isFollowing,
                 )
@@ -174,6 +177,7 @@ private fun ProfileHeaderBlockPreview() {
                 onFollowersClick = {},
                 onFollowingClick = {},
                 onEditProfileClick = {},
+                followingOperation = false
             )
         }
     }
@@ -192,6 +196,7 @@ private fun ProfileHeaderBlockPreviewDark() {
                 onFollowersClick = {},
                 onFollowingClick = {},
                 onEditProfileClick = {},
+                followingOperation = false
             )
         }
     }

@@ -3,7 +3,10 @@ package com.example.kmp_social_app.common.data.remote
 import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.HttpLog
 import com.example.kmp_social_app.common.utils.UnauthorizedException
+import com.example.kmp_social_app.feature.auth.data.dto.AuthDataDTO
+import com.example.kmp_social_app.feature.auth.data.dto.AuthResponseDTO
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -45,8 +48,8 @@ internal abstract class KtorApiService: KoinComponent {
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 60_000
-            connectTimeoutMillis = 60_000
+            requestTimeoutMillis = Constants.REQUEST_TIMEOUT
+            connectTimeoutMillis = Constants.REQUEST_TIMEOUT
         }
     }
 
@@ -64,9 +67,9 @@ internal abstract class KtorApiService: KoinComponent {
         }
     }
 
-    fun HttpResponse.checkAuth(): HttpResponse {
+    suspend fun HttpResponse.checkAuth(): HttpResponse {
         return if (this.status == HttpStatusCode.Unauthorized) {
-            throw UnauthorizedException()
+            throw UnauthorizedException(message = this.body<AuthResponseDTO>().errorMessage)
         } else {
             this
         }

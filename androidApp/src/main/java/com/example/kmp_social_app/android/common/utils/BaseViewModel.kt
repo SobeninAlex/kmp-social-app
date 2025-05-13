@@ -2,10 +2,8 @@ package com.example.kmp_social_app.android.common.utils
 
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
-import com.example.kmp_social_app.android.common.utils.event.SnackbarAction
-import com.example.kmp_social_app.android.common.utils.event.SnackbarController
 import com.example.kmp_social_app.android.common.utils.event.SnackbarEvent
-import com.example.kmp_social_app.android.common.utils.event.UnauthorizedController
+import com.example.kmp_social_app.android.common.utils.event.UnauthorizedEvent
 import com.example.kmp_social_app.common.data.local.UserSettings
 import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.common.utils.UnauthorizedException
@@ -25,7 +23,10 @@ open class BaseViewModel : ViewModel(), KoinComponent {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         when (throwable) {
-            is UnauthorizedException -> sendUnauthorizedEvent()
+            is UnauthorizedException -> {
+                showSnackbar(message = throwable.message)
+                sendUnauthorizedEvent()
+            }
             is SomethingWrongException -> showSnackbar(message = throwable.message)
             else -> showSnackbar(message = throwable.message)
         }
@@ -37,15 +38,15 @@ open class BaseViewModel : ViewModel(), KoinComponent {
 
     protected fun showSnackbar(
         message: String?,
-        action: SnackbarAction? = null
+        action: SnackbarEvent.Action? = null
     ) {
         if (message.isNullOrEmpty()) return
 
         viewModelScope.launch {
-            SnackbarController.sendEvent(
-                event = SnackbarEvent(
+            SnackbarEvent.sendEvent(
+                event = SnackbarEvent.Event(
                     message = message,
-                    snackbarAction = action
+                    action = action
                 )
             )
         }
@@ -54,7 +55,7 @@ open class BaseViewModel : ViewModel(), KoinComponent {
     private fun sendUnauthorizedEvent() {
         viewModelScope.launch {
             dataStore.updateData { UserSettings() }
-            UnauthorizedController.sendEvent()
+            UnauthorizedEvent.sendEvent()
         }
     }
 }

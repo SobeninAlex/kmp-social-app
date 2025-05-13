@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -35,8 +36,8 @@ import com.example.kmp_social_app.android.presentation.auth.signup.SignUpScreen
 import com.example.kmp_social_app.android.presentation.home.HomeScreen
 import com.example.kmp_social_app.android.presentation.post_detail.PostDetailScreen
 import com.example.kmp_social_app.android.common.utils.event.ObserveAsEvent
-import com.example.kmp_social_app.android.common.utils.event.SnackbarController
-import com.example.kmp_social_app.android.common.utils.event.UnauthorizedController
+import com.example.kmp_social_app.android.common.utils.event.SnackbarEvent
+import com.example.kmp_social_app.android.common.utils.event.UnauthorizedEvent
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
@@ -51,26 +52,26 @@ fun MainNavigationGraph(
     val startDestination: Any = if (uiState.currentUser.token.isEmpty()) AuthGraph else MainGraph
 
     ObserveAsEvent(
-        flow = SnackbarController.event,
+        flow = SnackbarEvent.event,
         key1 = snackbarHostState
     ) { event ->
         coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
             val result = snackbarHostState.showSnackbar(
                 message = event.message,
-                actionLabel = event.snackbarAction?.buttonName,
-                duration = SnackbarDuration.Short,
+                actionLabel = event.action?.buttonName,
+                duration = SnackbarDuration.Long,
                 withDismissAction = true
             )
 
             if (result == SnackbarResult.ActionPerformed) {
-                event.snackbarAction?.action?.invoke()
+                event.action?.action?.invoke()
             }
         }
     }
 
     ObserveAsEvent(
-        flow = UnauthorizedController.event
+        flow = UnauthorizedEvent.event
     ) {
         navController.navigate(AuthGraph) {
             popUpTo(MainGraph) {
@@ -83,7 +84,17 @@ fun MainNavigationGraph(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                hostState = snackbarHostState,
+            ) {
+                Snackbar(
+                    snackbarData = it,
+                    shape = MaterialTheme.shapes.medium,
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    dismissActionContentColor = MaterialTheme.colorScheme.onSurface
+                )
+            }
         },
         containerColor = MaterialTheme.colorScheme.background
     ) {

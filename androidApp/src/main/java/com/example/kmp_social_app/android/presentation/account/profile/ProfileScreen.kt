@@ -98,7 +98,10 @@ private fun ProfileScreenContent(
                 uiState.profile?.let { profile ->
                     profileHeaderBlock(
                         profile = profile,
-                        onFollowClick = {},
+                        followingOperation = uiState.followingOperation,
+                        onFollowClick = {
+                            action(ProfileAction.OnFollowButtonClick(profile = profile))
+                        },
                         onFollowersClick = {
                             navController.navigate(
                                 MainGraph.FollowsRoute(
@@ -135,7 +138,9 @@ private fun ProfileScreenContent(
                     onPostClick = {
                         navController.navigate(MainGraph.PostDetailRoute(it.postId))
                     },
-                    onLikeClick = {},
+                    onLikeClick = {
+                        action(ProfileAction.OnLikeClick(post = it))
+                    },
                     onCommentClick = {},
                     isOwnProfile = uiState.profile?.isOwnProfile ?: false
                 )

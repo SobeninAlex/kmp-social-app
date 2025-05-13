@@ -3,6 +3,8 @@ package com.example.kmp_social_app.android.presentation.home
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
 import com.example.kmp_social_app.android.common.utils.DefaultPagingManager
 import com.example.kmp_social_app.android.common.utils.PagingManager
+import com.example.kmp_social_app.android.common.utils.event.FollowStateChangeEvent
+import com.example.kmp_social_app.android.common.utils.event.PostUpdatedEvent
 import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
 import com.example.kmp_social_app.feature.follows.domain.usecase.FollowOrUnfollowUseCase
@@ -13,6 +15,8 @@ import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCas
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -30,6 +34,14 @@ class HomeViewModel(
 
     init {
         loadContent()
+
+        PostUpdatedEvent.event.onEach { post ->
+            updatePost(post.postId) { post }
+        }.launchIn(viewModelScope)
+
+        FollowStateChangeEvent.event.onEach {
+            refreshContent()
+        }.launchIn(viewModelScope)
     }
 
     fun onAction(action: HomeAction) {
@@ -40,6 +52,7 @@ class HomeViewModel(
             is HomeAction.OnFollowButtonClick -> followUser(user = action.followedUser)
             is HomeAction.OnLikeClick -> likeOrUnlike(post = action.post)
             is HomeAction.OnCommentClick -> TODO()
+            is HomeAction.UpdatePost -> updatePost(action.post.postId) { action.post }
         }
     }
 
@@ -53,10 +66,10 @@ class HomeViewModel(
                 updatePost(post.postId) {
                     it.copy(
                         isLiked = !it.isLiked,
-                        likesCount = it.likesCount.plus(operation)
+                        likesCount = it.likesCount.plus(operation),
+                        enabledLike = true
                     )
                 }
-                updatePost(post.postId) { it.copy(enabledLike = true) }
             }.onFailure { error ->
                 updatePost(post.postId) { it.copy(enabledLike = true) }
                 throw error
@@ -114,7 +127,7 @@ class HomeViewModel(
                 runCatching {
                     getFollowingSuggestionsUseCase()
                 }.onSuccess { response ->
-                    _uiState.update { it.copy(users = response,) }
+                    _uiState.update { it.copy(users = response) }
                 }.onFailure { error ->
                     throw error
                 }
