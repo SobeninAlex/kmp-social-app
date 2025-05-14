@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kmp_social_app.android.common.utils.event.SnackbarEvent
 import com.example.kmp_social_app.android.common.utils.event.UnauthorizedEvent
 import com.example.kmp_social_app.common.data.local.UserSettings
+import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.SomethingWrongException
 import com.example.kmp_social_app.common.utils.UnauthorizedException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -12,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.io.IOException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,6 +30,7 @@ open class BaseViewModel : ViewModel(), KoinComponent {
                 sendUnauthorizedEvent()
             }
             is SomethingWrongException -> showSnackbar(message = throwable.message)
+            is IOException -> showSnackbar(message = Constants.NO_INTERNET_ERROR)
             else -> showSnackbar(message = throwable.message)
         }
     }

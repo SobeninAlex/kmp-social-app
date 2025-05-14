@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
             uiState == MainUiState.Loading
         }
 
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
 
         setContent {
             KmpSocialAppTheme {

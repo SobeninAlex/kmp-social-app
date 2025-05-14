@@ -2,12 +2,15 @@ package com.example.kmp_social_app.feature.post.data
 
 import com.example.kmp_social_app.common.data.local.UserPreferences
 import com.example.kmp_social_app.common.data.local.UserSettings
+import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.common.utils.DispatcherProvider
 import com.example.kmp_social_app.common.utils.SomethingWrongException
+import com.example.kmp_social_app.feature.post.data.dto.NewCommentRequestDTO
 import com.example.kmp_social_app.feature.post.data.dto.PostLikeRequestDTO
 import com.example.kmp_social_app.feature.post.data.dto.PostsResponseDTO
 import com.example.kmp_social_app.feature.post.domain.PostRepository
 import com.example.kmp_social_app.feature.post.domain.model.Post
+import com.example.kmp_social_app.feature.post.domain.model.PostComment
 import kotlinx.coroutines.withContext
 
 internal class PostRepositoryImpl(
@@ -66,6 +69,29 @@ internal class PostRepositoryImpl(
         }
     }
 
+    override suspend fun getPost(postId: String): Post {
+        return withContext(dispatcher.io) {
+            try {
+                val userDate = userPreferences.getUserSettings()
+
+                val response = postApiService.getPost(
+                    token = userDate.token,
+                    postId = postId,
+                    currentUserId = userDate.id
+                )
+
+                if (response.isSuccess) {
+                    response.post?.toPost()
+                        ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
+
     override suspend fun getPostsByUserId(
         userId: String,
         page: Int,
@@ -79,6 +105,86 @@ internal class PostRepositoryImpl(
                 page = page,
                 pageSize = pageSize
             )
+        }
+    }
+
+    override suspend fun getPostComments(
+        postId: String,
+        page: Int,
+        pageSize: Int
+    ): List<PostComment> {
+        return withContext(dispatcher.io) {
+            try {
+                val userDate = userPreferences.getUserSettings()
+
+                val response = postApiService.getPostComments(
+                    token = userDate.token,
+                    postId = postId,
+                    page = page,
+                    pageSize = pageSize
+                )
+
+                if (response.isSuccess) {
+                    response.postComments.map { it.toPostComment() }
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
+
+    override suspend fun addComment(postId: String, content: String): PostComment {
+        return withContext(dispatcher.io) {
+            try {
+                val userDate = userPreferences.getUserSettings()
+
+                if (content.isBlank()) {
+                    throw SomethingWrongException(message = "Comment content cannot be empty")
+                }
+
+                val request = NewCommentRequestDTO(
+                    postId = postId,
+                    userId = userDate.id,
+                    content = content.trim()
+                )
+
+                val response = postApiService.addComment(
+                    token = userDate.token,
+                    request = request
+                )
+
+                if (response.isSuccess) {
+                    response.postComment?.toPostComment()
+                        ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
+
+    override suspend fun deleteComment(commentId: String, postId: String) {
+        return withContext(dispatcher.io) {
+            try {
+                val userDate = userPreferences.getUserSettings()
+
+                val response = postApiService.deleteComment(
+                    token = userDate.token,
+                    commentId = commentId,
+                    postId = postId,
+                    userId = userDate.id
+                )
+
+                if (!response.isSuccess) {
+                    throw SomethingWrongException(message = response.errorMessage)
+                } else Unit
+            } catch (ex: Exception) {
+                throw ex
+            }
         }
     }
 

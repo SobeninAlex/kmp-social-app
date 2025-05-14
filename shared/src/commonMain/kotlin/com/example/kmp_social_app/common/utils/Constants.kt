@@ -12,5 +12,6 @@ object Constants {
 
     const val INITIAL_PAGE = 0
     const val UNEXPECTED_ERROR_MESSAGE = "Oops! Something went wrong ;("
+    const val NO_INTERNET_ERROR = "No Internet"
     const val DEFAULT_PAGE_SIZE = 3
 }

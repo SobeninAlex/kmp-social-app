@@ -17,9 +17,12 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import coil3.ImageLoader
 import coil3.compose.AsyncImage
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
-import coil3.request.ImageRequest
 import com.example.kmp_social_app.android.R
 
 @Composable
@@ -39,12 +42,22 @@ fun ImageCard(
     var isLoading by remember { mutableStateOf(false) }
     var isSuccess by remember { mutableStateOf(false) }
 
-    val imageRequest = ImageRequest.Builder(LocalContext.current)
-        .data(model)
-        .memoryCacheKey(model.toString())
-        .placeholderMemoryCacheKey(model.toString())
-        .diskCachePolicy(CachePolicy.ENABLED)
+    val context = LocalContext.current
+
+    val imageLoader = ImageLoader.Builder(context)
         .memoryCachePolicy(CachePolicy.ENABLED)
+        .memoryCache {
+            MemoryCache.Builder()
+                .maxSizePercent(context, 0.25)
+                .build()
+        }
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .diskCache {
+            DiskCache.Builder()
+                .directory(context.cacheDir.resolve("image_cache"))
+                .maxSizeBytes(100L * 1024 * 1024)
+                .build()
+        }
         .build()
 
     Box(
@@ -52,7 +65,8 @@ fun ImageCard(
         modifier = modifier.clickable { onClick() }
     ) {
         AsyncImage(
-            model = imageRequest,
+            model = model,
+            imageLoader = imageLoader,
             modifier = Modifier.fillMaxSize(),
             contentDescription = null,
             placeholder = placeholder,
