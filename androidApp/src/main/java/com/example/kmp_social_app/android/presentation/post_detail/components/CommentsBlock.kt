@@ -15,50 +15,60 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.components.CommentListItem
 import com.example.kmp_social_app.android.common.components.HorizontalLine
 import com.example.kmp_social_app.android.common.components.SubmitButton
-import com.example.kmp_social_app.feature.comments.domain.model.Comment
+import com.example.kmp_social_app.feature.post.domain.model.PostComment
 
 
 fun LazyListScope.postDetailCommentsBlock(
-    isLoading: Boolean,
     onAddCommentClick: () -> Unit,
-    comments: List<Comment>,
+    comments: List<PostComment>,
     onProfileClick: () -> Unit,
     onMoreIconClick: () -> Unit
 ) {
     item {
         CommentsBlockHeader(
+            modifier = Modifier.animateItem(),
             onAddCommentClick = onAddCommentClick
         )
     }
 
-    if (isLoading) {
+    if (comments.isEmpty()) {
         item {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    textAlign = TextAlign.Center,
+                    text = "Empty...",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
     } else {
         itemsIndexed(
             items = comments,
-            key = { _, item -> item.id }
+            key = { _, item -> item.commentId }
         ) { index, item ->
             HorizontalLine(index > 0)
             CommentListItem(
+                modifier = Modifier.animateItem(),
                 comment = item,
                 onProfileClick = onProfileClick,
                 onMoreIconClick = onMoreIconClick
             )
         }
     }
-
-
 }
 
 @Composable

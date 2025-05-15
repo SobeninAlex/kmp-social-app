@@ -76,12 +76,12 @@ internal class PostApiService : KtorApiService() {
     suspend fun getPost(
         token: String,
         postId: String,
-        currentUserId: String,
+        userId: String,
     ): PostResponseDTO {
         return client.get {
             route("/post/$postId")
             setToken(token)
-            parameter(key = QueryParams.CURRENT_USER_ID, value = currentUserId)
+            parameter(key = QueryParams.USER_ID, value = userId)
         }
             .checkAuth()
             .body()

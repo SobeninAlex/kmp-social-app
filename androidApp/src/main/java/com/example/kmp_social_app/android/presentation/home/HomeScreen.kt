@@ -123,7 +123,7 @@ private fun HomeScreenContent(
                             .animateItem(),
                         post = post,
                         onPostClick = {
-                            navController.navigate(MainGraph.PostDetailRoute(postId = post.postId))
+                            navController.navigate(MainGraph.PostDetailRoute(postId = post.postId, userId = post.userId))
                         },
                         onProfileClick = {
                             navController.navigate(MainGraph.ProfileRoute(userId = it))

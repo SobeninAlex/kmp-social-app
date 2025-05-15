@@ -150,7 +150,7 @@ fun MainNavigationGraph(
 
                     composable<MainGraph.PostDetailRoute> {
                         val args = it.toRoute<MainGraph.PostDetailRoute>()
-                        PostDetailScreen(postId = args.postId)
+                        PostDetailScreen(postId = args.postId, userId = args.userId)
                     }
 
                     composable<MainGraph.ProfileRoute> {

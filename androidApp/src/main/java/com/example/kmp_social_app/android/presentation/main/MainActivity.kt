@@ -1,7 +1,10 @@
 package com.example.kmp_social_app.android.presentation.main
 
+
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
@@ -22,6 +25,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         var uiState: MainUiState by mutableStateOf(MainUiState.Loading)
@@ -37,8 +41,6 @@ class MainActivity : ComponentActivity() {
         splash.setKeepOnScreenCondition {
             uiState == MainUiState.Loading
         }
-
-//        enableEdgeToEdge()
 
         setContent {
             KmpSocialAppTheme {

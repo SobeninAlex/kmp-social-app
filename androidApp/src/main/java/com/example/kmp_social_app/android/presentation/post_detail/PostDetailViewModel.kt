@@ -1,58 +1,149 @@
 package com.example.kmp_social_app.android.presentation.post_detail
 
 import com.example.kmp_social_app.android.common.utils.BaseViewModel
-import com.example.kmp_social_app.feature.comments.domain.model.Comment
+import com.example.kmp_social_app.android.common.utils.DefaultPagingManager
+import com.example.kmp_social_app.android.common.utils.PagingManager
+import com.example.kmp_social_app.android.common.utils.event.PostUpdatedEvent
+import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.feature.post.domain.model.Post
+import com.example.kmp_social_app.feature.post.domain.model.PostComment
+import com.example.kmp_social_app.feature.post.domain.usecase.GetPostCommentsUseCase
+import com.example.kmp_social_app.feature.post.domain.usecase.GetPostUseCase
+import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PostDetailViewModel(
     private val postId: String,
+    private val userId: String,
+    private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val getPostUseCase: GetPostUseCase,
+    private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(PostDetailUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val postsPagingManager by lazy { createPostCommentsPagingManager() }
+
     init {
-        loadDate()
+        loadContent()
+
+        PostUpdatedEvent.event.onEach { post ->
+            updatePost{ post }
+        }.launchIn(viewModelScope)
     }
 
     fun onAction(action: PostDetailAction) {
         when (action) {
-            is PostDetailAction.Retry -> loadDate()
+            is PostDetailAction.CreateComment -> TODO()
+            is PostDetailAction.DeleteComment -> TODO()
+            is PostDetailAction.LoadMoreComments -> loadMoreComments()
+            is PostDetailAction.OnLikeClick -> likeOrUnlike()
         }
     }
 
-    private fun loadDate() {
-        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
-        updateCommentsState { it.copy(isLoading = true) }
+    private fun likeOrUnlike() {
+        val post = _uiState.value.post ?: return
+        updatePost { it.copy(enabledLike = false) }
+        viewModelScope.launch {
+            val operation = if (post.isLiked) -1 else +1
+            runCatching {
+                likeOrUnlikeUseCase(post)
+            }.onSuccess {
+                updatePost {
+                    val afterUpdate = it.copy(
+                        isLiked = !it.isLiked,
+                        likesCount = it.likesCount.plus(operation),
+                        enabledLike = true
+                    )
+                    postUpdateEvent(afterUpdate)
+                    afterUpdate
+                }
+            }.onFailure { error ->
+                updatePost { it.copy(enabledLike = true) }
+                throw error
+            }
+        }
+    }
 
+    private fun loadContent() {
+        _uiState.update { it.copy(isLoading = true) }
+        loadData()
+    }
+
+    private fun loadData() {
         viewModelScope.launch {
             delay(1000)
 
-            _uiState.update {
-                it.copy(isLoading = false, post = Post.Preview)
+            runCatching {
+                getPostUseCase(postId = postId, userId = userId)
+            }.onSuccess { response ->
+                _uiState.update { state ->
+                    state.copy(post = response)
+                }
+            }.onFailure { error ->
+                throw error
             }
 
-            delay(1000)
-
-            updateCommentsState {
-                it.copy(
-                    isLoading = false,
-                    comments = Comment.PreviewCommentList
-                )
-            }
+            loadMoreComments()
         }
     }
 
-    private fun updateCommentsState(update: (CommentsState) -> CommentsState) {
-        _uiState.update { oldState ->
-            oldState.copy(
-                commentsState = update(oldState.commentsState)
+    private fun loadMoreComments() {
+        viewModelScope.launch {
+            postsPagingManager.loadItems()
+        }
+    }
+
+    private fun createPostCommentsPagingManager(): PagingManager<PostComment> {
+        return DefaultPagingManager(
+            onRequest = { page ->
+                delay(1500) //todo: test
+                getPostCommentsUseCase(postId = postId, page = page, pageSize = Constants.DEFAULT_PAGE_SIZE)
+            },
+            onSuccess = { items, page ->
+                val endReached = items.size < Constants.DEFAULT_PAGE_SIZE
+
+                val comments = if (page == Constants.INITIAL_PAGE) {
+                    items
+                } else {
+                    _uiState.value.comments + items
+                }
+
+                _uiState.update {
+                    it.copy(
+                        comments = comments,
+                        endReached = endReached
+                    )
+                }
+            },
+            onFailure = { ex, page ->
+                throw ex
+            },
+            onLoadStateChange = { isLoading ->
+                _uiState.update { it.copy(isLoading = isLoading) }
+            }
+        )
+    }
+
+    private fun updatePost(update: (Post) -> Post) {
+        val post = _uiState.value.post ?: return
+        _uiState.update { state ->
+            state.copy(
+                post = update(post)
             )
+        }
+    }
+
+    private fun postUpdateEvent(post: Post) {
+        viewModelScope.launch {
+            PostUpdatedEvent.sendEvent(post)
         }
     }
 }

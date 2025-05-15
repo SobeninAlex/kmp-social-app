@@ -89,8 +89,8 @@ fun ImageCard(
             )
         }
 
-        if (isLoading) {
-            DotsLoadingIndicator()
-        }
+//        if (isLoading) {
+//            DotsLoadingIndicator()
+//        }
     }
 }

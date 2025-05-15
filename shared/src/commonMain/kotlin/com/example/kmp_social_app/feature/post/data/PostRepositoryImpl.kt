@@ -69,7 +69,7 @@ internal class PostRepositoryImpl(
         }
     }
 
-    override suspend fun getPost(postId: String): Post {
+    override suspend fun getPost(postId: String, userId: String): Post {
         return withContext(dispatcher.io) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -77,7 +77,7 @@ internal class PostRepositoryImpl(
                 val response = postApiService.getPost(
                     token = userDate.token,
                     postId = postId,
-                    currentUserId = userDate.id
+                    userId = userId
                 )
 
                 if (response.isSuccess) {

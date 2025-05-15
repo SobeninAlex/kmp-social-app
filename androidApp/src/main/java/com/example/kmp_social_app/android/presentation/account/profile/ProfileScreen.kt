@@ -136,7 +136,7 @@ private fun ProfileScreenContent(
                     isLoading = uiState.isLoading,
                     posts = uiState.posts,
                     onPostClick = {
-                        navController.navigate(MainGraph.PostDetailRoute(it.postId))
+                        navController.navigate(MainGraph.PostDetailRoute(postId = it.postId, userId = it.userId))
                     },
                     onLikeClick = {
                         action(ProfileAction.OnLikeClick(post = it))

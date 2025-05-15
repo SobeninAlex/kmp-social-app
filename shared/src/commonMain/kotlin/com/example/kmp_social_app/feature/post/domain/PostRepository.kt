@@ -11,7 +11,8 @@ internal interface PostRepository {
     ): List<Post>
 
     suspend fun getPost(
-        postId: String
+        postId: String,
+        userId: String
     ): Post
 
     suspend fun likeOrUnlikePost(

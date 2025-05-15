@@ -2,34 +2,44 @@ package com.example.kmp_social_app.android.presentation.post_detail
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.kmp_social_app.android.common.components.CustomRotatingDotsLoader
 import com.example.kmp_social_app.android.common.components.CustomTopBar
 import com.example.kmp_social_app.android.common.components.ErrorScreen
 import com.example.kmp_social_app.android.common.components.LoadingLayout
 import com.example.kmp_social_app.android.common.components.PostListItem
+import com.example.kmp_social_app.android.common.components.PostListItemShimmer
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
+import com.example.kmp_social_app.android.presentation.account.profile.ProfileAction
 import com.example.kmp_social_app.android.presentation.post_detail.components.postDetailCommentsBlock
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun PostDetailScreen(
-    postId: String
+    postId: String,
+    userId: String
 ) {
     val viewModel = koinViewModel<PostDetailViewModel>(
         parameters = {
-            parametersOf(postId)
+            parametersOf(postId, userId)
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -47,6 +57,19 @@ private fun PostDetailScreenContent(
 ) {
     val navController = LocalNavController.current
 
+    val lazyListState = rememberLazyListState()
+
+    val shouldLoadMorePosts by remember {
+        derivedStateOf {
+            if (lazyListState.layoutInfo.totalItemsCount == 0) {
+                false
+            } else {
+                val lastVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.last()
+                (lastVisibleItem.index == lazyListState.layoutInfo.totalItemsCount - 1)
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             CustomTopBar(
@@ -55,45 +78,57 @@ private fun PostDetailScreenContent(
             )
         }
     ) { scaffoldPadding ->
-        LoadingLayout(
-            isLoading = uiState.isLoading,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(scaffoldPadding)
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.secondary),
+                state = lazyListState,
+                modifier = Modifier.fillMaxSize()
             ) {
-                item {
-                    uiState.post?.let {
+                uiState.post?.let {
+                    item {
                         PostListItem(
-                            post = it,
+                            modifier = Modifier.animateItem(),
+                            post = uiState.post,
                             onPostClick = {},
                             onProfileClick = { /**todo*/ },
-                            onLikeClick = { /**todo*/ },
+                            onLikeClick = { action(PostDetailAction.OnLikeClick) },
                             onCommentClick = {},
                             isDetailScreen = true,
                         )
                     }
+
+                    postDetailCommentsBlock(
+                        onAddCommentClick = {},
+                        comments = uiState.comments,
+                        onProfileClick = {},
+                        onMoreIconClick = {}
+                    )
                 }
 
-                postDetailCommentsBlock(
-                    isLoading = uiState.commentsState.isLoading,
-                    onAddCommentClick = {},
-                    comments = uiState.commentsState.comments,
-                    onProfileClick = {},
-                    onMoreIconClick = {}
-                )
+                if (uiState.isLoading && !uiState.endReached) {
+                    item {
+//                        PostListItemShimmer(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .animateItem()
+//                        )
+                    }
+                }
             }
 
-            uiState.errorMessage?.let {
-                ErrorScreen(
-                    errorMessage = it,
-                    onClick = { action(PostDetailAction.Retry) }
-                )
-            }
+            CustomRotatingDotsLoader(
+                isLoading = uiState.isLoading,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+
+    LaunchedEffect(shouldLoadMorePosts) {
+        if (shouldLoadMorePosts && !uiState.endReached) {
+            action(PostDetailAction.LoadMoreComments)
         }
     }
 }

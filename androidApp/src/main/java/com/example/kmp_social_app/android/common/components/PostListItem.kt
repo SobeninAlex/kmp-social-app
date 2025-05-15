@@ -61,6 +61,7 @@ fun PostListItem(
         )
 
         ImageCard(
+            onClick = onPostClick,
             model = post.imageUrl,
             modifier = Modifier
                 .fillMaxWidth()

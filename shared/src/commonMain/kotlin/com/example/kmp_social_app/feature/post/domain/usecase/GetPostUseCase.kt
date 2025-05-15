@@ -10,8 +10,9 @@ class GetPostUseCase : KoinComponent {
     private val repository by inject<PostRepository>()
 
     suspend operator fun invoke(
-        postId: String
+        postId: String,
+        userId: String
     ): Post {
-        return repository.getPost(postId = postId)
+        return repository.getPost(postId = postId, userId = userId)
     }
 }

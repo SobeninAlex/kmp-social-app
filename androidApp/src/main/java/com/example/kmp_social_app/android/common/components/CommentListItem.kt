@@ -24,12 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kmp_social_app.android.R
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
-import com.example.kmp_social_app.feature.comments.domain.model.Comment
+import com.example.kmp_social_app.feature.post.domain.model.PostComment
 
 @Composable
 fun CommentListItem(
     modifier: Modifier = Modifier,
-    comment: Comment,
+    comment: PostComment,
     onProfileClick: () -> Unit,
     onMoreIconClick: () -> Unit
 ) {
@@ -95,7 +95,7 @@ private fun CommentListItemPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             CommentListItem(
-                comment = Comment.Preview,
+                comment = PostComment.Preview,
                 onProfileClick = {},
                 onMoreIconClick = {}
             )
