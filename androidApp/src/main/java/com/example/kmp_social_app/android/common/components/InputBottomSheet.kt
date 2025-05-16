@@ -1,12 +1,9 @@
 package com.example.kmp_social_app.android.common.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
@@ -22,7 +19,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.kmp_social_app.android.R
 import kotlinx.coroutines.delay
@@ -31,7 +27,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun InputBottomSheet(
     text: String,
-//    onTextChange: (String) -> Unit,
+    isLoading: Boolean,
     onSendClick: (String) -> Unit,
     requestFocus: Boolean = true,
     onDismissRequest: () -> Unit,
@@ -69,22 +65,11 @@ fun InputBottomSheet(
                     .focusRequester(focusRequester),
                 isSingleLine = false,
                 value = value,
+                onSendMessage = { onSendClick(value) },
+                isLoading = isLoading,
                 onValueChange = { value = it },
                 placeholder = R.string.your_comment_hint
             )
-
-            SubmitButton(
-                modifier = Modifier.size(42.dp),
-                enabled = value.isNotBlank(),
-                contentPadding = PaddingValues(0.dp),
-                onClick = { onSendClick(value) }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_send_24),
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
         }
     }
 }

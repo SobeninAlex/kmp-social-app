@@ -9,6 +9,7 @@ data class PostDetailUiState(
     val isLoading: Boolean = false,
     val post: Post? = null,
     val comments: List<PostComment> = emptyList(),
+    val isAddingNewComment: Boolean = false,
     val endReached: Boolean = true,
     val bottomSheetState: BottomSheetState = BottomSheetState()
 ) {

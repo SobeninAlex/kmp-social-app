@@ -25,6 +25,7 @@ import com.example.kmp_social_app.feature.post.domain.model.PostComment
 
 
 fun LazyListScope.postDetailCommentsBlock(
+    isLoading: Boolean,
     onAddCommentClick: () -> Unit,
     comments: List<PostComment>,
     onProfileClick: () -> Unit,
@@ -37,7 +38,7 @@ fun LazyListScope.postDetailCommentsBlock(
         )
     }
 
-    if (comments.isEmpty()) {
+    if (comments.isEmpty() && !isLoading) {
         item {
             Box(
                 modifier = Modifier.fillMaxWidth(),

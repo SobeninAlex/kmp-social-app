@@ -100,6 +100,7 @@ private fun PostDetailScreenContent(
                     }
 
                     postDetailCommentsBlock(
+                        isLoading = uiState.isLoading,
                         onAddCommentClick = { action(PostDetailAction.OnAddCommentClick) },
                         comments = uiState.comments,
                         onProfileClick = {},
@@ -136,6 +137,7 @@ private fun PostDetailScreenContent(
             BottomSheetState.Type.AddComment -> {
                 InputBottomSheet(
                     text = "",
+                    isLoading = uiState.isAddingNewComment,
                     onSendClick = { action(PostDetailAction.OnSendCommentClick(it)) },
                     onDismissRequest = { action(PostDetailAction.CloseBottomSheet) }
                 )

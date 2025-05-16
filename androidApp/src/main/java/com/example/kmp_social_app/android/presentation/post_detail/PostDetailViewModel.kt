@@ -14,8 +14,6 @@ import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCas
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -39,14 +37,12 @@ class PostDetailViewModel(
 
     fun onAction(action: PostDetailAction) {
         when (action) {
-            is PostDetailAction.CreateComment -> TODO()
             is PostDetailAction.DeleteComment -> TODO()
             is PostDetailAction.LoadMoreComments -> loadMoreComments()
             is PostDetailAction.OnLikeClick -> likeOrUnlike()
             is PostDetailAction.OnAddCommentClick -> openBottomSheet(type = BottomSheetState.Type.AddComment)
             is PostDetailAction.CloseBottomSheet -> closeBottomSheet()
             is PostDetailAction.OnSendCommentClick -> {
-                closeBottomSheet()
                 sendComment(comment = action.comment)
             }
         }
@@ -54,47 +50,30 @@ class PostDetailViewModel(
 
     private fun sendComment(comment: String) {
         viewModelScope.launch {
+            _uiState.update { state ->
+                state.copy(isAddingNewComment = true)
+            }
             runCatching {
+                delay(1500) //todo: test
                 addCommentUseCase(
                     postId = postId,
                     content = comment
                 )
             }.onSuccess { response ->
-                updatePost {
-                    val afterUpdate = it.copy(
-                        isLiked = !it.isLiked,
-                        likesCount = it.likesCount.plus(operation),
-                        enabledLike = true
-                    )
-                    postUpdateEvent(afterUpdate)
-                    afterUpdate
-                }
-
                 _uiState.update { state ->
                     val afterUpdate = state.copy(
-                        comments = listOf(response) + _uiState.value.comments,
-                        post = updatePost {
-                            it.copy(
-                                commentsCount = it.commentsCount + 1
-                            )
-                        }
-                    )
-                    afterUpdate
-                }
-
-
-                _uiState.update { state ->
-                    val afterUpdate = state.copy(
+                        isAddingNewComment = false,
                         comments = listOf(response) + _uiState.value.comments,
                         post = _uiState.value.post?.copy(
                             commentsCount = _uiState.value.post!!.commentsCount + 1
                         )
                     )
+                    closeBottomSheet()
+                    postUpdateEvent(afterUpdate.post!!)
                     afterUpdate
                 }
-
-
             }.onFailure { error ->
+                _uiState.update { it.copy(isAddingNewComment = false) }
                 throw error
             }
         }

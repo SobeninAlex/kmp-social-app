@@ -2,7 +2,11 @@ package com.example.kmp_social_app.android.common.components
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +26,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.kmp_social_app.android.R
+import com.example.kmp_social_app.android.common.theme.DarkGray
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
 import com.example.kmp_social_app.android.common.theme.LightGray
 
@@ -31,6 +37,8 @@ fun CustomTetField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     isPasswordTextField: Boolean = false,
+    onSendMessage: (() -> Unit)? = null,
+    isLoading: Boolean = false,
     isSingleLine: Boolean = true,
     value: String,
     onValueChange: (String) -> Unit,
@@ -60,6 +68,28 @@ fun CustomTetField(
                     onPasswordVisibilityToggle = { isPasswordVisible = !isPasswordVisible }
                 )
             }
+
+            onSendMessage?.let { send ->
+                val enabled = value.isNotBlank()
+
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                } else {
+                    IconButton(
+                        enabled = enabled,
+                        onClick = send
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_send_24),
+                            contentDescription = null,
+                            tint = if (enabled) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            }
         },
         visualTransformation = if (isPasswordTextField) {
             if (isPasswordVisible) {
@@ -75,7 +105,7 @@ fun CustomTetField(
                 color = LightGray
             )
         },
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.large,
     )
 }
 
@@ -102,12 +132,28 @@ private fun PasswordEyeIcon(
 
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+private fun CustomTetFieldPreviewDark() {
+    KmpSocialAppTheme {
+        CustomTetField(
+            value = "sdfsf",
+            onValueChange = {},
+            placeholder = R.string.signup_button,
+            onSendMessage = {},
+            isLoading = false
+        )
+    }
+}
+
+@Composable
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 private fun CustomTetFieldPreview() {
     KmpSocialAppTheme {
         CustomTetField(
-            value = "",
+            value = "sdfsf",
             onValueChange = {},
-            placeholder = R.string.signup_button
+            placeholder = R.string.signup_button,
+            onSendMessage = {},
+            isLoading = false
         )
     }
 }
