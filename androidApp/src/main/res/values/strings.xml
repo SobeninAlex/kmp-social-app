@@ -30,6 +30,7 @@
     <string name="edit_profile_destination_title">Edit profile</string>
     <string name="edit_profile_label">Edit profile</string>
     <string name="comment_hint">Add comment</string>
+    <string name="your_comment_hint">your comment…</string>
     <string name="send_button_text">Send</string>
     <string name="comment_more_actions_title">Comment</string>
     <string name="delete_comment_action">Delete comment</string>

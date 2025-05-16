@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -31,16 +34,18 @@ fun CommentListItem(
     modifier: Modifier = Modifier,
     comment: PostComment,
     onProfileClick: () -> Unit,
-    onMoreIconClick: () -> Unit
+    onDeleteClick: () -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = MaterialTheme.colorScheme.secondary)
             .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         CircleImage(
-            imageUrl = "",
+            imageUrl = comment.avatar,
             modifier = Modifier.size(30.dp),
             onClick = onProfileClick
         )
@@ -71,17 +76,88 @@ fun CommentListItem(
                     modifier = Modifier.weight(1f)
                 )
 
-                Icon(
-                    painter = painterResource(R.drawable.round_more_horiz_24),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.clickable { onMoreIconClick() }
-                )
+                if (comment.isOwnComment) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_delete_24),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.clickable { onDeleteClick() }
+                    )
+                }
+
             }
 
             Text(
                 text = comment.content,
                 style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+}
+
+@Composable
+fun CommentListItemShimmer(
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = MaterialTheme.colorScheme.secondary)
+            .shimmerLinearGradient()
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(30.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .height(14.dp)
+                        .width(50.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.inverseSurface)
+                        .shimmerLinearGradient()
+                )
+
+                Box(
+                    modifier = Modifier
+                        .size(4.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.inverseSurface)
+                        .shimmerLinearGradient()
+                )
+
+                Box(
+                    modifier = Modifier
+                        .height(14.dp)
+                        .width(120.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.inverseSurface)
+                        .shimmerLinearGradient()
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clip(shape = MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseSurface)
+                    .shimmerLinearGradient()
             )
         }
     }
@@ -97,8 +173,48 @@ private fun CommentListItemPreview() {
             CommentListItem(
                 comment = PostComment.Preview,
                 onProfileClick = {},
-                onMoreIconClick = {}
+                onDeleteClick = {}
             )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun CommentListItemShimmerPreview() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            CommentListItemShimmer()
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun CommentListItemPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            CommentListItem(
+                comment = PostComment.Preview,
+                onProfileClick = {},
+                onDeleteClick = {}
+            )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun CommentListItemShimmerPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            CommentListItemShimmer()
         }
     }
 }

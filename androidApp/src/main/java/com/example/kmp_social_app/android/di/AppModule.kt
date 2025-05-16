@@ -36,6 +36,7 @@ val appModule = module {
             getPostCommentsUseCase = get(),
             getPostUseCase = get(),
             likeOrUnlikeUseCase = get(),
+            addCommentUseCase = get()
         )
     }
 

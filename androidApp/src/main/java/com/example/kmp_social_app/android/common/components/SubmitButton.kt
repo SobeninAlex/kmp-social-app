@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.kmp_social_app.android.common.theme.DarkGray
@@ -20,6 +21,7 @@ fun SubmitButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     enabled: Boolean = true,
+    shape: Shape = MaterialTheme.shapes.medium,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     disabledContainerColor: Color = DarkGray,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
@@ -28,7 +30,7 @@ fun SubmitButton(
 ) {
     Button(
         onClick = onClick,
-        shape = MaterialTheme.shapes.medium,
+        shape = shape,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,

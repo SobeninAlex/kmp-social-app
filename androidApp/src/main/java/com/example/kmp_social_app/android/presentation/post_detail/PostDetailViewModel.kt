@@ -7,6 +7,7 @@ import com.example.kmp_social_app.android.common.utils.event.PostUpdatedEvent
 import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.feature.post.domain.model.Post
 import com.example.kmp_social_app.feature.post.domain.model.PostComment
+import com.example.kmp_social_app.feature.post.domain.usecase.AddCommentUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.GetPostCommentsUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.GetPostUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
@@ -24,6 +25,7 @@ class PostDetailViewModel(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
     private val getPostUseCase: GetPostUseCase,
     private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
+    private val addCommentUseCase: AddCommentUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(PostDetailUiState())
@@ -33,10 +35,6 @@ class PostDetailViewModel(
 
     init {
         loadContent()
-
-        PostUpdatedEvent.event.onEach { post ->
-            updatePost{ post }
-        }.launchIn(viewModelScope)
     }
 
     fun onAction(action: PostDetailAction) {
@@ -45,6 +43,81 @@ class PostDetailViewModel(
             is PostDetailAction.DeleteComment -> TODO()
             is PostDetailAction.LoadMoreComments -> loadMoreComments()
             is PostDetailAction.OnLikeClick -> likeOrUnlike()
+            is PostDetailAction.OnAddCommentClick -> openBottomSheet(type = BottomSheetState.Type.AddComment)
+            is PostDetailAction.CloseBottomSheet -> closeBottomSheet()
+            is PostDetailAction.OnSendCommentClick -> {
+                closeBottomSheet()
+                sendComment(comment = action.comment)
+            }
+        }
+    }
+
+    private fun sendComment(comment: String) {
+        viewModelScope.launch {
+            runCatching {
+                addCommentUseCase(
+                    postId = postId,
+                    content = comment
+                )
+            }.onSuccess { response ->
+                updatePost {
+                    val afterUpdate = it.copy(
+                        isLiked = !it.isLiked,
+                        likesCount = it.likesCount.plus(operation),
+                        enabledLike = true
+                    )
+                    postUpdateEvent(afterUpdate)
+                    afterUpdate
+                }
+
+                _uiState.update { state ->
+                    val afterUpdate = state.copy(
+                        comments = listOf(response) + _uiState.value.comments,
+                        post = updatePost {
+                            it.copy(
+                                commentsCount = it.commentsCount + 1
+                            )
+                        }
+                    )
+                    afterUpdate
+                }
+
+
+                _uiState.update { state ->
+                    val afterUpdate = state.copy(
+                        comments = listOf(response) + _uiState.value.comments,
+                        post = _uiState.value.post?.copy(
+                            commentsCount = _uiState.value.post!!.commentsCount + 1
+                        )
+                    )
+                    afterUpdate
+                }
+
+
+            }.onFailure { error ->
+                throw error
+            }
+        }
+    }
+
+    private fun openBottomSheet(type: BottomSheetState.Type) {
+        _uiState.update { state ->
+            state.copy(
+                bottomSheetState = _uiState.value.bottomSheetState.copy(
+                    isOpen = true,
+                    type = type
+                )
+            )
+        }
+    }
+
+    private fun closeBottomSheet() {
+        _uiState.update { state ->
+            state.copy(
+                bottomSheetState = _uiState.value.bottomSheetState.copy(
+                    isOpen = false
+                )
+            )
         }
     }
 
@@ -82,7 +155,7 @@ class PostDetailViewModel(
             delay(1000)
 
             runCatching {
-                getPostUseCase(postId = postId, userId = userId)
+                getPostUseCase(postId = postId)
             }.onSuccess { response ->
                 _uiState.update { state ->
                     state.copy(post = response)
@@ -105,7 +178,11 @@ class PostDetailViewModel(
         return DefaultPagingManager(
             onRequest = { page ->
                 delay(1500) //todo: test
-                getPostCommentsUseCase(postId = postId, page = page, pageSize = Constants.DEFAULT_PAGE_SIZE)
+                getPostCommentsUseCase(
+                    postId = postId,
+                    page = page,
+                    pageSize = Constants.DEFAULT_PAGE_SIZE
+                )
             },
             onSuccess = { items, page ->
                 val endReached = items.size < Constants.DEFAULT_PAGE_SIZE

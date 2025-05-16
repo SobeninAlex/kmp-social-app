@@ -69,7 +69,7 @@ internal class PostRepositoryImpl(
         }
     }
 
-    override suspend fun getPost(postId: String, userId: String): Post {
+    override suspend fun getPost(postId: String): Post {
         return withContext(dispatcher.io) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -77,7 +77,7 @@ internal class PostRepositoryImpl(
                 val response = postApiService.getPost(
                     token = userDate.token,
                     postId = postId,
-                    userId = userId
+                    currentUserId = userDate.id
                 )
 
                 if (response.isSuccess) {
@@ -125,7 +125,11 @@ internal class PostRepositoryImpl(
                 )
 
                 if (response.isSuccess) {
-                    response.postComments.map { it.toPostComment() }
+                    response.postComments.map {
+                        it.toPostComment(
+                            isOwnComment = it.userId == userDate.id
+                        )
+                    }
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }
@@ -156,7 +160,9 @@ internal class PostRepositoryImpl(
                 )
 
                 if (response.isSuccess) {
-                    response.postComment?.toPostComment()
+                    response.postComment?.toPostComment(
+                        isOwnComment = response.postComment.userId == userDate.id
+                    )
                         ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)

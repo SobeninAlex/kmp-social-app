@@ -11,8 +11,7 @@ class GetPostUseCase : KoinComponent {
 
     suspend operator fun invoke(
         postId: String,
-        userId: String
     ): Post {
-        return repository.getPost(postId = postId, userId = userId)
+        return repository.getPost(postId = postId)
     }
 }

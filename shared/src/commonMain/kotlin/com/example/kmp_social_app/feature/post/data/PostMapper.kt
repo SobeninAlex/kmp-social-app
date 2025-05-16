@@ -21,7 +21,7 @@ internal fun PostDTO.toPost() = Post(
     isOwnPost = isOwnPost
 )
 
-internal fun PostCommentDTO.toPostComment() = PostComment(
+internal fun PostCommentDTO.toPostComment(isOwnComment: Boolean) = PostComment(
     commentId = commentId,
     postId = postId,
     userId = userId,
@@ -29,4 +29,5 @@ internal fun PostCommentDTO.toPostComment() = PostComment(
     userName = userName,
     avatar = avatar?.toCurrentUrl(),
     createdAt = DateFormatter.parseDate(createdAt),
+    isOwnComment = isOwnComment
 )

@@ -23,6 +23,7 @@ import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import com.example.kmp_social_app.android.R
 
 @Composable
@@ -44,28 +45,40 @@ fun ImageCard(
 
     val context = LocalContext.current
 
-    val imageLoader = ImageLoader.Builder(context)
-        .memoryCachePolicy(CachePolicy.ENABLED)
-        .memoryCache {
-            MemoryCache.Builder()
-                .maxSizePercent(context, 0.25)
-                .build()
-        }
-        .diskCachePolicy(CachePolicy.ENABLED)
-        .diskCache {
-            DiskCache.Builder()
-                .directory(context.cacheDir.resolve("image_cache"))
-                .maxSizeBytes(100L * 1024 * 1024)
-                .build()
-        }
-        .build()
+    val imageRequest = remember(model, context) {
+        ImageRequest.Builder(context)
+            .data(model)
+            .memoryCacheKey(model.toString())
+            .placeholderMemoryCacheKey(model.toString())
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .build()
+    }
+
+    val imageLoader = remember(context) {
+        ImageLoader.Builder(context)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .memoryCache {
+                MemoryCache.Builder()
+                    .maxSizePercent(context, 0.25)
+                    .build()
+            }
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .maxSizeBytes(100L * 1024 * 1024)
+                    .build()
+            }
+            .build()
+    }
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.clickable { onClick() }
     ) {
         AsyncImage(
-            model = model,
+            model = imageRequest,
             imageLoader = imageLoader,
             modifier = Modifier.fillMaxSize(),
             contentDescription = null,
@@ -89,8 +102,8 @@ fun ImageCard(
             )
         }
 
-//        if (isLoading) {
-//            DotsLoadingIndicator()
-//        }
+        if (isLoading) {
+            DotsLoadingIndicator()
+        }
     }
 }

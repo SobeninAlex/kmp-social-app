@@ -13,20 +13,25 @@ object DateFormatter {
         return try {
             val dateTime = LocalDateTime.parse(dateStaring)
 
-            val day = dateTime.dayOfMonth
-            val month = dateTime.monthNumber
-            val year = dateTime.year
-            val hour = dateTime.time.hour
-            val minute = dateTime.time.minute
+            val day = dateTime.dayOfMonth.toString()
+            val month = dateTime.monthNumber.toString()
+            val year = dateTime.year.toString()
+            val hour = dateTime.time.hour.toString()
+            val minute = dateTime.time.minute.toString()
+
+            val dayStr = if (day.length == 1) "0$day" else day
+            val monthStr = if (month.length == 1) "0$month" else month
+            val hourStr = if (hour.length == 1) "0$hour" else hour
+            val minuteStr = if (minute.length == 1) "0$minute" else minute
 
             val current = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
             if (dateTime.date == current.date) {
-                "Today $hour:$minute"
+                "Today $hourStr:$minuteStr"
             } else if (current.date.minus(dateTime.date) == DatePeriod(days = 1)) {
-                "Yesterday $hour:$minute"
+                "Yesterday $hourStr:$minuteStr"
             } else {
-                "$day-$month-$year $hour:$minute"
+                "$dayStr-$monthStr-$year $hourStr:$minuteStr"
             }
         } catch (ex: Exception) {
             dateStaring

@@ -1,7 +1,6 @@
 package com.example.kmp_social_app.android.presentation.post_detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,15 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.kmp_social_app.android.common.components.CommentListItemShimmer
 import com.example.kmp_social_app.android.common.components.CustomRotatingDotsLoader
 import com.example.kmp_social_app.android.common.components.CustomTopBar
-import com.example.kmp_social_app.android.common.components.ErrorScreen
-import com.example.kmp_social_app.android.common.components.LoadingLayout
+import com.example.kmp_social_app.android.common.components.InputBottomSheet
 import com.example.kmp_social_app.android.common.components.PostListItem
-import com.example.kmp_social_app.android.common.components.PostListItemShimmer
 import com.example.kmp_social_app.android.common.navigation.LocalNavController
 import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
-import com.example.kmp_social_app.android.presentation.account.profile.ProfileAction
 import com.example.kmp_social_app.android.presentation.post_detail.components.postDetailCommentsBlock
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -90,7 +87,9 @@ private fun PostDetailScreenContent(
                 uiState.post?.let {
                     item {
                         PostListItem(
-                            modifier = Modifier.animateItem(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem(),
                             post = uiState.post,
                             onPostClick = {},
                             onProfileClick = { /**todo*/ },
@@ -101,20 +100,20 @@ private fun PostDetailScreenContent(
                     }
 
                     postDetailCommentsBlock(
-                        onAddCommentClick = {},
+                        onAddCommentClick = { action(PostDetailAction.OnAddCommentClick) },
                         comments = uiState.comments,
                         onProfileClick = {},
-                        onMoreIconClick = {}
+                        onDeleteClick = {}
                     )
                 }
 
                 if (uiState.isLoading && !uiState.endReached) {
                     item {
-//                        PostListItemShimmer(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .animateItem()
-//                        )
+                        CommentListItemShimmer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem()
+                        )
                     }
                 }
             }
@@ -129,6 +128,18 @@ private fun PostDetailScreenContent(
     LaunchedEffect(shouldLoadMorePosts) {
         if (shouldLoadMorePosts && !uiState.endReached) {
             action(PostDetailAction.LoadMoreComments)
+        }
+    }
+
+    if (uiState.bottomSheetState.isOpen) {
+        when (uiState.bottomSheetState.type) {
+            BottomSheetState.Type.AddComment -> {
+                InputBottomSheet(
+                    text = "",
+                    onSendClick = { action(PostDetailAction.OnSendCommentClick(it)) },
+                    onDismissRequest = { action(PostDetailAction.CloseBottomSheet) }
+                )
+            }
         }
     }
 }

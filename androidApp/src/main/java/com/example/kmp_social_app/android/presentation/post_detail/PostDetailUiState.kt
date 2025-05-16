@@ -10,6 +10,7 @@ data class PostDetailUiState(
     val post: Post? = null,
     val comments: List<PostComment> = emptyList(),
     val endReached: Boolean = true,
+    val bottomSheetState: BottomSheetState = BottomSheetState()
 ) {
 
     companion object {
@@ -18,5 +19,15 @@ data class PostDetailUiState(
             post = Post.Preview,
             comments = PostComment.PreviewList
         )
+    }
+}
+
+@Immutable
+data class BottomSheetState(
+    val type: Type = Type.AddComment,
+    val isOpen: Boolean = false
+) {
+    enum class Type {
+        AddComment
     }
 }
