@@ -28,7 +28,24 @@ class EditProfileViewModel(
         when (action) {
             is EditProfileAction.EditBio -> editBio(action.bio)
             is EditProfileAction.EditName -> editName(action.name)
-            is EditProfileAction.OnUpdateProfileClick -> updateProfile()
+            is EditProfileAction.OnUpdateProfileClick -> onUpdateProfile()
+        }
+    }
+
+    private fun onUpdateProfile() {
+        _uiState.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            delay(1000)
+
+            _uiState.update { oldState ->
+                oldState.copy(
+                    isLoading = false,
+                    updateSucceed = true
+                )
+            }
+
+            showSnackbar(resources.getString(R.string.profile_changed))
         }
     }
 
@@ -45,23 +62,6 @@ class EditProfileViewModel(
             oldState.copy(
                 profile = update(oldState.profile)
             )
-        }
-    }
-
-    private fun updateProfile() {
-        _uiState.update { it.copy(isLoading = true) }
-
-        viewModelScope.launch {
-            delay(1000)
-
-            _uiState.update { oldState ->
-                oldState.copy(
-                    isLoading = false,
-                    updateSucceed = true
-                )
-            }
-
-            showSnackbar(resources.getString(R.string.profile_changed))
         }
     }
 }

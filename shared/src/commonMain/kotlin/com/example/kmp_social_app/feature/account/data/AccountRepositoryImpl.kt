@@ -42,4 +42,8 @@ internal class AccountRepositoryImpl(
             throw exception
         }.flowOn(dispatcher.io)
     }
+
+    override suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile {
+        TODO("Not yet implemented")
+    }
 }
