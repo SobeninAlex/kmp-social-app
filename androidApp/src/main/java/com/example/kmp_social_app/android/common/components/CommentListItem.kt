@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -77,12 +78,19 @@ fun CommentListItem(
                 )
 
                 if (comment.isOwnComment) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_delete_24),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.clickable { onDeleteClick() }
-                    )
+                    if (comment.isDeletingComment) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_delete_24),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.clickable { onDeleteClick() }
+                        )
+                    }
                 }
 
             }

@@ -29,14 +29,14 @@ val appModule = module {
 
     viewModelOf(::MainViewModel)
 
-    viewModel { (postId: String, userId: String) ->
+    viewModel { (postId: String) ->
         PostDetailViewModel(
             postId = postId,
-            userId = userId,
             getPostCommentsUseCase = get(),
             getPostUseCase = get(),
             likeOrUnlikeUseCase = get(),
-            addCommentUseCase = get()
+            addCommentUseCase = get(),
+            deleteCommentUseCase = get(),
         )
     }
 

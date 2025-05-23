@@ -4,7 +4,7 @@ sealed interface PostDetailAction {
 
     data object LoadMoreComments : PostDetailAction
 
-    data object DeleteComment : PostDetailAction
+    data class DeleteComment(val commentId: String) : PostDetailAction
 
     data object OnLikeClick : PostDetailAction
 

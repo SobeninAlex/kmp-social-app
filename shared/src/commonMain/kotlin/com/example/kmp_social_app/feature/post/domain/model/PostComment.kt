@@ -8,7 +8,8 @@ data class PostComment(
     val userName: String,
     val avatar: String?,
     val createdAt: String,
-    val isOwnComment: Boolean = false
+    val isOwnComment: Boolean = false,
+    val isDeletingComment: Boolean = false,
 ) {
 
     companion object {

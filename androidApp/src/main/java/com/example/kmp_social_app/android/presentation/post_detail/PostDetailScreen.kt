@@ -32,11 +32,10 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun PostDetailScreen(
     postId: String,
-    userId: String
 ) {
     val viewModel = koinViewModel<PostDetailViewModel>(
         parameters = {
-            parametersOf(postId, userId)
+            parametersOf(postId)
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -104,7 +103,9 @@ private fun PostDetailScreenContent(
                         onAddCommentClick = { action(PostDetailAction.OnAddCommentClick) },
                         comments = uiState.comments,
                         onProfileClick = {},
-                        onDeleteClick = {}
+                        onDeleteClick = {
+                            action(PostDetailAction.DeleteComment(it))
+                        }
                     )
                 }
 

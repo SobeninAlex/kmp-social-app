@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.io.IOException
 import org.koin.core.component.KoinComponent
@@ -38,6 +39,11 @@ open class BaseViewModel : ViewModel(), KoinComponent {
     protected val viewModelScope = CoroutineScope(
         Dispatchers.Main.immediate + SupervisorJob() + exceptionHandler
     )
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
+    }
 
     protected fun showSnackbar(
         message: String?,

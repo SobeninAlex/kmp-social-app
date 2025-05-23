@@ -8,6 +8,7 @@ import com.example.kmp_social_app.common.utils.Constants
 import com.example.kmp_social_app.feature.post.domain.model.Post
 import com.example.kmp_social_app.feature.post.domain.model.PostComment
 import com.example.kmp_social_app.feature.post.domain.usecase.AddCommentUseCase
+import com.example.kmp_social_app.feature.post.domain.usecase.DeleteCommentUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.GetPostCommentsUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.GetPostUseCase
 import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
@@ -19,11 +20,11 @@ import kotlinx.coroutines.launch
 
 class PostDetailViewModel(
     private val postId: String,
-    private val userId: String,
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
     private val getPostUseCase: GetPostUseCase,
     private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
-    private val addCommentUseCase: AddCommentUseCase
+    private val addCommentUseCase: AddCommentUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(PostDetailUiState())
@@ -37,13 +38,46 @@ class PostDetailViewModel(
 
     fun onAction(action: PostDetailAction) {
         when (action) {
-            is PostDetailAction.DeleteComment -> TODO()
+            is PostDetailAction.DeleteComment -> deleteComment(commentId = action.commentId)
             is PostDetailAction.LoadMoreComments -> loadMoreComments()
             is PostDetailAction.OnLikeClick -> likeOrUnlike()
             is PostDetailAction.OnAddCommentClick -> openBottomSheet(type = BottomSheetState.Type.AddComment)
             is PostDetailAction.CloseBottomSheet -> closeBottomSheet()
-            is PostDetailAction.OnSendCommentClick -> {
-                sendComment(comment = action.comment)
+            is PostDetailAction.OnSendCommentClick -> sendComment(comment = action.comment)
+        }
+    }
+
+    private fun deleteComment(commentId: String) {
+        viewModelScope.launch {
+            updateComment(commentId) {
+                it.copy(isDeletingComment = true)
+            }
+
+            runCatching {
+                delay(1500) //todo: test
+                deleteCommentUseCase(
+                    commentId = commentId,
+                    postId = postId
+                )
+            }.onSuccess {
+                _uiState.update { state ->
+                    updateComment(commentId) {
+                        it.copy(isDeletingComment = false)
+                    }
+
+                    state.copy(
+                        comments = _uiState.value.comments.minusElement(_uiState.value.comments.find { it.commentId == commentId }!!),
+                        post = _uiState.value.post?.copy(
+                            commentsCount = _uiState.value.post!!.commentsCount - 1
+                        )
+                    )
+                }
+                postUpdateEvent(_uiState.value.post!!)
+            }.onFailure { error ->
+                updateComment(commentId) {
+                    it.copy(isDeletingComment = false)
+                }
+                throw error
             }
         }
     }
@@ -53,6 +87,7 @@ class PostDetailViewModel(
             _uiState.update { state ->
                 state.copy(isAddingNewComment = true)
             }
+
             runCatching {
                 delay(1500) //todo: test
                 addCommentUseCase(
@@ -193,6 +228,18 @@ class PostDetailViewModel(
         _uiState.update { state ->
             state.copy(
                 post = update(post)
+            )
+        }
+    }
+
+    private fun updateComment(commentId: String, update: (PostComment) -> PostComment) {
+        _uiState.update { state ->
+            state.copy(
+                comments = state.comments.map {
+                    if (it.commentId == commentId) {
+                        update(it)
+                    } else it
+                }
             )
         }
     }

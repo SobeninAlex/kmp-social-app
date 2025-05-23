@@ -29,7 +29,7 @@ fun LazyListScope.postDetailCommentsBlock(
     onAddCommentClick: () -> Unit,
     comments: List<PostComment>,
     onProfileClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: (String) -> Unit
 ) {
     item {
         CommentsBlockHeader(
@@ -63,7 +63,7 @@ fun LazyListScope.postDetailCommentsBlock(
                 modifier = Modifier.animateItem(),
                 comment = item,
                 onProfileClick = onProfileClick,
-                onDeleteClick = onDeleteClick
+                onDeleteClick = { onDeleteClick(item.commentId) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
