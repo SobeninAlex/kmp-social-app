@@ -4,11 +4,14 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -63,6 +66,52 @@ fun FollowUserListItem(
     }
 }
 
+@Composable
+fun FollowUserListItemShimmer(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.secondary)
+            .shimmerLinearGradient()
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .shimmerLinearGradient()
+        )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(14.dp)
+                    .fillMaxWidth(0.3f)
+                    .clip(MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseSurface)
+                    .shimmerLinearGradient()
+            )
+
+            Box(
+                modifier = Modifier
+                    .height(14.dp)
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseSurface)
+                    .shimmerLinearGradient()
+            )
+        }
+    }
+}
+
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemPreview() {
@@ -78,6 +127,18 @@ private fun FollowUserListItemPreview() {
     }
 }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun FollowUserListItemShimmerPreview() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            FollowUserListItemShimmer()
+        }
+    }
+}
+
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemPreviewDark() {
@@ -89,6 +150,18 @@ private fun FollowUserListItemPreviewDark() {
                 followUser = FollowUser.Preview,
                 onItemClick = {}
             )
+        }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun FollowUserListItemShimmerPreviewDark() {
+    KmpSocialAppTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            FollowUserListItemShimmer()
         }
     }
 }

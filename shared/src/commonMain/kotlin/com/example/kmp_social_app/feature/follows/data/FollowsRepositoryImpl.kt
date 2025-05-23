@@ -66,4 +66,50 @@ internal class FollowsRepositoryImpl(
             }
         }
     }
+
+    override suspend fun getFollowers(userId: String, page: Int, pageSize: Int): List<FollowUser> {
+        return withContext(dispatcher.io) {
+            try {
+                val userSettings = userPreferences.getUserSettings()
+
+                val response = followsApiService.getFollowers(
+                    token = userSettings.token,
+                    userId = userId,
+                    page = page,
+                    pageSize = pageSize
+                )
+
+                if (response.isSuccess) {
+                    response.follows.map { it.toFollowUser() }
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
+
+    override suspend fun getFollowing(userId: String, page: Int, pageSize: Int): List<FollowUser> {
+        return withContext(dispatcher.io) {
+            try {
+                val userSettings = userPreferences.getUserSettings()
+
+                val response = followsApiService.getFollowing(
+                    token = userSettings.token,
+                    userId = userId,
+                    page = page,
+                    pageSize = pageSize
+                )
+
+                if (response.isSuccess) {
+                    response.follows.map { it.toFollowUser() }
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
 }

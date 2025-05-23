@@ -55,7 +55,10 @@ val appModule = module {
     }
 
     viewModel { (args: FollowsArgs) ->
-        FollowsViewModel(args = args)
+        FollowsViewModel(
+            args = args,
+            getFollowsUseCase = get()
+        )
     }
 
     single<CoreProvider> {

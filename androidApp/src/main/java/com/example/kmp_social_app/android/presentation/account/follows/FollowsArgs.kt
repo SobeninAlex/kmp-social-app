@@ -1,6 +1,7 @@
 package com.example.kmp_social_app.android.presentation.account.follows
 
 import android.os.Parcelable
+import com.example.kmp_social_app.feature.follows.domain.model.FollowsType
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -10,8 +11,3 @@ data class FollowsArgs(
     val userId: String,
     val followsType: FollowsType,
 ): Parcelable
-
-enum class FollowsType(val value: String) {
-    FOLLOWERS("Followers"),
-    FOLLOWING("Following")
-}

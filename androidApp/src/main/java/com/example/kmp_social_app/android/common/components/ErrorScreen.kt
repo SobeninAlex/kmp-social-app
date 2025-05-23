@@ -1,5 +1,9 @@
 package com.example.kmp_social_app.android.common.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,35 +22,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.kmp_social_app.android.R
+import com.example.kmp_social_app.android.presentation.account.follows.FollowsAction
 
 @Composable
 fun ErrorScreen(
-    errorMessage: String,
+    modifier: Modifier = Modifier,
+    visibility: Boolean,
+    errorMessage: String?,
     onClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    AnimatedVisibility(
+        visible = visibility,
+        enter = fadeIn(tween(500)),
+        exit = fadeOut(tween(500))
     ) {
-        Text(
-            text = errorMessage.ifEmpty { stringResource(R.string.loading_error_message) },
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedButton(
-            onClick = onClick,
-            shape = MaterialTheme.shapes.small,
-            border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
-            modifier = Modifier.fillMaxWidth(fraction = 0.5f)
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.retry_button_text),
+                text = if (errorMessage.isNullOrEmpty()) stringResource(R.string.loading_error_message) else errorMessage,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedButton(
+                onClick = onClick,
+                shape = MaterialTheme.shapes.small,
+                border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
+                modifier = Modifier.fillMaxWidth(fraction = 0.5f)
+            ) {
+                Text(
+                    text = stringResource(R.string.retry_button_text),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
         }
     }
 }

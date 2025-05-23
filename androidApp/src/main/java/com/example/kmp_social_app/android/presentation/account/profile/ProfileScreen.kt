@@ -32,9 +32,9 @@ import com.example.kmp_social_app.android.common.theme.KmpSocialAppTheme
 import com.example.kmp_social_app.android.presentation.account.edit.EditProfileArgs
 import com.example.kmp_social_app.android.presentation.account.edit.toProfileArgs
 import com.example.kmp_social_app.android.presentation.account.follows.FollowsArgs
-import com.example.kmp_social_app.android.presentation.account.follows.FollowsType
 import com.example.kmp_social_app.android.presentation.account.profile.components.profileHeaderBlock
 import com.example.kmp_social_app.android.presentation.account.profile.components.profilePostsBlock
+import com.example.kmp_social_app.feature.follows.domain.model.FollowsType
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
