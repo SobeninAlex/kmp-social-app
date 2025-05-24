@@ -1,7 +1,7 @@
 package ru.sobeninalex.account.presentation.profile
 
-import com.example.kmp_social_app.feature.account.domain.model.Profile
-import com.example.kmp_social_app.feature.post.domain.model.Post
+import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.domain.features.post.model.Post
 
 sealed interface ProfileAction {
 

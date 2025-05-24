@@ -31,11 +31,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kmp_social_app.android.R
-import ru.sobeninalex.utils.compose.CircleImage
-import ru.sobeninalex.utils.compose.FollowButton
-import ru.sobeninalex.resources.KmpSocialAppTheme
-import com.example.kmp_social_app.feature.account.domain.model.Profile
+import ru.sobeninalex.common.compose.CircleImage
+import ru.sobeninalex.common.compose.FollowButton
+import ru.sobeninalex.resources.R
+import ru.sobeninalex.domain.features.account.model.Profile
 
 fun LazyListScope.profileHeaderBlock(
     modifier: Modifier = Modifier,
@@ -79,7 +78,7 @@ fun ProfileHeaderBlock(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ru.sobeninalex.utils.compose.CircleImage(
+            CircleImage(
                 imageUrl = profile.avatar,
                 modifier = Modifier.size(100.dp)
             )
@@ -150,7 +149,7 @@ fun ProfileHeaderBlock(
             )
 
             if (!profile.isOwnProfile) {
-                ru.sobeninalex.utils.compose.FollowButton(
+                FollowButton(
                     modifier = modifier.height(38.dp).width(110.dp),
                     followingOperation = followingOperation,
                     onClick = onFollowClick,

@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.serialization)
     alias(libs.plugins.parcelize)
 }
@@ -43,16 +43,14 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.core.utils)
     implementation(projects.core.resources)
+    implementation(projects.core.common)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
-    debugImplementation(libs.compose.ui.tooling)
-
-    implementation(libs.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

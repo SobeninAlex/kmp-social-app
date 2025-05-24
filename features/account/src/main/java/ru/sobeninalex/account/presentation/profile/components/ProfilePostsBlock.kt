@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.sobeninalex.utils.compose.PostListItem
-import ru.sobeninalex.utils.compose.SubmitButton
-import com.example.kmp_social_app.feature.post.domain.model.Post
+import ru.sobeninalex.common.compose.PostListItem
+import ru.sobeninalex.common.compose.SubmitButton
+import ru.sobeninalex.domain.features.post.model.Post
 
 fun LazyListScope.profilePostsBlock(
     isLoading: Boolean,
@@ -43,7 +43,7 @@ fun LazyListScope.profilePostsBlock(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                ru.sobeninalex.utils.compose.SubmitButton(
+                SubmitButton(
                     onClick = { /*create post*/ }
                 ) {
                     Text(
@@ -58,7 +58,7 @@ fun LazyListScope.profilePostsBlock(
             items = posts,
             key = { it.postId }
         ) { post ->
-            ru.sobeninalex.utils.compose.PostListItem(
+            PostListItem(
                 modifier = Modifier.animateItem(),
                 post = post,
                 onPostClick = { onPostClick(post) },

@@ -1,7 +1,7 @@
 package ru.sobeninalex.account.presentation.follows
 
-import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
-import com.example.kmp_social_app.feature.follows.domain.model.FollowsType
+import ru.sobeninalex.domain.features.follows.model.FollowUser
+import ru.sobeninalex.domain.features.follows.model.FollowsType
 
 data class FollowsUiState(
     val isLoading: Boolean = false,

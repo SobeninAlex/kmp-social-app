@@ -21,11 +21,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.sobeninalex.resources.R
 import org.koin.androidx.compose.koinViewModel
-import ru.sobeninalex.utils.navigation.AuthGraph
-import ru.sobeninalex.utils.navigation.LocalNavController
-import ru.sobeninalex.utils.navigation.MainGraph
+import ru.sobeninalex.common.compose.CustomTetField
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.LoadingDialog
+import ru.sobeninalex.common.compose.SubmitButton
+import ru.sobeninalex.common.navigation.AuthGraph
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
+import ru.sobeninalex.resources.R
 
 @Composable
 fun SignUpScreen() {
@@ -61,7 +65,7 @@ private fun SignUpScreenContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            ru.sobeninalex.utils.compose.CustomTopBar(
+            CustomTopBar(
                 title = stringResource(R.string.signup_destination_title)
             )
         }
@@ -75,7 +79,7 @@ private fun SignUpScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            ru.sobeninalex.utils.compose.CustomTetField(
+            CustomTetField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.username,
                 onValueChange = { action(SignUpAction.InputUsername(it)) },
@@ -84,7 +88,7 @@ private fun SignUpScreenContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ru.sobeninalex.utils.compose.CustomTetField(
+            CustomTetField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.email,
                 onValueChange = { action(SignUpAction.InputEmail(it)) },
@@ -94,7 +98,7 @@ private fun SignUpScreenContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ru.sobeninalex.utils.compose.CustomTetField(
+            CustomTetField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.password,
                 onValueChange = { action(SignUpAction.InputPassword(it)) },
@@ -105,7 +109,7 @@ private fun SignUpScreenContent(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            ru.sobeninalex.utils.compose.SubmitButton(
+            SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { action(SignUpAction.OnSignUpClick) },
                 enabled = !uiState.isLoading
@@ -116,7 +120,7 @@ private fun SignUpScreenContent(
     }
 
     if (uiState.isLoading) {
-        ru.sobeninalex.utils.compose.LoadingDialog()
+        LoadingDialog()
     }
 }
 

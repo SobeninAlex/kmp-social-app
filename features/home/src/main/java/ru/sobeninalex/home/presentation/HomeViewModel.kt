@@ -13,12 +13,12 @@ import ru.sobeninalex.domain.features.follows.usecase.GetFollowingSuggestionsUse
 import ru.sobeninalex.domain.features.post.model.Post
 import ru.sobeninalex.domain.features.post.usecase.GetFeedPostsUseCase
 import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
-import ru.sobeninalex.utils.event.FollowStateChangeEvent
-import ru.sobeninalex.utils.event.UpdatedEntityEvent
+import ru.sobeninalex.common.event.FollowStateChangeEvent
+import ru.sobeninalex.common.event.PostUpdateEvent
 import ru.sobeninalex.utils.helpers.Constants
-import ru.sobeninalex.utils.presentation.BaseViewModel
-import ru.sobeninalex.utils.presentation.DefaultPagingManager
-import ru.sobeninalex.utils.presentation.PagingManager
+import ru.sobeninalex.common.presentation.BaseViewModel
+import ru.sobeninalex.common.presentation.DefaultPagingManager
+import ru.sobeninalex.common.presentation.PagingManager
 
 class HomeViewModel(
     private val getFollowingSuggestionsUseCase: GetFollowingSuggestionsUseCase,
@@ -35,7 +35,7 @@ class HomeViewModel(
     init {
         loadContent()
 
-        UpdatedEntityEvent<Post>().event.onEach { post ->
+        PostUpdateEvent.event.onEach { post ->
             updatePost(post.postId) { post }
         }.launchIn(viewModelScope)
 

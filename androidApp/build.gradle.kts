@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.serialization)
     alias(libs.plugins.parcelize)
 }
@@ -40,22 +39,28 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.utils)
+    implementation(projects.core.resources)
+    implementation(projects.core.common)
     implementation(projects.domain)
     implementation(projects.data)
     implementation(projects.features.authorization)
     implementation(projects.features.home)
-    implementation(projects.core.utils)
-    implementation(projects.core.resources)
+    implementation(projects.features.account)
+    implementation(projects.features.postDetail)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
 
-    implementation(libs.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.core.splashscreen)
 

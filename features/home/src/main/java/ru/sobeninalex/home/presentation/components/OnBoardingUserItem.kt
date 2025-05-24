@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.sobeninalex.common.compose.CircleImage
+import ru.sobeninalex.common.compose.FollowButton
 import ru.sobeninalex.resources.R
 import ru.sobeninalex.domain.features.follows.model.FollowUser
 
@@ -49,7 +51,7 @@ fun OnBoardingUserCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ru.sobeninalex.utils.compose.CircleImage(
+            CircleImage(
                 modifier = Modifier.size(50.dp),
                 imageUrl = followUser.avatar
             )
@@ -66,7 +68,7 @@ fun OnBoardingUserCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            ru.sobeninalex.utils.compose.FollowButton(
+            FollowButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(30.dp),

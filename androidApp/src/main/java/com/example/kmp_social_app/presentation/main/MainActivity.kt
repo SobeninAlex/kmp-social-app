@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            ru.sobeninalex.resources.KmpSocialAppTheme {
+            KmpSocialAppTheme {
                 when (val state = uiState) {
                     is MainUiState.Loading -> Unit
                     is MainUiState.Success -> {

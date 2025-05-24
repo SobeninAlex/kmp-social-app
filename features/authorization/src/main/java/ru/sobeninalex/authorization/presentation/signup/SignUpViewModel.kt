@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.sobeninalex.domain.features.authorization.usecase.SignUpUseCase
-import ru.sobeninalex.utils.presentation.BaseViewModel
+import ru.sobeninalex.common.presentation.BaseViewModel
 
 class SignUpViewModel(
     private val signUpUseCase: SignUpUseCase,

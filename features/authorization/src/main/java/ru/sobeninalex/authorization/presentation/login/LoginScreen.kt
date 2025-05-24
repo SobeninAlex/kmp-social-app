@@ -23,10 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
+import ru.sobeninalex.common.compose.CustomTetField
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.LoadingDialog
+import ru.sobeninalex.common.compose.SubmitButton
+import ru.sobeninalex.common.navigation.AuthGraph
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.utils.navigation.AuthGraph
-import ru.sobeninalex.utils.navigation.LocalNavController
-import ru.sobeninalex.utils.navigation.MainGraph
 
 @Composable
 fun LoginScreen() {
@@ -61,7 +65,7 @@ private fun LoginScreenContent(
 
     Scaffold(
         topBar = {
-            ru.sobeninalex.utils.compose.CustomTopBar(
+            CustomTopBar(
                 title = stringResource(R.string.login_destination_title)
             )
         }
@@ -75,7 +79,7 @@ private fun LoginScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            ru.sobeninalex.utils.compose.CustomTetField(
+            CustomTetField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.email,
                 onValueChange = { action(LoginAction.InputEmail(it)) },
@@ -85,7 +89,7 @@ private fun LoginScreenContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ru.sobeninalex.utils.compose.CustomTetField(
+            CustomTetField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.password,
                 onValueChange = { action(LoginAction.InputPassword(it)) },
@@ -96,7 +100,7 @@ private fun LoginScreenContent(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            ru.sobeninalex.utils.compose.SubmitButton(
+            SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { action(LoginAction.OnLoginClick) },
                 enabled = !uiState.isLoading
@@ -116,7 +120,7 @@ private fun LoginScreenContent(
     }
 
     if (uiState.isLoading) {
-        ru.sobeninalex.utils.compose.LoadingDialog()
+        LoadingDialog()
     }
 }
 

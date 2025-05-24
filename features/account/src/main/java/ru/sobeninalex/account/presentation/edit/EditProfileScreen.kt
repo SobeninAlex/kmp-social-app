@@ -29,17 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import ru.sobeninalex.common.compose.CircleImage
+import ru.sobeninalex.common.compose.CustomTetField
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.LoadingDialog
+import ru.sobeninalex.common.compose.SubmitButton
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.utils.compose.CircleImage
-import ru.sobeninalex.utils.compose.CustomTetField
-import ru.sobeninalex.utils.compose.CustomTopBar
-import ru.sobeninalex.utils.compose.LoadingDialog
-import ru.sobeninalex.utils.compose.SubmitButton
-import ru.sobeninalex.utils.navigation.LocalNavController
 
 @Composable
 fun EditProfileScreen(
-    args: ru.sobeninalex.utils.navigation.args.EditProfileArgs
+    args: EditProfileArgs
 ) {
     val viewModel = koinViewModel<EditProfileViewModel>(
         parameters = {

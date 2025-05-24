@@ -1,8 +1,8 @@
 package ru.sobeninalex.account.presentation.profile
 
 import androidx.compose.runtime.Immutable
-import com.example.kmp_social_app.feature.post.domain.model.Post
-import com.example.kmp_social_app.feature.account.domain.model.Profile
+import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.domain.features.post.model.Post
 
 @Immutable
 data class ProfileUiState(

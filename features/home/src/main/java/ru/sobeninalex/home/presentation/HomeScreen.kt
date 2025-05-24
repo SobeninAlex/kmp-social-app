@@ -21,11 +21,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.kmp_social_app.navigation.LocalNavController
-import com.example.kmp_social_app.navigation.MainGraph
-import ru.sobeninalex.home.presentation.components.OnBoardingBlock
 import org.koin.androidx.compose.koinViewModel
-import ru.sobeninalex.home.R
+import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.PostListItem
+import ru.sobeninalex.common.compose.PostListItemShimmer
+import ru.sobeninalex.common.compose.PullRefreshLayout
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
+import ru.sobeninalex.home.presentation.components.OnBoardingBlock
+import ru.sobeninalex.resources.R
 
 @Composable
 fun HomeScreen() {
@@ -61,7 +66,7 @@ private fun HomeScreenContent(
 
     Scaffold(
         topBar = {
-            ru.sobeninalex.utils.compose.CustomTopBar(
+            CustomTopBar(
                 title = "Welcome",
                 actions = {
                     IconButton(
@@ -76,7 +81,7 @@ private fun HomeScreenContent(
             )
         },
     ) { scaffoldPadding ->
-        ru.sobeninalex.utils.compose.PullRefreshLayout(
+        PullRefreshLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(scaffoldPadding),
@@ -112,7 +117,7 @@ private fun HomeScreenContent(
                     items = uiState.posts,
                     key = { it.postId },
                 ) { post ->
-                    ru.sobeninalex.utils.compose.PostListItem(
+                    PostListItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem(),
@@ -135,7 +140,7 @@ private fun HomeScreenContent(
 
                 if (uiState.isLoading && !uiState.endReached) {
                     item {
-                        ru.sobeninalex.utils.compose.PostListItemShimmer(
+                        PostListItemShimmer(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .animateItem()
@@ -144,7 +149,7 @@ private fun HomeScreenContent(
                 }
             }
 
-            ru.sobeninalex.utils.compose.CustomRotatingDotsLoader(
+            CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )

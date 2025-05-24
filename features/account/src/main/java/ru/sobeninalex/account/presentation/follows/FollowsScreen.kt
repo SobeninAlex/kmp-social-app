@@ -18,20 +18,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.sobeninalex.utils.compose.CustomRotatingDotsLoader
-import ru.sobeninalex.utils.compose.CustomTopBar
-import ru.sobeninalex.utils.compose.EmptyScreen
-import ru.sobeninalex.utils.compose.ErrorScreen
-import ru.sobeninalex.utils.compose.FollowUserListItem
-import ru.sobeninalex.utils.compose.FollowUserListItemShimmer
-import com.example.kmp_social_app.navigation.LocalNavController
-import com.example.kmp_social_app.navigation.MainGraph
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.EmptyScreen
+import ru.sobeninalex.common.compose.ErrorScreen
+import ru.sobeninalex.common.compose.FollowUserListItemShimmer
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
+import ru.sobeninalex.common.navigation.args.FollowsArgs
+import ru.sobeninalex.common.compose.FollowUserListItem as FollowUserListItem1
 
 @Composable
 fun FollowsScreen(
-    args: ru.sobeninalex.utils.navigation.args.FollowsArgs
+    args: FollowsArgs
 ) {
     val viewModel = koinViewModel<FollowsViewModel>(
         parameters = {
@@ -67,7 +68,7 @@ private fun FollowsScreenContent(
 
     Scaffold(
         topBar = {
-            ru.sobeninalex.utils.compose.CustomTopBar(
+            CustomTopBar(
                 title = uiState.followsType.value,
                 onBackClick = { navController.popBackStack() }
             )
@@ -78,13 +79,13 @@ private fun FollowsScreenContent(
                 .fillMaxSize()
                 .padding(scaffoldPadding)
         ) {
-            ru.sobeninalex.utils.compose.EmptyScreen(
+            EmptyScreen(
                 modifier = Modifier.fillMaxSize(),
                 visibility = !uiState.isLoading && uiState.followUsers.isEmpty(),
                 title = "Not find Users"
             )
 
-            ru.sobeninalex.utils.compose.ErrorScreen(
+            ErrorScreen(
                 modifier = Modifier.fillMaxSize(),
                 visibility = uiState.errorMessage != null,
                 errorMessage = uiState.errorMessage,
@@ -101,7 +102,7 @@ private fun FollowsScreenContent(
                     items = uiState.followUsers,
                     key = { it.id }
                 ) { followUser ->
-                    ru.sobeninalex.utils.compose.FollowUserListItem(
+                    FollowUserListItem1(
                         modifier = Modifier.animateItem(),
                         followUser = followUser,
                         onItemClick = {
@@ -112,14 +113,14 @@ private fun FollowsScreenContent(
 
                 if (uiState.isLoading && !uiState.endReached) {
                     item {
-                        ru.sobeninalex.utils.compose.FollowUserListItemShimmer(
+                        FollowUserListItemShimmer(
                             modifier = Modifier.animateItem()
                         )
                     }
                 }
             }
 
-            ru.sobeninalex.utils.compose.CustomRotatingDotsLoader(
+            CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )

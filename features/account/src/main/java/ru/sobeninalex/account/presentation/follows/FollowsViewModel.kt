@@ -1,21 +1,22 @@
 package ru.sobeninalex.account.presentation.follows
 
-import ru.sobeninalex.utils.presentation.BaseViewModel
-import ru.sobeninalex.utils.presentation.DefaultPagingManager
-import ru.sobeninalex.utils.presentation.PagingManager
-import com.example.kmp_social_app.common.utils.Constants
-import com.example.kmp_social_app.feature.follows.domain.model.FollowUser
-import com.example.kmp_social_app.feature.follows.domain.usecase.GetFollowsUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.common.navigation.args.FollowsArgs
+import ru.sobeninalex.common.presentation.BaseViewModel
+import ru.sobeninalex.common.presentation.DefaultPagingManager
+import ru.sobeninalex.common.presentation.PagingManager
+import ru.sobeninalex.domain.features.follows.model.FollowUser
+import ru.sobeninalex.domain.features.follows.usecase.GetFollowsUseCase
+import ru.sobeninalex.utils.helpers.Constants
 
 class FollowsViewModel(
-    private val args: ru.sobeninalex.utils.navigation.args.FollowsArgs,
+    private val args: FollowsArgs,
     private val getFollowsUseCase: GetFollowsUseCase
-) : ru.sobeninalex.utils.presentation.BaseViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(FollowsUiState())
     val uiState = _uiState.asStateFlow()
@@ -45,8 +46,8 @@ class FollowsViewModel(
         }
     }
 
-    private fun createFollowsPagingManager(): ru.sobeninalex.utils.presentation.PagingManager<FollowUser> {
-        return ru.sobeninalex.utils.presentation.DefaultPagingManager(
+    private fun createFollowsPagingManager(): PagingManager<FollowUser> {
+        return DefaultPagingManager(
             onRequest = { page ->
                 delay(1500) //todo: test
                 getFollowsUseCase(

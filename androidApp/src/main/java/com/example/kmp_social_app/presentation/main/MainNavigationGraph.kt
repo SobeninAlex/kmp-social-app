@@ -22,21 +22,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.kmp_social_app.navigation.AuthGraph
-import com.example.kmp_social_app.navigation.LocalNavController
-import com.example.kmp_social_app.navigation.MainGraph
-import com.example.kmp_social_app.navigation.asType
-import ru.sobeninalex.account.presentation.edit.EditProfileScreen
-import ru.sobeninalex.account.presentation.follows.FollowsScreen
-import ru.sobeninalex.account.presentation.profile.ProfileScreen
+import kotlinx.coroutines.launch
 import ru.sobeninalex.authorization.presentation.login.LoginScreen
 import ru.sobeninalex.authorization.presentation.signup.SignUpScreen
+import ru.sobeninalex.common.event.SnackbarEvent
+import ru.sobeninalex.common.event.UnauthorizedEvent
+import ru.sobeninalex.common.navigation.AuthGraph
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
+import ru.sobeninalex.common.navigation.args.EditProfileArgs
+import ru.sobeninalex.common.navigation.args.FollowsArgs
+import ru.sobeninalex.common.navigation.asType
+import ru.sobeninalex.common.presentation.ObserveAsEvent
 import ru.sobeninalex.home.presentation.HomeScreen
-import com.example.kmp_social_app.presentation.post_detail.PostDetailScreen
-import com.example.kmp_social_app.common.utils.event.ObserveAsEvent
-import ru.sobeninalex.utils.event.SnackbarEvent
-import ru.sobeninalex.utils.event.UnauthorizedEvent
-import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -148,7 +146,7 @@ fun MainNavigationGraph(
 
                     composable<MainGraph.PostDetailRoute> {
                         val args = it.toRoute<MainGraph.PostDetailRoute>()
-                        PostDetailScreen(postId = args.postId)
+                        ru.sobeninalex.post_detail.presentation.PostDetailScreen(postId = args.postId)
                     }
 
                     composable<MainGraph.ProfileRoute> {
@@ -157,14 +155,14 @@ fun MainNavigationGraph(
                     }
 
                     composable<MainGraph.EditProfileRoute>(
-                        typeMap = mapOf(typeOf<ru.sobeninalex.utils.navigation.args.EditProfileArgs>() to NavType.asType<ru.sobeninalex.utils.navigation.args.EditProfileArgs>())
+                        typeMap = mapOf(typeOf<EditProfileArgs>() to NavType.asType<EditProfileArgs>())
                     ) {
                         val route = it.toRoute<MainGraph.EditProfileRoute>()
                         ru.sobeninalex.account.presentation.edit.EditProfileScreen(route.args)
                     }
 
                     composable<MainGraph.FollowsRoute>(
-                        typeMap = mapOf(typeOf<ru.sobeninalex.utils.navigation.args.FollowsArgs>() to NavType.asType<ru.sobeninalex.utils.navigation.args.FollowsArgs>())
+                        typeMap = mapOf(typeOf<FollowsArgs>() to NavType.asType<FollowsArgs>())
                     ) {
                         val route = it.toRoute<MainGraph.FollowsRoute>()
                         ru.sobeninalex.account.presentation.follows.FollowsScreen(route.args)

@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.common.navigation.args.EditProfileArgs
+import ru.sobeninalex.common.navigation.args.toProfile
+import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.domain.features.account.model.Profile
-import ru.sobeninalex.utils.navigation.args.EditProfileArgs
-import ru.sobeninalex.utils.navigation.args.toProfile
-import ru.sobeninalex.utils.presentation.BaseViewModel
 
 class EditProfileViewModel(
     private val args: EditProfileArgs

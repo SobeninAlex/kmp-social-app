@@ -1,6 +1,6 @@
 package com.example.kmp_social_app.presentation.main
 
-import com.example.kmp_social_app.common.data.local.UserSettings
+import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 
 sealed interface MainUiState {
 

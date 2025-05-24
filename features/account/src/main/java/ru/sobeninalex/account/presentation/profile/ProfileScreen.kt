@@ -22,21 +22,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.kmp_social_app.android.R
-import ru.sobeninalex.utils.compose.CustomRotatingDotsLoader
-import ru.sobeninalex.utils.compose.CustomTopBar
-import ru.sobeninalex.utils.compose.PostListItemShimmer
-import com.example.kmp_social_app.navigation.LocalNavController
-import com.example.kmp_social_app.navigation.MainGraph
-import ru.sobeninalex.resources.KmpSocialAppTheme
-import ru.sobeninalex.utils.navigation.args.EditProfileArgs
-import ru.sobeninalex.utils.navigation.args.toProfileArgs
-import ru.sobeninalex.utils.navigation.args.FollowsArgs
-import ru.sobeninalex.account.presentation.profile.components.profileHeaderBlock
-import ru.sobeninalex.account.presentation.profile.components.profilePostsBlock
-import com.example.kmp_social_app.feature.follows.domain.model.FollowsType
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import ru.sobeninalex.account.presentation.profile.components.profileHeaderBlock
+import ru.sobeninalex.account.presentation.profile.components.profilePostsBlock
+import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
+import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.PostListItemShimmer
+import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.common.navigation.MainGraph
+import ru.sobeninalex.common.navigation.args.EditProfileArgs
+import ru.sobeninalex.common.navigation.args.FollowsArgs
+import ru.sobeninalex.common.navigation.args.toProfileArgs
+import ru.sobeninalex.domain.features.follows.model.FollowsType
+import ru.sobeninalex.resources.R
 
 @Composable
 fun ProfileScreen(
@@ -78,7 +77,7 @@ private fun ProfileScreenContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            ru.sobeninalex.utils.compose.CustomTopBar(
+            CustomTopBar(
                 title = stringResource(R.string.profile_destination_title),
                 onBackClick = { navController.popBackStack() }
             )
@@ -105,7 +104,7 @@ private fun ProfileScreenContent(
                         onFollowersClick = {
                             navController.navigate(
                                 MainGraph.FollowsRoute(
-                                    args = ru.sobeninalex.utils.navigation.args.FollowsArgs(
+                                    args = FollowsArgs(
                                         userId = profile.id,
                                         followsType = FollowsType.FOLLOWERS
                                     )
@@ -115,7 +114,7 @@ private fun ProfileScreenContent(
                         onFollowingClick = {
                             navController.navigate(
                                 MainGraph.FollowsRoute(
-                                    args = ru.sobeninalex.utils.navigation.args.FollowsArgs(
+                                    args = FollowsArgs(
                                         userId = profile.id,
                                         followsType = FollowsType.FOLLOWING
                                     )
@@ -125,7 +124,7 @@ private fun ProfileScreenContent(
                         onEditProfileClick = {
                             navController.navigate(
                                 MainGraph.EditProfileRoute(
-                                    ru.sobeninalex.utils.navigation.args.EditProfileArgs(profileArgs = profile.toProfileArgs())
+                                    EditProfileArgs(profileArgs = profile.toProfileArgs())
                                 )
                             )
                         },
@@ -147,7 +146,7 @@ private fun ProfileScreenContent(
 
                 if (uiState.isLoading && !uiState.endReached) {
                     item {
-                        ru.sobeninalex.utils.compose.PostListItemShimmer(
+                        PostListItemShimmer(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .animateItem()
@@ -156,7 +155,7 @@ private fun ProfileScreenContent(
                 }
             }
 
-            ru.sobeninalex.utils.compose.CustomRotatingDotsLoader(
+            CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )

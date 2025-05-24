@@ -1,14 +1,5 @@
 package ru.sobeninalex.account.presentation.profile
 
-import ru.sobeninalex.utils.event.FollowStateChangeEvent
-import ru.sobeninalex.utils.event.UpdatedEntityEvent
-import com.example.kmp_social_app.common.utils.Constants
-import com.example.kmp_social_app.feature.post.domain.model.Post
-import com.example.kmp_social_app.feature.account.domain.model.Profile
-import com.example.kmp_social_app.feature.account.domain.usecase.GetProfileUseCase
-import com.example.kmp_social_app.feature.follows.domain.usecase.FollowOrUnfollowUseCase
-import com.example.kmp_social_app.feature.post.domain.usecase.GetPostsByUserIdUseCase
-import com.example.kmp_social_app.feature.post.domain.usecase.LikeOrUnlikeUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +8,18 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.domain.features.account.usecase.GetProfileUseCase
+import ru.sobeninalex.domain.features.follows.usecase.FollowOrUnfollowUseCase
+import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.domain.features.post.usecase.GetPostsByUserIdUseCase
+import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
+import ru.sobeninalex.common.event.FollowStateChangeEvent
+import ru.sobeninalex.common.event.PostUpdateEvent
+import ru.sobeninalex.utils.helpers.Constants
+import ru.sobeninalex.common.presentation.BaseViewModel
+import ru.sobeninalex.common.presentation.DefaultPagingManager
+import ru.sobeninalex.common.presentation.PagingManager
 
 class ProfileViewModel(
     private val userId: String,
@@ -24,7 +27,7 @@ class ProfileViewModel(
     private val getPostsByUserIdUseCase: GetPostsByUserIdUseCase,
     private val followOrUnfollowUseCase: FollowOrUnfollowUseCase,
     private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
-) : ru.sobeninalex.utils.presentation.BaseViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState = _uiState.asStateFlow()
@@ -113,8 +116,8 @@ class ProfileViewModel(
         }
     }
 
-    private fun createPostsPagingManager(): ru.sobeninalex.utils.presentation.PagingManager<Post> {
-        return ru.sobeninalex.utils.presentation.DefaultPagingManager(
+    private fun createPostsPagingManager(): PagingManager<Post> {
+        return DefaultPagingManager(
             onRequest = { page ->
                 delay(1500) //todo: test
                 getPostsByUserIdUseCase(
@@ -162,7 +165,7 @@ class ProfileViewModel(
 
     private fun postUpdateEvent(post: Post) {
         viewModelScope.launch {
-            UpdatedEntityEvent.sendEvent(post)
+            PostUpdateEvent.sendEvent(post)
         }
     }
 }

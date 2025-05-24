@@ -3,7 +3,7 @@ package ru.sobeninalex.domain.features.follows.usecase
 import org.koin.core.component.KoinComponent
 import ru.sobeninalex.domain.features.follows.FollowsRepository
 import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.utils.navigation.args.FollowsType
+import ru.sobeninalex.domain.features.follows.model.FollowsType
 
 class GetFollowsUseCase(
     private val repository: FollowsRepository

@@ -1,7 +1,6 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.serialization)
     alias(libs.plugins.parcelize)
 }
@@ -42,21 +41,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.foundation)
-    implementation(libs.androidx.activity.compose)
-    debugImplementation(libs.compose.ui.tooling)
-
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
-
-    implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.datastore.preferences.core)
-    implementation(libs.datastore.preferences)
+    api(libs.datastore.preferences.core)
+    api(libs.datastore.preferences)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)
