@@ -7,5 +7,5 @@ internal interface AccountRepository {
 
     fun getProfileById(profileId: String): Flow<Profile>
 
-    suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile
+    suspend fun updateProfile(name: String, bio: String, imageBytes: ByteArray?): Profile
 }
