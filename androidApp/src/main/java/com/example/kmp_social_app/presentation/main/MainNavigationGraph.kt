@@ -23,6 +23,9 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.coroutines.launch
+import ru.sobeninalex.account.presentation.edit.EditProfileScreen
+import ru.sobeninalex.account.presentation.follows.FollowsScreen
+import ru.sobeninalex.account.presentation.profile.ProfileScreen
 import ru.sobeninalex.authorization.presentation.login.LoginScreen
 import ru.sobeninalex.authorization.presentation.signup.SignUpScreen
 import ru.sobeninalex.common.event.SnackbarEvent
@@ -35,6 +38,7 @@ import ru.sobeninalex.common.navigation.args.FollowsArgs
 import ru.sobeninalex.common.navigation.asType
 import ru.sobeninalex.common.presentation.ObserveAsEvent
 import ru.sobeninalex.home.presentation.HomeScreen
+import ru.sobeninalex.post_detail.presentation.PostDetailScreen
 import kotlin.reflect.typeOf
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -146,26 +150,26 @@ fun MainNavigationGraph(
 
                     composable<MainGraph.PostDetailRoute> {
                         val args = it.toRoute<MainGraph.PostDetailRoute>()
-                        ru.sobeninalex.post_detail.presentation.PostDetailScreen(postId = args.postId)
+                        PostDetailScreen(postId = args.postId)
                     }
 
                     composable<MainGraph.ProfileRoute> {
                         val args = it.toRoute<MainGraph.ProfileRoute>()
-                        ru.sobeninalex.account.presentation.profile.ProfileScreen(userId = args.userId)
+                        ProfileScreen(userId = args.userId)
                     }
 
                     composable<MainGraph.EditProfileRoute>(
                         typeMap = mapOf(typeOf<EditProfileArgs>() to NavType.asType<EditProfileArgs>())
                     ) {
                         val route = it.toRoute<MainGraph.EditProfileRoute>()
-                        ru.sobeninalex.account.presentation.edit.EditProfileScreen(route.args)
+                        EditProfileScreen(route.args)
                     }
 
                     composable<MainGraph.FollowsRoute>(
                         typeMap = mapOf(typeOf<FollowsArgs>() to NavType.asType<FollowsArgs>())
                     ) {
                         val route = it.toRoute<MainGraph.FollowsRoute>()
-                        ru.sobeninalex.account.presentation.follows.FollowsScreen(route.args)
+                        FollowsScreen(route.args)
                     }
                 }
             }

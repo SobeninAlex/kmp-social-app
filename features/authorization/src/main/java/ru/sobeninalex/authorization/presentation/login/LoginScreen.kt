@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import ru.sobeninalex.common.compose.CustomTetField
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.LoadingDialog

@@ -16,7 +16,7 @@ import ru.sobeninalex.data.remote.features.post.dto.PostLikeRequestDTO
 import ru.sobeninalex.data.remote.features.post.dto.PostResponseDTO
 import ru.sobeninalex.data.remote.features.post.dto.PostsResponseDTO
 
-internal class PostApiService : KtorApiService() {
+class PostApiService : KtorApiService() {
 
     suspend fun likePost(token: String, request: PostLikeRequestDTO): SimpleResponseDTO {
         return client.post {

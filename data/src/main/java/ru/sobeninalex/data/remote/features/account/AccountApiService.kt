@@ -14,7 +14,7 @@ import ru.sobeninalex.data.remote.KtorApiService
 import ru.sobeninalex.data.remote.QueryParams
 import ru.sobeninalex.data.remote.features.account.dto.ProfileInfoResponseDTO
 
-internal class AccountApiService : KtorApiService() {
+class AccountApiService : KtorApiService() {
 
     suspend fun getProfileById(
         token: String,

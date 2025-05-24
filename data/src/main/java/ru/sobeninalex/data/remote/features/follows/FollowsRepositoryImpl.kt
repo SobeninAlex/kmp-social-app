@@ -8,7 +8,7 @@ import ru.sobeninalex.domain.features.follows.FollowsRepository
 import ru.sobeninalex.domain.features.follows.model.FollowUser
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 
-internal class FollowsRepositoryImpl(
+class FollowsRepositoryImpl(
     private val userPreferences: UserPreferences,
     private val followsApiService: FollowsApiService,
 ) : FollowsRepository {

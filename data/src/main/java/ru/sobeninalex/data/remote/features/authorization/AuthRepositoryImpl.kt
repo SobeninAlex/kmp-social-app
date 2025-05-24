@@ -9,7 +9,7 @@ import ru.sobeninalex.domain.features.authorization.AuthRepository
 import ru.sobeninalex.domain.features.authorization.model.AuthResult
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 
-internal class AuthRepositoryImpl(
+class AuthRepositoryImpl(
     private val authApiService: AuthApiService,
     private val userPreferences: UserPreferences,
 ) : AuthRepository {

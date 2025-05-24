@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
@@ -14,7 +15,7 @@ import ru.sobeninalex.domain.features.account.model.Profile
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 
-internal class AccountRepositoryImpl(
+class AccountRepositoryImpl(
     private val userPreferences: UserPreferences,
     private val accountApiService: AccountApiService
 ) : AccountRepository {

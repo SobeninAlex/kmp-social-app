@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.first
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 
-internal class AppPreferences(
+class AppPreferences(
     private val userDatastore: DataStore<UserSettings>
 ) : UserPreferences {
 

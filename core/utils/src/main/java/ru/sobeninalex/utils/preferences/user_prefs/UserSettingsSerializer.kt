@@ -8,7 +8,7 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-internal object UserSettingsSerializer: Serializer<UserSettings> {
+object UserSettingsSerializer: Serializer<UserSettings> {
     override val defaultValue: UserSettings
         get() = UserSettings()
 

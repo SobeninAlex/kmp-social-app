@@ -5,7 +5,7 @@ import ru.sobeninalex.data.remote.features.authorization.dto.AuthDataDTO
 import ru.sobeninalex.domain.features.authorization.model.AuthResult
 import ru.sobeninalex.utils.helpers.toCurrentUrl
 
-internal fun AuthDataDTO.toAuthResult(): AuthResult {
+fun AuthDataDTO.toAuthResult(): AuthResult {
     return AuthResult(
         id = id,
         name = name,
@@ -17,7 +17,7 @@ internal fun AuthDataDTO.toAuthResult(): AuthResult {
     )
 }
 
-internal fun AuthResult.toUserSettings(): UserSettings {
+fun AuthResult.toUserSettings(): UserSettings {
     return UserSettings(
         id = id,
         name = name,

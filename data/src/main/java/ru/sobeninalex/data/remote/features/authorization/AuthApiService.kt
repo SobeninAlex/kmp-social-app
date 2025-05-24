@@ -8,7 +8,7 @@ import ru.sobeninalex.data.remote.features.authorization.dto.AuthResponseDTO
 import ru.sobeninalex.data.remote.features.authorization.dto.SingInRequestDTO
 import ru.sobeninalex.data.remote.features.authorization.dto.SingUpRequestDTO
 
-internal class AuthApiService : KtorApiService() {
+class AuthApiService : KtorApiService() {
 
     suspend fun signUp(request: SingUpRequestDTO): AuthResponseDTO {
         return client.post {

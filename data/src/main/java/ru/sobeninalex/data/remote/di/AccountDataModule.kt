@@ -1,11 +1,13 @@
-package ru.sobeninalex.data.remote.features.account
+package ru.sobeninalex.data.remote.di
 
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import ru.sobeninalex.data.remote.features.account.AccountApiService
+import ru.sobeninalex.data.remote.features.account.AccountRepositoryImpl
 import ru.sobeninalex.domain.features.account.AccountRepository
 
-internal val AccountFeatureModule = module {
+val AccountDataModule = module {
     singleOf(::AccountRepositoryImpl).bind<AccountRepository>()
     factory { AccountApiService() }
 }

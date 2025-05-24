@@ -11,7 +11,7 @@ import ru.sobeninalex.data.remote.SimpleResponseDTO
 import ru.sobeninalex.data.remote.features.follows.dto.FollowsRequestDTO
 import ru.sobeninalex.data.remote.features.follows.dto.FollowsResponseDTO
 
-internal class FollowsApiService : KtorApiService() {
+class FollowsApiService : KtorApiService() {
 
     suspend fun follow(token: String, request: FollowsRequestDTO): SimpleResponseDTO {
         return client.post {

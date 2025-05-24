@@ -29,7 +29,7 @@ val GrayColor10 = Color(0xFFEDEFF0)
 val InverseSurfaceLight = Color(0xFFE1E4E8)
 val InverseSurfaceDark = Color(0xFF2C2B2D)
 
-internal val LightColors = lightColorScheme(
+val LightColors = lightColorScheme(
     secondary = White,
     primary = Blue,
     primaryContainer = Blue,
@@ -40,7 +40,7 @@ internal val LightColors = lightColorScheme(
     inverseSurface = InverseSurfaceLight,
 )
 
-internal val DarkColors = darkColorScheme(
+val DarkColors = darkColorScheme(
     secondary = Black24,
     primary = Blue,
     primaryContainer = Blue,

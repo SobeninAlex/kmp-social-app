@@ -5,7 +5,7 @@ import ru.sobeninalex.data.remote.features.account.dto.ProfileDTO
 import ru.sobeninalex.domain.features.account.model.Profile
 import ru.sobeninalex.utils.helpers.toCurrentUrl
 
-internal fun ProfileDTO.toProfile() = Profile(
+fun ProfileDTO.toProfile() = Profile(
     id = id,
     name = name,
     email = email,
@@ -17,7 +17,7 @@ internal fun ProfileDTO.toProfile() = Profile(
     isOwnProfile = isOwnProfile ?: false,
 )
 
-internal fun UserSettings.toProfile() = Profile(
+fun UserSettings.toProfile() = Profile(
     id = id,
     name = name,
     email = "",
@@ -29,7 +29,7 @@ internal fun UserSettings.toProfile() = Profile(
     isOwnProfile = true
 )
 
-internal fun Profile.toUserSettings(token: String): UserSettings {
+fun Profile.toUserSettings(token: String): UserSettings {
     return UserSettings(
         id = id,
         name = name,

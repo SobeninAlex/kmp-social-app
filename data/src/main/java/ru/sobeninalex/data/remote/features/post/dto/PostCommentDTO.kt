@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class PostCommentDTO(
+data class PostCommentDTO(
     @SerialName("comment_id") val commentId: String,
     @SerialName("post_id") val postId: String,
     @SerialName("user_id") val userId: String,

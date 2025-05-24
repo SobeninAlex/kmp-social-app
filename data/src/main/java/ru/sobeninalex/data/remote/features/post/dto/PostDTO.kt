@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class PostDTO(
+data class PostDTO(
     @SerialName("post_id") val postId: String,
     @SerialName("caption") val caption: String,
     @SerialName("image_url") val imageUrl: String?,

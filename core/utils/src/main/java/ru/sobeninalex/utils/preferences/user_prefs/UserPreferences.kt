@@ -9,6 +9,6 @@ interface UserPreferences {
     suspend fun clearUserSetting()
 
     companion object {
-        internal const val PREFERENCES_FILE_NAME = "app_user_settings.preferences_pb"
+        const val PREFERENCES_FILE_NAME = "app_user_settings.preferences_pb"
     }
 }

@@ -7,7 +7,7 @@ import ru.sobeninalex.domain.features.post.model.PostComment
 import ru.sobeninalex.utils.helpers.DateFormatter
 import ru.sobeninalex.utils.helpers.toCurrentUrl
 
-internal fun PostDTO.toPost() = Post(
+fun PostDTO.toPost() = Post(
     postId = postId,
     caption = caption,
     imageUrl = imageUrl?.toCurrentUrl(),
@@ -21,7 +21,7 @@ internal fun PostDTO.toPost() = Post(
     isOwnPost = isOwnPost
 )
 
-internal fun PostCommentDTO.toPostComment(isOwnComment: Boolean) = PostComment(
+fun PostCommentDTO.toPostComment(isOwnComment: Boolean) = PostComment(
     commentId = commentId,
     postId = postId,
     userId = userId,

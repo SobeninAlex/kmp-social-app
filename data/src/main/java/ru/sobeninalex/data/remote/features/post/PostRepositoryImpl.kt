@@ -13,7 +13,7 @@ import ru.sobeninalex.domain.features.post.model.PostComment
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 
-internal class PostRepositoryImpl(
+class PostRepositoryImpl(
     private val userPreferences: UserPreferences,
     private val postApiService: PostApiService,
 ) : PostRepository {

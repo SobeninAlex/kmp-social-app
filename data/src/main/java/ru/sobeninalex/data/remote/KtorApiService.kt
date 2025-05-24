@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -26,9 +27,9 @@ import ru.sobeninalex.data.remote.features.authorization.dto.AuthResponseDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.UnauthorizedException
 
-internal abstract class KtorApiService {
+abstract class KtorApiService {
 
-    val client = HttpClient {
+    val client = HttpClient(/*CIO*/) {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
