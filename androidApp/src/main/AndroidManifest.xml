@@ -7,12 +7,12 @@
 
     <application
         android:allowBackup="false"
-        android:name=".KmpSocialApplication"
+        android:name="com.example.kmp_social_app.KmpSocialApplication"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Splash">
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name="com.example.kmp_social_app.presentation.main.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>

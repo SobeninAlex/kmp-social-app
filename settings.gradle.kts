@@ -16,4 +16,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "kmp-social-app"
 include(":androidApp")
-include(":shared")
+include(":core:utils")
+include(":core:resources")
+include(":data")
+include(":domain")
+include(":features:authorization")
+include(":features:home")
+include(":features:account")

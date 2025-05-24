@@ -1,33 +1,29 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.serialization)
     alias(libs.plugins.parcelize)
 }
 
 android {
-    namespace = "com.example.kmp_social_app.android"
+    namespace = "ru.sobeninalex.utils"
     compileSdk = 35
+
     defaultConfig {
-        applicationId = "com.example.kmp_social_app.android"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        compose = true
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -40,12 +36,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.domain)
-    implementation(projects.data)
-    implementation(projects.features.authorization)
-    implementation(projects.features.home)
-    implementation(projects.core.utils)
     implementation(projects.core.resources)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
@@ -54,17 +49,17 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
 
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.core.splashscreen)
+    implementation(libs.datastore.preferences.core)
+    implementation(libs.datastore.preferences)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
 
-    implementation(libs.lifecycle.runtime.compose)
-
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.kotlinx.datetime)
 }
