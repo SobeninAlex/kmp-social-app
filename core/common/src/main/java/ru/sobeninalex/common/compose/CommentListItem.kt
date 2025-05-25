@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.domain.features.post.model.PostComment
+import ru.sobeninalex.resources.MainAppTheme
 import ru.sobeninalex.resources.R
 
 @Composable
@@ -173,7 +174,7 @@ fun CommentListItemShimmer(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun CommentListItemPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -189,7 +190,7 @@ private fun CommentListItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun CommentListItemShimmerPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -201,7 +202,7 @@ private fun CommentListItemShimmerPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun CommentListItemPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -217,7 +218,7 @@ private fun CommentListItemPreviewDark() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun CommentListItemShimmerPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

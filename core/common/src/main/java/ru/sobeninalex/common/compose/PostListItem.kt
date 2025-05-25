@@ -307,7 +307,7 @@ private fun PostLikesRowShimmer(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -325,7 +325,7 @@ private fun PostListItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemShimmerPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -337,7 +337,7 @@ private fun PostListItemShimmerPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -355,7 +355,7 @@ private fun PostListItemPreviewDark() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemShimmerPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

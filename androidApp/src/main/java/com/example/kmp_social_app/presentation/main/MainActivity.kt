@@ -12,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import ru.sobeninalex.resources.KmpSocialAppTheme
+import ru.sobeninalex.resources.MainAppTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            KmpSocialAppTheme {
+            MainAppTheme {
                 when (val state = uiState) {
                     is MainUiState.Loading -> Unit
                     is MainUiState.Success -> {

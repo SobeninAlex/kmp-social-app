@@ -1,10 +1,12 @@
 package ru.sobeninalex.account.presentation.edit
 
+import android.net.Uri
+
 sealed interface EditProfileAction {
 
     data class EditName(val name: String): EditProfileAction
 
     data class EditBio(val bio: String): EditProfileAction
 
-    data object OnUpdateProfileClick : EditProfileAction
+    data class OnUpdateProfileClick(val imageUri: Uri = Uri.EMPTY) : EditProfileAction
 }

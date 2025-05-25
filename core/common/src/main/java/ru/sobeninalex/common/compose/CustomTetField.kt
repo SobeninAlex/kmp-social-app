@@ -128,7 +128,7 @@ private fun PasswordEyeIcon(
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 private fun CustomTetFieldPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         CustomTetField(
             value = "sdfsf",
             onValueChange = {},
@@ -142,7 +142,7 @@ private fun CustomTetFieldPreviewDark() {
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 private fun CustomTetFieldPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         CustomTetField(
             value = "sdfsf",
             onValueChange = {},

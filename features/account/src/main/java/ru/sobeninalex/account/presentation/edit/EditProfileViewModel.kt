@@ -1,17 +1,25 @@
 package ru.sobeninalex.account.presentation.edit
 
+import android.net.Uri
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.common.event.ProfileUpdateEvent
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.common.navigation.args.toProfile
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.domain.features.account.usecase.GetProfileUseCase
+import ru.sobeninalex.domain.features.account.usecase.UpdateProfileUseCase
+import ru.sobeninalex.utils.helpers.ImageByteReader
 
 class EditProfileViewModel(
-    private val args: EditProfileArgs
+    private val args: EditProfileArgs,
+    private val updateProfileUseCase: UpdateProfileUseCase,
+    private val imageByteReader: ImageByteReader
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(EditProfileUiState())
@@ -29,24 +37,48 @@ class EditProfileViewModel(
         when (action) {
             is EditProfileAction.EditBio -> editBio(action.bio)
             is EditProfileAction.EditName -> editName(action.name)
-            is EditProfileAction.OnUpdateProfileClick -> onUpdateProfile()
+            is EditProfileAction.OnUpdateProfileClick -> readImageByte(action.imageUri)
         }
     }
 
-    private fun onUpdateProfile() {
+    private fun readImageByte(imageUri: Uri) {
         _uiState.update { it.copy(isLoading = true) }
-
         viewModelScope.launch {
-            delay(1000)
+            if (imageUri == Uri.EMPTY) {
+                onUpdateProfile()
+                return@launch
+            }
 
+            runCatching {
+                imageByteReader.readImageBytes(imageUri)
+            }.onSuccess { result ->
+                onUpdateProfile(byteArray = result)
+            }.onFailure { error ->
+                _uiState.update { it.copy(isLoading = false) }
+                throw error
+            }
+        }
+    }
+
+    private suspend fun onUpdateProfile(byteArray: ByteArray? = null) {
+        runCatching {
+            updateProfileUseCase(
+                name = _uiState.value.profile.name,
+                bio = _uiState.value.profile.bio,
+                imageBytes = byteArray
+            )
+        }.onSuccess {
+            ProfileUpdateEvent.sendEvent(it)
             _uiState.update { oldState ->
                 oldState.copy(
                     isLoading = false,
                     updateSucceed = true
                 )
             }
-
             showSnackbar("Profile changed success!")
+        }.onFailure { error ->
+            _uiState.update { it.copy(isLoading = false) }
+            throw error
         }
     }
 

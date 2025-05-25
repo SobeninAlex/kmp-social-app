@@ -7,6 +7,7 @@ import ru.sobeninalex.domain.features.post.model.Post
 @Immutable
 data class ProfileUiState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val profile: Profile? = null,
     val posts: List<Post> = emptyList(),
     val endReached: Boolean = true,

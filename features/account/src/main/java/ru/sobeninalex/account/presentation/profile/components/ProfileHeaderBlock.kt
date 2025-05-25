@@ -166,7 +166,7 @@ fun ProfileHeaderBlock(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun ProfileHeaderBlockPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -185,7 +185,7 @@ private fun ProfileHeaderBlockPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun ProfileHeaderBlockPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

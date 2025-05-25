@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -16,6 +17,7 @@ import ru.sobeninalex.domain.features.post.usecase.GetPostsByUserIdUseCase
 import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.FollowStateChangeEvent
 import ru.sobeninalex.common.event.PostUpdateEvent
+import ru.sobeninalex.common.event.ProfileUpdateEvent
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
@@ -49,12 +51,17 @@ class ProfileViewModel(
 
     init {
         loadContent()
+
+        ProfileUpdateEvent.event
+            .onEach { refreshContent() }
+            .launchIn(viewModelScope)
     }
 
     fun onAction(action: ProfileAction) = when (action) {
         is ProfileAction.LoadMorePosts -> loadMorePosts()
         is ProfileAction.OnFollowButtonClick -> followUser(profile = action.profile)
         is ProfileAction.OnLikeClick -> likeOrUnlike(post = action.post)
+        is ProfileAction.Refresh -> refreshContent()
     }
 
     private fun likeOrUnlike(post: Post) {
@@ -95,6 +102,12 @@ class ProfileViewModel(
                 throw error
             }
         }
+    }
+
+    private fun refreshContent() {
+        _uiState.update { it.copy(isRefreshing = true, endReached = true) }
+        postsPagingManager.reset()
+        loadData()
     }
 
     private fun loadContent() {
@@ -146,7 +159,11 @@ class ProfileViewModel(
                 throw ex
             },
             onLoadStateChange = { isLoading ->
-                _uiState.update { it.copy(isLoading = isLoading) }
+                if (_uiState.value.isRefreshing) {
+                    _uiState.update { it.copy(isRefreshing = isLoading) }
+                } else {
+                    _uiState.update { it.copy(isLoading = isLoading) }
+                }
             }
         )
     }

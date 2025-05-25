@@ -13,8 +13,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,6 +31,7 @@ import ru.sobeninalex.account.presentation.follows.FollowsScreen
 import ru.sobeninalex.account.presentation.profile.ProfileScreen
 import ru.sobeninalex.authorization.presentation.login.LoginScreen
 import ru.sobeninalex.authorization.presentation.signup.SignUpScreen
+import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.event.SnackbarEvent
 import ru.sobeninalex.common.event.UnauthorizedEvent
 import ru.sobeninalex.common.navigation.AuthGraph

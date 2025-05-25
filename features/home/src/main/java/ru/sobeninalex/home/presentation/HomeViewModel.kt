@@ -15,10 +15,12 @@ import ru.sobeninalex.domain.features.post.usecase.GetFeedPostsUseCase
 import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.FollowStateChangeEvent
 import ru.sobeninalex.common.event.PostUpdateEvent
+import ru.sobeninalex.common.event.ProfileUpdateEvent
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
+import ru.sobeninalex.domain.features.account.model.Profile
 
 class HomeViewModel(
     private val getFollowingSuggestionsUseCase: GetFollowingSuggestionsUseCase,
@@ -41,6 +43,10 @@ class HomeViewModel(
 
         FollowStateChangeEvent.event.onEach {
             refreshContent()
+        }.launchIn(viewModelScope)
+
+        ProfileUpdateEvent.event.onEach { profile ->
+            updatePostsUser(profile)
         }.launchIn(viewModelScope)
     }
 
@@ -84,6 +90,23 @@ class HomeViewModel(
                     if (it.postId == postId) {
                         update(it)
                     } else it
+                }
+            )
+        }
+    }
+
+    private fun updatePostsUser(profile: Profile) {
+        _uiState.update { state ->
+            state.copy(
+                posts = _uiState.value.posts.map {
+                    if (it.userId == profile.id) {
+                        it.copy(
+                            userName = profile.name,
+                            userAvatar = profile.avatar
+                        )
+                    } else {
+                        it
+                    }
                 }
             )
         }

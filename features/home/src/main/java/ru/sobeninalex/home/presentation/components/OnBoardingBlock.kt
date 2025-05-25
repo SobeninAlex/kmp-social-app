@@ -108,7 +108,7 @@ private fun UsersRow(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun OnBoardingBlockPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -125,7 +125,7 @@ private fun OnBoardingBlockPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun OnBoardingBlockPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

@@ -1,5 +1,9 @@
 package ru.sobeninalex.account.presentation.edit
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +24,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,6 +70,11 @@ private fun EditProfileScreenContent(
 ) {
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
+    var selectedImage by remember { mutableStateOf(Uri.EMPTY) }
+    val pickImage = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedImage = uri },
+    )
 
     LaunchedEffect(uiState.updateSucceed) {
         if (uiState.updateSucceed) {
@@ -90,11 +103,18 @@ private fun EditProfileScreenContent(
             Box {
                 CircleImage(
                     modifier = Modifier.size(240.dp),
-                    imageUrl = uiState.profile.avatar
+                    imageUrl = uiState.profile.avatar,
+                    uri = selectedImage
                 )
 
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        pickImage.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .shadow(
@@ -133,7 +153,9 @@ private fun EditProfileScreenContent(
 
             SubmitButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { action(EditProfileAction.OnUpdateProfileClick) },
+                onClick = {
+                    action(EditProfileAction.OnUpdateProfileClick(imageUri = selectedImage))
+                },
             ) {
                 Text(
                     text = stringResource(R.string.upload_changes_text),

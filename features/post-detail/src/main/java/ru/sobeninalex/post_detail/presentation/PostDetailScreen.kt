@@ -150,7 +150,7 @@ private fun PostDetailScreenContent(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostDetailScreenContentPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

@@ -114,7 +114,7 @@ fun FollowUserListItemShimmer(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -129,7 +129,7 @@ private fun FollowUserListItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemShimmerPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -141,7 +141,7 @@ private fun FollowUserListItemShimmerPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -156,7 +156,7 @@ private fun FollowUserListItemPreviewDark() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun FollowUserListItemShimmerPreviewDark() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

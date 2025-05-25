@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -28,7 +29,9 @@ import ru.sobeninalex.account.presentation.profile.components.profileHeaderBlock
 import ru.sobeninalex.account.presentation.profile.components.profilePostsBlock
 import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
 import ru.sobeninalex.common.compose.CustomTopBar
+import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.compose.PostListItemShimmer
+import ru.sobeninalex.common.compose.PullRefreshLayout
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.common.navigation.MainGraph
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
@@ -54,6 +57,7 @@ fun ProfileScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileScreenContent(
     uiState: ProfileUiState,
@@ -159,6 +163,10 @@ private fun ProfileScreenContent(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )
+
+            if (uiState.isRefreshing) {
+                LoadingDialog()
+            }
         }
     }
 
@@ -172,7 +180,7 @@ private fun ProfileScreenContent(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun ProfileScreenContentPreview() {
-    ru.sobeninalex.resources.KmpSocialAppTheme {
+    ru.sobeninalex.resources.MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {

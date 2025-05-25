@@ -20,7 +20,11 @@ val AccountFeatureModule = module {
     }
 
     viewModel { (args: EditProfileArgs) ->
-        EditProfileViewModel(args = args)
+        EditProfileViewModel(
+            args = args,
+            updateProfileUseCase = get(),
+            imageByteReader = get(),
+        )
     }
 
     viewModel { (args: FollowsArgs) ->
