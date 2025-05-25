@@ -6,6 +6,8 @@ object Constants {
      * В консоли ipconfig
      * нужен IPv4-адрес */
     const val BASE_URL = "http://192.168.1.153:8080"
+    const val SERVER_URL = "http://127.0.0.1:8080"
+
     const val REQUEST_TIMEOUT = 10_000L
 
     const val INITIAL_PAGE = 0

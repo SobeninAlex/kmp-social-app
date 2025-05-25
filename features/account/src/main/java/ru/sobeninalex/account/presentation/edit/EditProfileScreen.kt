@@ -73,7 +73,11 @@ private fun EditProfileScreenContent(
     var selectedImage by remember { mutableStateOf(Uri.EMPTY) }
     val pickImage = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> selectedImage = uri },
+        onResult = { uri ->
+            uri?.let {
+                selectedImage = uri
+            }
+        },
     )
 
     LaunchedEffect(uiState.updateSucceed) {

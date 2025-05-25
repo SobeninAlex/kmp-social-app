@@ -9,22 +9,20 @@ class UpdateProfileUseCase(
 ) {
 
     suspend operator fun invoke(
-        name: String,
-        bio: String,
+        profile: Profile,
         imageBytes: ByteArray?
     ): Profile {
-        if (name.isBlank() || name.length < 3 || name.length > 50) {
+        if (profile.name.isBlank() || profile.name.length < 3 || profile.name.length > 50) {
             throw SomethingWrongException(message = "Invalid name")
         }
 
-        if (bio.isBlank() || bio.length > 150) {
+        if (profile.bio.isBlank() || profile.bio.length > 150) {
             throw SomethingWrongException(message = "Invalid bio")
         }
 
         return repository.updateProfile(
             imageBytes = imageBytes,
-            name = name,
-            bio = bio
+            profile = profile
         )
     }
 }

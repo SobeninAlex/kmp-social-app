@@ -2,6 +2,8 @@ package ru.sobeninalex.data.remote.features.post
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import ru.sobeninalex.data.remote.features.post.dto.CreatePostRequestDTO
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 import ru.sobeninalex.data.remote.features.post.dto.NewCommentRequestDTO
@@ -87,6 +89,37 @@ class PostRepositoryImpl(
                 }
             } catch (ex: Exception) {
                 throw ex
+            }
+        }
+    }
+
+    override suspend fun createPost(caption: String, imageBytes: ByteArray): Post {
+        return withContext(Dispatchers.IO) {
+            try {
+                val userSetting = userPreferences.getUserSettings()
+
+                val postData = Json.encodeToString(
+                    serializer = CreatePostRequestDTO.serializer(),
+                    value = CreatePostRequestDTO(
+                        userId = userSetting.id,
+                        caption = caption
+                    )
+                )
+
+                val response = postApiService.createPost(
+                    token = userSetting.token,
+                    postData = postData,
+                    imageBytes = imageBytes
+                )
+
+                if (response.isSuccess) {
+                    response.post?.toPost()
+                        ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw SomethingWrongException(message = ex.message)
             }
         }
     }

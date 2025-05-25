@@ -2,10 +2,17 @@ package ru.sobeninalex.data.remote.features.post
 
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
 import ru.sobeninalex.data.remote.KtorApiService
 import ru.sobeninalex.data.remote.QueryParams
 import ru.sobeninalex.data.remote.SimpleResponseDTO
@@ -85,6 +92,33 @@ class PostApiService : KtorApiService() {
         }
             .checkAuth()
             .body()
+    }
+
+    suspend fun createPost(
+        token: String,
+        postData: String,
+        imageBytes: ByteArray
+    ): PostResponseDTO {
+        return client.submitFormWithBinaryData(
+            formData = formData {
+                append(key = "post_data", value = postData)
+                append(
+                    key = "image",
+                    value = imageBytes,
+                    headers = Headers.build {
+                        append(HttpHeaders.ContentType, value = "image/*")
+                        append(HttpHeaders.ContentDisposition, value = "filename=post.jpg")
+                    }
+                )
+            }
+        ) {
+            route("/post/create")
+            setToken(token)
+            contentType(ContentType.MultiPart.FormData)
+            method = HttpMethod.Post
+        }
+            .checkAuth()
+            .body<PostResponseDTO>()
     }
 
     suspend fun getPostComments(

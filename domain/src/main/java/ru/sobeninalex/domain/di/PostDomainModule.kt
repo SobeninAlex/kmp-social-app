@@ -2,6 +2,7 @@ package ru.sobeninalex.domain.di
 
 import org.koin.dsl.module
 import ru.sobeninalex.domain.features.post.usecase.AddCommentUseCase
+import ru.sobeninalex.domain.features.post.usecase.CreatePostUseCase
 import ru.sobeninalex.domain.features.post.usecase.DeleteCommentUseCase
 import ru.sobeninalex.domain.features.post.usecase.GetFeedPostsUseCase
 import ru.sobeninalex.domain.features.post.usecase.GetPostCommentsUseCase
@@ -17,4 +18,5 @@ val PostDomainModule = module {
     factory { GetPostsByUserIdUseCase(repository = get()) }
     factory { GetPostUseCase(repository = get()) }
     factory { LikeOrUnlikeUseCase(repository = get()) }
+    factory { CreatePostUseCase(repository = get()) }
 }

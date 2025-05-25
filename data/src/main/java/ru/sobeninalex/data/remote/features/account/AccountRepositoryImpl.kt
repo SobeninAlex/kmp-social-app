@@ -5,15 +5,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 import ru.sobeninalex.data.remote.features.account.dto.UpdateProfileRequestDTO
 import ru.sobeninalex.domain.features.account.AccountRepository
 import ru.sobeninalex.domain.features.account.model.Profile
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
+import ru.sobeninalex.utils.helpers.toServerUrl
+import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
 class AccountRepositoryImpl(
     private val userPreferences: UserPreferences,
@@ -46,7 +46,7 @@ class AccountRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun updateProfile(name: String, bio: String, imageBytes: ByteArray?): Profile {
+    override suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile {
         return withContext(Dispatchers.IO) {
             try {
                 val userSetting = userPreferences.getUserSettings()
@@ -54,9 +54,10 @@ class AccountRepositoryImpl(
                 val userData = Json.encodeToString(
                     serializer = UpdateProfileRequestDTO.serializer(),
                     value = UpdateProfileRequestDTO(
-                        userId = userSetting.id,
-                        name = name,
-                        bio = bio,
+                        userId = profile.id,
+                        name = profile.name,
+                        bio = profile.bio,
+                        avatar = profile.avatar?.toServerUrl()
                     )
                 )
 
@@ -67,21 +68,23 @@ class AccountRepositoryImpl(
                 )
 
                 if (response.isSuccess) {
-                    val profileResponse = accountApiService.getProfileById(
-                        token = userSetting.token,
-                        profileId = userSetting.id,
-                        currentUserId = userSetting.id
-                    )
+                    var avatar = profile.avatar
+                    if (imageBytes != null) {
+                        val profileResponse = accountApiService.getProfileById(
+                            token = userSetting.token,
+                            profileId = profile.id,
+                            currentUserId = profile.id
+                        )
 
-                    if (profileResponse.isSuccess) {
                         profileResponse.user?.let {
-                            userPreferences.setUserSettings(
-                                it.toProfile().toUserSettings(userSetting.token))
-                            it.toProfile()
-                        } ?: throw SomethingWrongException(message = profileResponse.errorMessage)
-                    } else {
-                        throw SomethingWrongException(message = profileResponse.errorMessage)
+                            avatar = it.avatar
+                        }
                     }
+                    val updateProfile = profile.copy(avatar = avatar)
+                    userPreferences.setUserSettings(
+                        updateProfile.toUserSettings(userSetting.token)
+                    )
+                    updateProfile
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }

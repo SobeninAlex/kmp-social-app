@@ -14,6 +14,11 @@ interface PostRepository {
         postId: String,
     ): Post
 
+    suspend fun createPost(
+        caption: String,
+        imageBytes: ByteArray
+    ): Post
+
     suspend fun likeOrUnlikePost(
         postId: String,
         shouldLike: Boolean

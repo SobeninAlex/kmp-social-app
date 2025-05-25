@@ -63,8 +63,7 @@ class EditProfileViewModel(
     private suspend fun onUpdateProfile(byteArray: ByteArray? = null) {
         runCatching {
             updateProfileUseCase(
-                name = _uiState.value.profile.name,
-                bio = _uiState.value.profile.bio,
+                profile = uiState.value.profile,
                 imageBytes = byteArray
             )
         }.onSuccess {
