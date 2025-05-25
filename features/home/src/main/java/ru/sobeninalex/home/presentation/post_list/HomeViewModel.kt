@@ -1,4 +1,4 @@
-package ru.sobeninalex.home.presentation
+package ru.sobeninalex.home.presentation.post_list
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +16,7 @@ import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.FollowStateChangeEvent
 import ru.sobeninalex.common.event.PostUpdateEvent
 import ru.sobeninalex.common.event.ProfileUpdateEvent
+import ru.sobeninalex.common.event.RefreshContentEvent
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
@@ -47,6 +48,10 @@ class HomeViewModel(
 
         ProfileUpdateEvent.event.onEach { profile ->
             updatePostsUser(profile)
+        }.launchIn(viewModelScope)
+
+        RefreshContentEvent.event.onEach {
+            refreshContent()
         }.launchIn(viewModelScope)
     }
 

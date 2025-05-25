@@ -13,11 +13,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,7 +28,6 @@ import ru.sobeninalex.account.presentation.follows.FollowsScreen
 import ru.sobeninalex.account.presentation.profile.ProfileScreen
 import ru.sobeninalex.authorization.presentation.login.LoginScreen
 import ru.sobeninalex.authorization.presentation.signup.SignUpScreen
-import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.event.SnackbarEvent
 import ru.sobeninalex.common.event.UnauthorizedEvent
 import ru.sobeninalex.common.navigation.AuthGraph
@@ -41,7 +37,8 @@ import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.common.navigation.args.FollowsArgs
 import ru.sobeninalex.common.navigation.asType
 import ru.sobeninalex.common.presentation.ObserveAsEvent
-import ru.sobeninalex.home.presentation.HomeScreen
+import ru.sobeninalex.home.presentation.create_post.CreatePostScreen
+import ru.sobeninalex.home.presentation.post_list.HomeScreen
 import ru.sobeninalex.post_detail.presentation.PostDetailScreen
 import kotlin.reflect.typeOf
 
@@ -174,6 +171,10 @@ fun MainNavigationGraph(
                     ) {
                         val route = it.toRoute<MainGraph.FollowsRoute>()
                         FollowsScreen(route.args)
+                    }
+
+                    composable<MainGraph.CreatePostRoute> {
+                        CreatePostScreen()
                     }
                 }
             }

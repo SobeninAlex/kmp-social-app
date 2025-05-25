@@ -31,5 +31,8 @@ data object MainGraph {
 
     @Serializable
     data class FollowsRoute(val args: FollowsArgs)
+
+    @Serializable
+    data object CreatePostRoute
 }
 

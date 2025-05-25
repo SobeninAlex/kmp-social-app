@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import ru.sobeninalex.resources.Black54
 import ru.sobeninalex.resources.DarkGray
 import ru.sobeninalex.resources.White
 
@@ -19,9 +20,10 @@ fun SubmitButton(
     enabled: Boolean = true,
     shape: Shape = MaterialTheme.shapes.medium,
     containerColor: Color = MaterialTheme.colorScheme.primary,
-    disabledContainerColor: Color = ru.sobeninalex.resources.DarkGray,
+    disabledContainerColor: Color = DarkGray,
+    contentColor: Color = White,
+    disabledContentColor: Color = Black54,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    contentColor: Color = ru.sobeninalex.resources.White,
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
@@ -31,7 +33,8 @@ fun SubmitButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             disabledContainerColor = disabledContainerColor,
-            contentColor = contentColor
+            contentColor = contentColor,
+            disabledContentColor = disabledContentColor
         ),
         contentPadding = contentPadding,
         modifier = modifier,

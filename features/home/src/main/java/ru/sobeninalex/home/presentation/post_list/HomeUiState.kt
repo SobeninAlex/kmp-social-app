@@ -1,4 +1,4 @@
-package ru.sobeninalex.home.presentation
+package ru.sobeninalex.home.presentation.post_list
 
 import androidx.compose.runtime.Immutable
 import ru.sobeninalex.domain.features.follows.model.FollowUser
