@@ -3,7 +3,8 @@ package com.example.kmp_social_app
 import android.app.Application
 import com.example.kmp_social_app.di.AppModule
 import com.example.kmp_social_app.glue.core.utils.UtilsModule
-import com.example.kmp_social_app.glue.data.DataModule
+import com.example.kmp_social_app.glue.data.ApiDataSourceModule
+import com.example.kmp_social_app.glue.data.ApiServiceModule
 import com.example.kmp_social_app.glue.features.account.FeatureAccountModule
 import com.example.kmp_social_app.glue.features.authorization.FeatureAuthorizationModule
 import com.example.kmp_social_app.glue.features.home.FeatureHomeModule
@@ -20,7 +21,8 @@ class KmpSocialApplication : Application() {
             modules(
                 AppModule,
                 UtilsModule,
-                DataModule,
+                ApiDataSourceModule,
+                ApiServiceModule,
                 FeatureAccountModule,
                 FeatureAuthorizationModule,
                 FeatureHomeModule,

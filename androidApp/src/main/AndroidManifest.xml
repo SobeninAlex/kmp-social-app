@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Splash"
         tools:ignore="DataExtractionRules">
         <activity
-            android:name="com.example.kmp_social_app.presentation.main.MainActivity"
+            android:name="com.example.kmp_social_app.main.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>

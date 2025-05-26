@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.presentation.main
+package com.example.kmp_social_app.main
 
 import androidx.datastore.core.DataStore
 import ru.sobeninalex.common.presentation.BaseViewModel

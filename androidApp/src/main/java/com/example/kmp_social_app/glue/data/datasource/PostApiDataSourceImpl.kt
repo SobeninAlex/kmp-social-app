@@ -1,15 +1,14 @@
-package com.example.kmp_social_app.glue.data.post
+package com.example.kmp_social_app.glue.data.datasource
 
-import com.example.kmp_social_app.glue.mappers.toPost
-import com.example.kmp_social_app.glue.mappers.toPostComment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import ru.sobeninalex.common.models.post.Post
-import ru.sobeninalex.common.models.post.PostComment
+import ru.sobeninalex.data.remote.services.post.PostApiDataSource
 import ru.sobeninalex.data.remote.services.post.PostApiService
 import ru.sobeninalex.data.remote.services.post.dto.CreatePostRequestDTO
 import ru.sobeninalex.data.remote.services.post.dto.NewCommentRequestDTO
+import ru.sobeninalex.data.remote.services.post.dto.PostCommentDTO
+import ru.sobeninalex.data.remote.services.post.dto.PostDTO
 import ru.sobeninalex.data.remote.services.post.dto.PostLikeRequestDTO
 import ru.sobeninalex.data.remote.services.post.dto.PostsResponseDTO
 import ru.sobeninalex.utils.helpers.Constants
@@ -17,11 +16,12 @@ import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 
-class PostApiDataSource(
+class PostApiDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val postApiService: PostApiService,
-) {
-    suspend fun getPostsByUserId(userId: String, page: Int, pageSize: Int): List<Post> {
+) : PostApiDataSource {
+
+    override suspend fun getPostsByUserId(userId: String, page: Int, pageSize: Int): List<PostDTO> {
         return fetchPosts { userSettings ->
             postApiService.getPostsByUserId(
                 token = userSettings.token,
@@ -33,7 +33,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun getPost(postId: String): Post {
+    override suspend fun getPost(postId: String): PostDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -45,7 +45,7 @@ class PostApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.post?.toPost()
+                    response.post
                         ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
@@ -56,11 +56,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun getPostComments(
-        postId: String,
-        page: Int,
-        pageSize: Int
-    ): List<PostComment> {
+    override suspend fun getPostComments(postId: String, page: Int, pageSize: Int): List<PostCommentDTO> {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -73,11 +69,7 @@ class PostApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.postComments.map {
-                        it.toPostComment(
-                            isOwnComment = it.userId == userDate.id
-                        )
-                    }
+                    response.postComments
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }
@@ -87,7 +79,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean {
+    override suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -120,7 +112,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun addComment(postId: String, content: String): PostComment {
+    override suspend fun addComment(postId: String, content: String): PostCommentDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -141,11 +133,7 @@ class PostApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.postComment?.let { postCommentDTO ->
-                        postCommentDTO.toPostComment(
-                            isOwnComment = postCommentDTO.userId == userDate.id
-                        )
-                    } ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
+                    response.postComment ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }
@@ -155,7 +143,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun deleteComment(commentId: String, postId: String) {
+    override suspend fun deleteComment(commentId: String, postId: String) {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -176,7 +164,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun createPost(caption: String, imageBytes: ByteArray): Post {
+    override suspend fun createPost(caption: String, imageBytes: ByteArray): PostDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val userSetting = userPreferences.getUserSettings()
@@ -196,7 +184,7 @@ class PostApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.post?.toPost()
+                    response.post
                         ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
@@ -207,7 +195,7 @@ class PostApiDataSource(
         }
     }
 
-    suspend fun getFeedPosts(page: Int, pageSize: Int): List<Post> {
+    override suspend fun getFeedPosts(page: Int, pageSize: Int): List<PostDTO> {
         return fetchPosts { userSettings ->
             postApiService.getFeedPosts(
                 token = userSettings.token,
@@ -220,7 +208,7 @@ class PostApiDataSource(
 
     private suspend fun fetchPosts(
         apiCall: suspend (UserSettings) -> PostsResponseDTO
-    ): List<Post> {
+    ): List<PostDTO> {
         return withContext(Dispatchers.IO) {
             try {
                 val userDate = userPreferences.getUserSettings()
@@ -228,7 +216,7 @@ class PostApiDataSource(
                 val response = apiCall(userDate)
 
                 if (response.isSuccess) {
-                    response.posts.map { it.toPost() }
+                    response.posts
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }

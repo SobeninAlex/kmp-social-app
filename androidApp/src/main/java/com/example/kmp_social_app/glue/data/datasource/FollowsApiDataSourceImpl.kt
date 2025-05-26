@@ -1,20 +1,20 @@
-package com.example.kmp_social_app.glue.data.follows
+package com.example.kmp_social_app.glue.data.datasource
 
-import com.example.kmp_social_app.glue.mappers.toFollowUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.data.remote.services.follows.FollowsApiDataSource
 import ru.sobeninalex.data.remote.services.follows.FollowsApiService
+import ru.sobeninalex.data.remote.services.follows.dto.FollowUserDTO
 import ru.sobeninalex.data.remote.services.follows.dto.FollowsRequestDTO
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
-class FollowsApiDataSource(
+class FollowsApiDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val followsApiService: FollowsApiService,
-) {
+) : FollowsApiDataSource {
 
-    suspend fun followOrUnfollow(followedUserId: String, shouldFollow: Boolean): Boolean {
+    override suspend fun followOrUnfollow(followedUserId: String, shouldFollow: Boolean): Boolean {
         return withContext(Dispatchers.IO) {
             try {
                 val request = FollowsRequestDTO(
@@ -45,7 +45,7 @@ class FollowsApiDataSource(
         }
     }
 
-    suspend fun getFollowers(userId: String, page: Int, pageSize: Int): List<FollowUser> {
+    override suspend fun getFollowers(userId: String, page: Int, pageSize: Int): List<FollowUserDTO> {
         return withContext(Dispatchers.IO) {
             try {
                 val userSettings = userPreferences.getUserSettings()
@@ -58,7 +58,7 @@ class FollowsApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.follows.map { it.toFollowUser() }
+                    response.follows
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }
@@ -68,7 +68,7 @@ class FollowsApiDataSource(
         }
     }
 
-    suspend fun getFollowing(userId: String, page: Int, pageSize: Int): List<FollowUser> {
+    override suspend fun getFollowing(userId: String, page: Int, pageSize: Int): List<FollowUserDTO> {
         return withContext(Dispatchers.IO) {
             try {
                 val userSettings = userPreferences.getUserSettings()
@@ -81,7 +81,7 @@ class FollowsApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.follows.map { it.toFollowUser() }
+                    response.follows
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }
@@ -91,7 +91,7 @@ class FollowsApiDataSource(
         }
     }
 
-    suspend fun getFollowingSuggestions(): List<FollowUser> {
+    override suspend fun getFollowingSuggestions(): List<FollowUserDTO> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = followsApiService.getFollowingSuggestions(
@@ -100,7 +100,7 @@ class FollowsApiDataSource(
                 )
 
                 if (response.isSuccess) {
-                    response.follows.map { it.toFollowUser() }
+                    response.follows
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
                 }

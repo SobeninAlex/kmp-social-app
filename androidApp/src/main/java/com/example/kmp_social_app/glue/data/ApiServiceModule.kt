@@ -6,7 +6,7 @@ import ru.sobeninalex.data.remote.services.authorization.AuthApiService
 import ru.sobeninalex.data.remote.services.follows.FollowsApiService
 import ru.sobeninalex.data.remote.services.post.PostApiService
 
-val DataModule = module {
+val ApiServiceModule = module {
     factory<AccountApiService> { AccountApiService() }
     factory<AuthApiService> { AuthApiService() }
     factory<FollowsApiService> { FollowsApiService() }

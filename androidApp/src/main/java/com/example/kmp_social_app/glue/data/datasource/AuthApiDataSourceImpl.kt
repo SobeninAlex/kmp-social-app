@@ -1,26 +1,22 @@
-package com.example.kmp_social_app.glue.data.authorization
+package com.example.kmp_social_app.glue.data.datasource
 
-import com.example.kmp_social_app.glue.mappers.toAuthResult
 import com.example.kmp_social_app.glue.mappers.toUserSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.sobeninalex.common.models.auth.AuthResult
+import ru.sobeninalex.data.remote.services.authorization.AuthApiDataSource
 import ru.sobeninalex.data.remote.services.authorization.AuthApiService
+import ru.sobeninalex.data.remote.services.authorization.dto.AuthResultDTO
 import ru.sobeninalex.data.remote.services.authorization.dto.SingInRequestDTO
 import ru.sobeninalex.data.remote.services.authorization.dto.SingUpRequestDTO
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
-class AuthApiDataSource(
+class AuthApiDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val authApiService: AuthApiService,
-) {
+) : AuthApiDataSource {
 
-    suspend fun signUp(
-        name: String,
-        email: String,
-        password: String
-    ): AuthResult {
+    override suspend fun signUp(name: String, email: String, password: String): AuthResultDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val request = SingUpRequestDTO(
@@ -31,7 +27,7 @@ class AuthApiDataSource(
 
                 val response = authApiService.signUp(request)
 
-                response.authData?.toAuthResult()?.also {
+                response.authData?.also {
                     userPreferences.setUserSettings(it.toUserSettings())
                 } ?: throw SomethingWrongException(message = response.errorMessage)
             } catch (ex: Exception) {
@@ -40,10 +36,7 @@ class AuthApiDataSource(
         }
     }
 
-    suspend fun signIn(
-        email: String,
-        password: String
-    ): AuthResult {
+    override suspend fun signIn(email: String, password: String): AuthResultDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val request = SingInRequestDTO(
@@ -53,7 +46,7 @@ class AuthApiDataSource(
 
                 val response = authApiService.signIn(request)
 
-                response.authData?.toAuthResult()?.also {
+                response.authData?.also {
                     userPreferences.setUserSettings(it.toUserSettings())
                 } ?: throw SomethingWrongException(message = response.errorMessage)
             } catch (ex: Exception) {

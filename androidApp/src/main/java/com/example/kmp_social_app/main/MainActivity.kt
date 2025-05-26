@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.presentation.main
+package com.example.kmp_social_app.main
 
 
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.kmp_social_app.MainNavigationGraph
 import ru.sobeninalex.resources.MainAppTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

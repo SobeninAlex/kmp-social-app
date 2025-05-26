@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.presentation.main
+package com.example.kmp_social_app.main
 
 import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 

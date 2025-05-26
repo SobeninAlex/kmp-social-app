@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.presentation.main
+package com.example.kmp_social_app
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.kmp_social_app.main.MainUiState
 import kotlinx.coroutines.launch
 import ru.sobeninalex.account.presentation.edit.EditProfileScreen
 import ru.sobeninalex.account.presentation.follows.FollowsScreen

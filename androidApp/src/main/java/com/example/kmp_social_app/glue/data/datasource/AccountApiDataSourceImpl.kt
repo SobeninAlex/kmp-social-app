@@ -1,6 +1,6 @@
-package com.example.kmp_social_app.glue.data.account
+package com.example.kmp_social_app.glue.data.datasource
 
-import com.example.kmp_social_app.glue.mappers.toProfile
+import com.example.kmp_social_app.glue.mappers.toProfileDTO
 import com.example.kmp_social_app.glue.mappers.toUserSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -9,25 +9,26 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import ru.sobeninalex.common.models.profile.Profile
+import ru.sobeninalex.data.remote.services.account.AccountApiDataSource
 import ru.sobeninalex.data.remote.services.account.AccountApiService
+import ru.sobeninalex.data.remote.services.account.dto.ProfileDTO
 import ru.sobeninalex.data.remote.services.account.dto.UpdateProfileRequestDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.helpers.toServerUrl
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
-class AccountApiDataSource(
+class AccountApiDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val accountApiService: AccountApiService,
-) {
+) : AccountApiDataSource {
 
-    fun getProfileById(profileId: String): Flow<Profile> {
+    override fun getProfileById(profileId: String): Flow<ProfileDTO> {
         return flow {
             val userSettings = userPreferences.getUserSettings()
 
             if (profileId == userSettings.id) {
-                emit(userSettings.toProfile())
+                emit(userSettings.toProfileDTO())
             }
 
             val response = accountApiService.getProfileById(
@@ -38,7 +39,7 @@ class AccountApiDataSource(
 
             if (response.isSuccess) {
                 response.user?.let {
-                    emit(it.toProfile())
+                    emit(it)
                 } ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
             } else {
                 throw SomethingWrongException(message = response.errorMessage)
@@ -48,7 +49,7 @@ class AccountApiDataSource(
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile {
+    override suspend fun updateProfile(profile: ProfileDTO, imageBytes: ByteArray?): ProfileDTO {
         return withContext(Dispatchers.IO) {
             try {
                 val userSetting = userPreferences.getUserSettings()

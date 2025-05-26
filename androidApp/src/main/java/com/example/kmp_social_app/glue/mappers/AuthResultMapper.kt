@@ -28,3 +28,15 @@ fun AuthResult.toUserSettings(): UserSettings {
         followingCount = followingCount
     )
 }
+
+fun AuthResultDTO.toUserSettings(): UserSettings {
+    return UserSettings(
+        id = id,
+        name = name,
+        bio = bio,
+        avatar = avatar,
+        token = token,
+        followersCount = followersCount,
+        followingCount = followingCount
+    )
+}
