@@ -1,6 +1,6 @@
 package ru.sobeninalex.post_detail.presentation
 
-sealed interface PostDetailAction {
+internal sealed interface PostDetailAction {
 
     data object LoadMoreComments : PostDetailAction
 

@@ -1,11 +1,11 @@
 package ru.sobeninalex.account.presentation.profile
 
 import androidx.compose.runtime.Immutable
-import ru.sobeninalex.domain.features.account.model.Profile
-import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.profile.Profile
 
 @Immutable
-data class ProfileUiState(
+internal data class ProfileUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val profile: Profile? = null,

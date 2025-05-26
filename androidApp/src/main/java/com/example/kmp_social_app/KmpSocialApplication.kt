@@ -2,10 +2,12 @@ package com.example.kmp_social_app
 
 import android.app.Application
 import com.example.kmp_social_app.di.AppModule
-import com.example.kmp_social_app.di.CoreModules
-import com.example.kmp_social_app.di.DataModules
-import com.example.kmp_social_app.di.DomainModules
-import com.example.kmp_social_app.di.FeatureModules
+import com.example.kmp_social_app.glue.core.utils.UtilsModule
+import com.example.kmp_social_app.glue.data.DataModule
+import com.example.kmp_social_app.glue.features.account.FeatureAccountModule
+import com.example.kmp_social_app.glue.features.authorization.FeatureAuthorizationModule
+import com.example.kmp_social_app.glue.features.home.FeatureHomeModule
+import com.example.kmp_social_app.glue.features.post_detail.FeaturePostDetailModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -16,11 +18,13 @@ class KmpSocialApplication : Application() {
         startKoin {
             androidContext(this@KmpSocialApplication)
             modules(
-                AppModule
-                        + CoreModules
-                        + DataModules
-                        + DomainModules
-                        + FeatureModules
+                AppModule,
+                UtilsModule,
+                DataModule,
+                FeatureAccountModule,
+                FeatureAuthorizationModule,
+                FeatureHomeModule,
+                FeaturePostDetailModule,
             )
         }
     }

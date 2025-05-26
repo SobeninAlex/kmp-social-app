@@ -1,10 +1,10 @@
 package ru.sobeninalex.account.presentation.edit
 
 import androidx.compose.runtime.Immutable
-import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.common.models.profile.Profile
 
 @Immutable
-data class EditProfileUiState(
+internal data class EditProfileUiState(
     val isLoading: Boolean = false,
     val profile: Profile = Profile.Default,
     val updateSucceed: Boolean = false,

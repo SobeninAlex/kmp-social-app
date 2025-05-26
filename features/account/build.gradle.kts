@@ -40,7 +40,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(projects.domain)
     implementation(projects.core.utils)
     implementation(projects.core.resources)
     implementation(projects.core.common)

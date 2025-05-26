@@ -25,11 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.compose.CircleImage
 import ru.sobeninalex.common.compose.FollowButton
+import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.domain.features.follows.model.FollowUser
 
 @Composable
-fun OnBoardingUserCard(
+internal fun OnBoardingUserCard(
     modifier: Modifier = Modifier,
     followUser: FollowUser,
     onUserClick: () -> Unit,

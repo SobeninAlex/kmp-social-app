@@ -1,24 +1,24 @@
 package ru.sobeninalex.post_detail.presentation
 
-import ru.sobeninalex.common.event.PostUpdateEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.domain.features.post.model.Post
-import ru.sobeninalex.domain.features.post.model.PostComment
-import ru.sobeninalex.domain.features.post.usecase.AddCommentUseCase
-import ru.sobeninalex.domain.features.post.usecase.DeleteCommentUseCase
-import ru.sobeninalex.domain.features.post.usecase.GetPostCommentsUseCase
-import ru.sobeninalex.domain.features.post.usecase.GetPostUseCase
-import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
-import ru.sobeninalex.utils.helpers.Constants
+import ru.sobeninalex.common.event.PostUpdateEvent
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.post.PostComment
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
+import ru.sobeninalex.post_detail.domain.usecase.AddCommentUseCase
+import ru.sobeninalex.post_detail.domain.usecase.DeleteCommentUseCase
+import ru.sobeninalex.post_detail.domain.usecase.GetPostCommentsUseCase
+import ru.sobeninalex.post_detail.domain.usecase.GetPostUseCase
+import ru.sobeninalex.post_detail.domain.usecase.LikeOrUnlikeUseCase
+import ru.sobeninalex.utils.helpers.Constants
 
-class PostDetailViewModel(
+internal class PostDetailViewModel(
     private val postId: String,
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
     private val getPostUseCase: GetPostUseCase,

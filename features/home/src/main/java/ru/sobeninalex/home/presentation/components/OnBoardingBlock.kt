@@ -22,11 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.sobeninalex.domain.features.follows.model.FollowUser
+import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.resources.R
 
 @Composable
-fun OnBoardingBlock(
+internal fun OnBoardingBlock(
     modifier: Modifier = Modifier,
     users: List<FollowUser>,
     onUserClick: (FollowUser) -> Unit,

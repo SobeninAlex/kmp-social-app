@@ -2,7 +2,7 @@ package ru.sobeninalex.account.presentation.edit
 
 import android.net.Uri
 
-sealed interface EditProfileAction {
+internal sealed interface EditProfileAction {
 
     data class EditName(val name: String): EditProfileAction
 

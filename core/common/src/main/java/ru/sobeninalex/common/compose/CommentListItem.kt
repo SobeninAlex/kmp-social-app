@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.sobeninalex.domain.features.post.model.PostComment
+import ru.sobeninalex.common.models.post.PostComment
 import ru.sobeninalex.resources.MainAppTheme
 import ru.sobeninalex.resources.R
 

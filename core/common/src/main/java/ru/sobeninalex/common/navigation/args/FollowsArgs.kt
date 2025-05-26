@@ -3,7 +3,7 @@ package ru.sobeninalex.common.navigation.args
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import ru.sobeninalex.domain.features.follows.model.FollowsType
+import ru.sobeninalex.common.models.follow.FollowsType
 
 @Serializable
 @Parcelize

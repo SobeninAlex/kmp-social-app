@@ -1,22 +1,18 @@
 package ru.sobeninalex.account.presentation.edit
 
 import android.net.Uri
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.account.domain.usecase.UpdateProfileUseCase
 import ru.sobeninalex.common.event.ProfileUpdateEvent
+import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
-import ru.sobeninalex.common.navigation.args.toProfile
 import ru.sobeninalex.common.presentation.BaseViewModel
-import ru.sobeninalex.domain.features.account.model.Profile
-import ru.sobeninalex.domain.features.account.usecase.GetProfileUseCase
-import ru.sobeninalex.domain.features.account.usecase.UpdateProfileUseCase
 import ru.sobeninalex.utils.helpers.ImageByteReader
 
-class EditProfileViewModel(
+internal class EditProfileViewModel(
     private val args: EditProfileArgs,
     private val updateProfileUseCase: UpdateProfileUseCase,
     private val imageByteReader: ImageByteReader
@@ -28,7 +24,7 @@ class EditProfileViewModel(
     init {
         _uiState.update { oldState ->
             oldState.copy(
-                profile = args.profileArgs.toProfile()
+                profile = args.profile
             )
         }
     }

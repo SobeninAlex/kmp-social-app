@@ -4,10 +4,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.domain.features.authorization.usecase.LoginUseCase
+import ru.sobeninalex.authorization.domain.usecase.LoginUseCase
 import ru.sobeninalex.common.presentation.BaseViewModel
 
-class LoginViewModel(
+internal class LoginViewModel(
     private val loginUseCase: LoginUseCase,
 ) : BaseViewModel() {
 

@@ -31,13 +31,11 @@ import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.compose.PostListItemShimmer
-import ru.sobeninalex.common.compose.PullRefreshLayout
+import ru.sobeninalex.common.models.follow.FollowsType
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.common.navigation.MainGraph
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.common.navigation.args.FollowsArgs
-import ru.sobeninalex.common.navigation.args.toProfileArgs
-import ru.sobeninalex.domain.features.follows.model.FollowsType
 import ru.sobeninalex.resources.R
 
 @Composable
@@ -128,7 +126,7 @@ private fun ProfileScreenContent(
                         onEditProfileClick = {
                             navController.navigate(
                                 MainGraph.EditProfileRoute(
-                                    EditProfileArgs(profileArgs = profile.toProfileArgs())
+                                    EditProfileArgs(profile = profile)
                                 )
                             )
                         },

@@ -2,7 +2,7 @@ package ru.sobeninalex.common.event
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.common.models.profile.Profile
 
 object ProfileUpdateEvent {
     private val _event = MutableSharedFlow<Profile>(replay = 1)

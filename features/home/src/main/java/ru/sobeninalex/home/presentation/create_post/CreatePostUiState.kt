@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class CreatePostUiState(
+internal data class CreatePostUiState(
     val isLoading: Boolean = false,
     val caption: String = "",
     val imageUri: Uri = Uri.EMPTY,

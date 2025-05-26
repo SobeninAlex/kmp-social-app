@@ -5,15 +5,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.account.domain.usecase.GetFollowsUseCase
+import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.navigation.args.FollowsArgs
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
-import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.domain.features.follows.usecase.GetFollowsUseCase
 import ru.sobeninalex.utils.helpers.Constants
 
-class FollowsViewModel(
+internal class FollowsViewModel(
     private val args: FollowsArgs,
     private val getFollowsUseCase: GetFollowsUseCase
 ) : BaseViewModel() {

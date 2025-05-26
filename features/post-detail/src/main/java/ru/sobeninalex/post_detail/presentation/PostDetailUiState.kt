@@ -1,11 +1,11 @@
 package ru.sobeninalex.post_detail.presentation
 
 import androidx.compose.runtime.Immutable
-import ru.sobeninalex.domain.features.post.model.Post
-import ru.sobeninalex.domain.features.post.model.PostComment
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.post.PostComment
 
 @Immutable
-data class PostDetailUiState(
+internal data class PostDetailUiState(
     val isLoading: Boolean = false,
     val post: Post? = null,
     val comments: List<PostComment> = emptyList(),
@@ -24,7 +24,7 @@ data class PostDetailUiState(
 }
 
 @Immutable
-data class BottomSheetState(
+internal data class BottomSheetState(
     val type: Type = Type.ADD_COMMENT,
     val isOpen: Boolean = false
 ) {

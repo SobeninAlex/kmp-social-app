@@ -1,9 +1,9 @@
 package ru.sobeninalex.home.presentation.post_list
 
-import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.common.models.post.Post
 
-sealed interface HomeAction {
+internal sealed interface HomeAction {
 
     data object Refresh : HomeAction
 

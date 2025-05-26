@@ -1,6 +1,6 @@
 package ru.sobeninalex.authorization.presentation.signup
 
-sealed interface SignUpAction {
+internal sealed interface SignUpAction {
 
     data class InputUsername(val username: String): SignUpAction
 

@@ -7,23 +7,23 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.domain.features.follows.usecase.FollowOrUnfollowUseCase
-import ru.sobeninalex.domain.features.follows.usecase.GetFollowingSuggestionsUseCase
-import ru.sobeninalex.domain.features.post.model.Post
-import ru.sobeninalex.domain.features.post.usecase.GetFeedPostsUseCase
-import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.FollowStateChangeEvent
 import ru.sobeninalex.common.event.PostUpdateEvent
 import ru.sobeninalex.common.event.ProfileUpdateEvent
 import ru.sobeninalex.common.event.RefreshContentEvent
-import ru.sobeninalex.utils.helpers.Constants
+import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
-import ru.sobeninalex.domain.features.account.model.Profile
+import ru.sobeninalex.home.domain.usecase.FollowOrUnfollowUseCase
+import ru.sobeninalex.home.domain.usecase.GetFeedPostsUseCase
+import ru.sobeninalex.home.domain.usecase.GetFollowingSuggestionsUseCase
+import ru.sobeninalex.home.domain.usecase.LikeOrUnlikeUseCase
+import ru.sobeninalex.utils.helpers.Constants
 
-class HomeViewModel(
+internal class HomeViewModel(
     private val getFollowingSuggestionsUseCase: GetFollowingSuggestionsUseCase,
     private val followOrUnfollowUseCase: FollowOrUnfollowUseCase,
     private val getFeedPostsUseCase: GetFeedPostsUseCase,

@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.sobeninalex.common.compose.CircleImage
 import ru.sobeninalex.common.compose.FollowButton
+import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.domain.features.account.model.Profile
 
 fun LazyListScope.profileHeaderBlock(
     modifier: Modifier = Modifier,

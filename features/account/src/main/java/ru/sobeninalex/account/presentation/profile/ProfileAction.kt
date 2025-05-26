@@ -1,9 +1,9 @@
 package ru.sobeninalex.account.presentation.profile
 
-import ru.sobeninalex.domain.features.account.model.Profile
-import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.profile.Profile
 
-sealed interface ProfileAction {
+internal sealed interface ProfileAction {
 
     data object LoadMorePosts : ProfileAction
 

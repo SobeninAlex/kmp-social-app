@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.domain.features.account.model.Profile
-import ru.sobeninalex.domain.features.account.usecase.GetProfileUseCase
-import ru.sobeninalex.domain.features.follows.usecase.FollowOrUnfollowUseCase
-import ru.sobeninalex.domain.features.post.model.Post
-import ru.sobeninalex.domain.features.post.usecase.GetPostsByUserIdUseCase
-import ru.sobeninalex.domain.features.post.usecase.LikeOrUnlikeUseCase
+import ru.sobeninalex.account.domain.usecase.FollowOrUnfollowUseCase
+import ru.sobeninalex.account.domain.usecase.GetPostsByUserIdUseCase
+import ru.sobeninalex.account.domain.usecase.GetProfileUseCase
+import ru.sobeninalex.account.domain.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.FollowStateChangeEvent
 import ru.sobeninalex.common.event.PostUpdateEvent
 import ru.sobeninalex.common.event.ProfileUpdateEvent
-import ru.sobeninalex.utils.helpers.Constants
+import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
+import ru.sobeninalex.utils.helpers.Constants
 
-class ProfileViewModel(
+internal class ProfileViewModel(
     private val userId: String,
     private val getProfileUseCase: GetProfileUseCase,
     private val getPostsByUserIdUseCase: GetPostsByUserIdUseCase,

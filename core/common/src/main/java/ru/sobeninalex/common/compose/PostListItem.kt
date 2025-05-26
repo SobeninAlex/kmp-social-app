@@ -32,8 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.domain.features.post.model.Post
 
 @Composable
 fun PostListItem(

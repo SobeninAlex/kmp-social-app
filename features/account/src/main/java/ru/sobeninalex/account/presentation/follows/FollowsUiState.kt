@@ -1,9 +1,9 @@
 package ru.sobeninalex.account.presentation.follows
 
-import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.domain.features.follows.model.FollowsType
+import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.common.models.follow.FollowsType
 
-data class FollowsUiState(
+internal data class FollowsUiState(
     val isLoading: Boolean = false,
     val followUsers: List<FollowUser> = emptyList(),
     val followsType: FollowsType = FollowsType.FOLLOWERS,

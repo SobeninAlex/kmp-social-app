@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.sobeninalex.common.event.RefreshContentEvent
 import ru.sobeninalex.common.presentation.BaseViewModel
-import ru.sobeninalex.domain.features.post.usecase.CreatePostUseCase
+import ru.sobeninalex.home.domain.usecase.CreatePostUseCase
 import ru.sobeninalex.utils.helpers.ImageByteReader
 
-class CreatePostViewModel(
+internal class CreatePostViewModel(
     private val createPostUseCase: CreatePostUseCase,
     private val imageByteReader: ImageByteReader
 ) : BaseViewModel() {

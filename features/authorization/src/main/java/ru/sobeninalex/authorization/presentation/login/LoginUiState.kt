@@ -3,7 +3,7 @@ package ru.sobeninalex.authorization.presentation.login
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class LoginUiState(
+internal data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,

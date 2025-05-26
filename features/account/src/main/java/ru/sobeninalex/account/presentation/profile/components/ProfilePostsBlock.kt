@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.compose.PostListItem
 import ru.sobeninalex.common.compose.SubmitButton
-import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.common.models.post.Post
 
 fun LazyListScope.profilePostsBlock(
     isLoading: Boolean,

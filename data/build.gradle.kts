@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.material)
 
     implementation(projects.core.utils)
-    implementation(projects.domain)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.content.negotiation)

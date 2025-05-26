@@ -1,6 +1,6 @@
 package ru.sobeninalex.authorization.presentation.login
 
-sealed interface LoginAction {
+internal sealed interface LoginAction {
 
     data class InputEmail(val email: String): LoginAction
 

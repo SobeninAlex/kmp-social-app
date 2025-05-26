@@ -1,10 +1,8 @@
 package ru.sobeninalex.data.remote
 
 import android.util.Log
-import androidx.datastore.core.DataStore
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -20,10 +18,7 @@ import io.ktor.http.path
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
-import ru.sobeninalex.data.remote.features.authorization.dto.AuthResponseDTO
+import ru.sobeninalex.data.remote.services.authorization.dto.AuthResponseDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.UnauthorizedException
 

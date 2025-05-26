@@ -2,7 +2,7 @@ package ru.sobeninalex.home.presentation.create_post
 
 import android.net.Uri
 
-sealed interface CreatePostAction {
+internal sealed interface CreatePostAction {
 
     data class OnChangeCaption(val caption: String) : CreatePostAction
 

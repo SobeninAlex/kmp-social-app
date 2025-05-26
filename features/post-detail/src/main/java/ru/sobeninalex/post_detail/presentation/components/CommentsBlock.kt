@@ -20,10 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.compose.CommentListItem
 import ru.sobeninalex.common.compose.SubmitButton
-import ru.sobeninalex.domain.features.post.model.PostComment
+import ru.sobeninalex.common.models.post.PostComment
 import ru.sobeninalex.resources.R
 
-fun LazyListScope.postDetailCommentsBlock(
+internal fun LazyListScope.postDetailCommentsBlock(
     isLoading: Boolean,
     onAddCommentClick: () -> Unit,
     comments: List<PostComment>,
@@ -71,7 +71,7 @@ fun LazyListScope.postDetailCommentsBlock(
 }
 
 @Composable
-fun CommentsBlockHeader(
+internal fun CommentsBlockHeader(
     modifier: Modifier = Modifier,
     onAddCommentClick: () -> Unit
 ) {

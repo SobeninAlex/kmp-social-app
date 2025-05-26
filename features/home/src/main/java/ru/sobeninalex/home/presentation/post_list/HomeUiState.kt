@@ -1,11 +1,11 @@
 package ru.sobeninalex.home.presentation.post_list
 
 import androidx.compose.runtime.Immutable
-import ru.sobeninalex.domain.features.follows.model.FollowUser
-import ru.sobeninalex.domain.features.post.model.Post
+import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.common.models.post.Post
 
 @Immutable
-data class HomeUiState(
+internal data class HomeUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val posts: List<Post> = emptyList(),

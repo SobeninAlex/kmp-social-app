@@ -42,7 +42,6 @@ dependencies {
     implementation(projects.core.utils)
     implementation(projects.core.resources)
     implementation(projects.core.common)
-    implementation(projects.domain)
     implementation(projects.data)
     implementation(projects.features.authorization)
     implementation(projects.features.home)

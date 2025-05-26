@@ -1,6 +1,6 @@
 package ru.sobeninalex.account.presentation.follows
 
-sealed interface FollowsAction {
+internal sealed interface FollowsAction {
 
     data object LoadMoreData : FollowsAction
 
