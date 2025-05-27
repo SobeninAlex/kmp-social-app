@@ -1,4 +1,4 @@
-package com.example.kmp_social_app.glue.data
+package ru.sobeninalex.data.remote.di
 
 import org.koin.dsl.module
 import ru.sobeninalex.data.remote.services.account.AccountApiService

@@ -5,12 +5,15 @@ import com.example.kmp_social_app.glue.data.datasource.AuthApiDataSourceImpl
 import com.example.kmp_social_app.glue.data.datasource.FollowsApiDataSourceImpl
 import com.example.kmp_social_app.glue.data.datasource.PostApiDataSourceImpl
 import org.koin.dsl.module
+import ru.sobeninalex.data.remote.di.ApiServiceModule
 import ru.sobeninalex.data.remote.services.account.AccountApiDataSource
 import ru.sobeninalex.data.remote.services.authorization.AuthApiDataSource
 import ru.sobeninalex.data.remote.services.follows.FollowsApiDataSource
 import ru.sobeninalex.data.remote.services.post.PostApiDataSource
 
-val ApiDataSourceModule = module {
+val DataModule = module {
+    includes(ApiServiceModule)
+
     factory<AccountApiDataSource> {
         AccountApiDataSourceImpl(
             userPreferences = get(),

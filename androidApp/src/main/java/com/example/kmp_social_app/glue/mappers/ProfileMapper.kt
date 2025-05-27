@@ -29,30 +29,6 @@ fun Profile.toProfileDTO() = ProfileDTO(
     isOwnProfile = isOwnProfile ?: false,
 )
 
-fun UserSettings.toProfile() = Profile(
-    id = id,
-    name = name,
-    email = "",
-    bio = bio,
-    avatar = avatar,
-    followersCount = followersCount,
-    followingCount = followingCount,
-    isFollowing = false,
-    isOwnProfile = true
-)
-
-fun UserSettings.toProfileDTO() = ProfileDTO(
-    id = id,
-    name = name,
-    email = "",
-    bio = bio,
-    avatar = avatar,
-    followersCount = followersCount,
-    followingCount = followingCount,
-    isFollowing = false,
-    isOwnProfile = true
-)
-
 fun Profile.toUserSettings(token: String): UserSettings {
     return UserSettings(
         id = id,
