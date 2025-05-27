@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -22,6 +23,7 @@ import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
 import ru.sobeninalex.utils.helpers.Constants
+import ru.sobeninalex.utils.helpers.mergeWith
 
 internal class ProfileViewModel(
     private val userId: String,
@@ -32,36 +34,34 @@ internal class ProfileViewModel(
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
-    val uiState = _uiState.asStateFlow()
+    private val profile = getProfileUseCase(userId)
+        .map { profile ->
+            _uiState.value.copy(
+                profile = profile,
+                posts = _uiState.value.posts.map { post ->
+                    post.copy(
+                        userName = profile.name,
+                        userAvatar = profile.avatar
+                    )
+                }
+            )
+        }
+        .onEach { state ->
+            _uiState.update { state }
+        }
 
-    private val profileFlow = getProfileUseCase(userId)
-        .onStart {
-            delay(1500) //todo: test
-        }
-        .onEach { profile ->
-            _uiState.update { state ->
-                state.copy(
-                    profile = profile,
-                    followingOperation = false
-                )
-            }
-        }
+    val uiState = _uiState.mergeWith(profile)
 
     private val postsPagingManager by lazy { createPostsPagingManager() }
 
     init {
-        loadContent()
-
-        ProfileUpdateEvent.event
-            .onEach { refreshContent() }
-            .launchIn(viewModelScope)
+        loadMorePosts()
     }
 
     fun onAction(action: ProfileAction) = when (action) {
         is ProfileAction.LoadMorePosts -> loadMorePosts()
         is ProfileAction.OnFollowButtonClick -> followUser(profile = action.profile)
         is ProfileAction.OnLikeClick -> likeOrUnlike(post = action.post)
-        is ProfileAction.Refresh -> refreshContent()
     }
 
     private fun likeOrUnlike(post: Post) {
@@ -90,38 +90,25 @@ internal class ProfileViewModel(
     private fun followUser(profile: Profile) {
         _uiState.update { it.copy(followingOperation = true) }
         viewModelScope.launch {
+            delay(2000) //todo for test
             runCatching {
                 followOrUnfollowUseCase(
                     followedUserId = profile.id,
                     shouldFollow = !profile.isFollowing
                 )
-            }.onSuccess { isSuccess ->
-                profileFlow.collect()
+            }.onSuccess { _ ->
+                _uiState.update { it.copy(followingOperation = false) }
+                updateProfile {
+                    it.copy(
+                        isFollowing = !profile.isFollowing
+                    )
+                }
                 FollowStateChangeEvent.sendEvent()
             }.onFailure { error ->
                 throw error
             }
         }
     }
-
-    private fun refreshContent() {
-        _uiState.update { it.copy(isRefreshing = true, endReached = true) }
-        postsPagingManager.reset()
-        loadData()
-    }
-
-    private fun loadContent() {
-        _uiState.update { it.copy(isLoading = true) }
-        loadData()
-    }
-
-    private fun loadData() {
-        viewModelScope.launch {
-            profileFlow.collect()
-            loadMorePosts()
-        }
-    }
-
 
     private fun loadMorePosts() {
         viewModelScope.launch {
@@ -159,11 +146,7 @@ internal class ProfileViewModel(
                 throw ex
             },
             onLoadStateChange = { isLoading ->
-                if (_uiState.value.isRefreshing) {
-                    _uiState.update { it.copy(isRefreshing = isLoading) }
-                } else {
-                    _uiState.update { it.copy(isLoading = isLoading) }
-                }
+                _uiState.update { it.copy(isLoading = isLoading) }
             }
         )
     }
@@ -176,6 +159,15 @@ internal class ProfileViewModel(
                         update(it)
                     } else it
                 }
+            )
+        }
+    }
+
+    private fun updateProfile(update: (Profile) -> Profile) {
+        val profile = _uiState.value.profile ?: return
+        _uiState.update { state ->
+            state.copy(
+                profile = update(profile)
             )
         }
     }

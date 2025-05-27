@@ -1,6 +1,6 @@
 package ru.sobeninalex.account.domain
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.profile.Profile
@@ -15,7 +15,7 @@ interface FeatureAccountRepository {
 
     suspend fun getPostsByUserId(userId: String, page: Int, pageSize: Int) : List<Post>
 
-    fun getProfileById(profileId: String): Flow<Profile>
+    fun getProfileById(profileId: String): StateFlow<Profile>
 
     suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean
 

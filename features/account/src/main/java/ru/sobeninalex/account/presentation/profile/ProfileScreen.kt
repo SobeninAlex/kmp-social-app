@@ -47,7 +47,7 @@ fun ProfileScreen(
             parametersOf(userId)
         }
     )
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(ProfileUiState())
 
     ProfileScreenContent(
         uiState = uiState,
@@ -161,10 +161,6 @@ private fun ProfileScreenContent(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
             )
-
-            if (uiState.isRefreshing) {
-                LoadingDialog()
-            }
         }
     }
 

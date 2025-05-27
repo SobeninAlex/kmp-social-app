@@ -1,20 +1,25 @@
 package com.example.kmp_social_app.glue.data.datasource
 
-import com.example.kmp_social_app.glue.mappers.toProfileDTO
+import com.example.kmp_social_app.glue.mappers.toProfile
 import com.example.kmp_social_app.glue.mappers.toUserSettings
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.data.remote.services.account.AccountApiDataSource
 import ru.sobeninalex.data.remote.services.account.AccountApiService
 import ru.sobeninalex.data.remote.services.account.dto.ProfileDTO
 import ru.sobeninalex.data.remote.services.account.dto.UpdateProfileRequestDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
+import ru.sobeninalex.utils.helpers.mergeWith
 import ru.sobeninalex.utils.helpers.toServerUrl
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
@@ -23,30 +28,44 @@ class AccountApiDataSourceImpl(
     private val accountApiService: AccountApiService,
 ) : AccountApiDataSource {
 
-    override fun getProfileById(profileId: String): Flow<ProfileDTO> {
-        return flow {
-            val userSettings = userPreferences.getUserSettings()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-            if (profileId == userSettings.id) {
-                emit(userSettings.toProfileDTO())
-            }
+    private val refreshProfileFlow = MutableSharedFlow<Profile>()
+    private var _profileId: String = ""
 
-            val response = accountApiService.getProfileById(
-                token = userSettings.token,
-                profileId = profileId,
-                currentUserId = userSettings.id
+    private val profile = flow {
+        val userSettings = userPreferences.getUserSettings()
+
+        if (_profileId == userSettings.id) {
+            emit(userSettings.toProfile())
+        }
+
+        val response = accountApiService.getProfileById(
+            token = userSettings.token,
+            profileId = _profileId,
+            currentUserId = userSettings.id
+        )
+
+        if (response.isSuccess) {
+            response.user?.let {
+                emit(it.toProfile())
+            } ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
+        } else {
+            throw SomethingWrongException(message = response.errorMessage)
+        }
+    }.catch { exception ->
+        throw exception
+    }
+
+
+    override fun getProfileById(profileId: String): StateFlow<Profile> {
+        _profileId = profileId
+        return profile.mergeWith(refreshProfileFlow)
+            .stateIn(
+                scope = coroutineScope,
+                started = SharingStarted.Lazily,
+                initialValue = Profile.Preview
             )
-
-            if (response.isSuccess) {
-                response.user?.let {
-                    emit(it)
-                } ?: throw SomethingWrongException(message = Constants.UNEXPECTED_ERROR_MESSAGE)
-            } else {
-                throw SomethingWrongException(message = response.errorMessage)
-            }
-        }.catch { exception ->
-            throw exception
-        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun updateProfile(profile: ProfileDTO, imageBytes: ByteArray?): ProfileDTO {
@@ -87,6 +106,7 @@ class AccountApiDataSourceImpl(
                     userPreferences.setUserSettings(
                         updateProfile.toUserSettings(userSetting.token)
                     )
+                    refreshProfileFlow.emit(updateProfile.toProfile())
                     updateProfile
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
