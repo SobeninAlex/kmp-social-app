@@ -21,7 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.sobeninalex.resources.Caption_Medium12
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun FollowButton(
@@ -37,7 +39,7 @@ fun FollowButton(
         onClick = onClick,
         enabled = !followingOperation,
         contentPadding = contentPadding,
-        shape = MaterialTheme.shapes.small,
+        shape = roundedCornerShape4,
         colors = if (isOutline) {
             ButtonDefaults.outlinedButtonColors()
         } else {
@@ -69,7 +71,7 @@ fun FollowButton(
             ) {
                 Text(
                     text = stringResource(id = text),
-                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 12.sp),
+                    style = Caption_Medium12,
                     color = if (isOutline) MaterialTheme.colorScheme.onBackground else ru.sobeninalex.resources.White87
                 )
             }

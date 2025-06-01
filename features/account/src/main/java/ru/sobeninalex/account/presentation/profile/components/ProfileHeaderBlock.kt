@@ -34,7 +34,13 @@ import androidx.compose.ui.unit.sp
 import ru.sobeninalex.common.compose.CircleImage
 import ru.sobeninalex.common.compose.FollowButton
 import ru.sobeninalex.common.models.profile.Profile
+import ru.sobeninalex.resources.Body_Normal14
+import ru.sobeninalex.resources.Body_Normal16
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold16
+import ru.sobeninalex.resources.Title_Bold18
+import ru.sobeninalex.resources.roundedCornerShape20
+import ru.sobeninalex.resources.roundedCornerShape4
 
 fun LazyListScope.profileHeaderBlock(
     modifier: Modifier = Modifier,
@@ -69,7 +75,7 @@ fun ProfileHeaderBlock(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
+            .clip(roundedCornerShape20)
             .background(MaterialTheme.colorScheme.secondary)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -86,7 +92,7 @@ fun ProfileHeaderBlock(
             if (profile.isOwnProfile) {
                 OutlinedButton(
                     onClick = onEditProfileClick,
-                    shape = MaterialTheme.shapes.small,
+                    shape = roundedCornerShape4,
                     modifier = Modifier.size(30.dp),
                     contentPadding = PaddingValues(6.dp),
                     border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),
@@ -106,13 +112,13 @@ fun ProfileHeaderBlock(
         ) {
             Text(
                 text = profile.name,
-                style = MaterialTheme.typography.titleMedium,
+                style = Title_Bold18,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
                 text = profile.bio,
-                style = MaterialTheme.typography.bodySmall,
+                style = Body_Normal14,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -124,11 +130,11 @@ fun ProfileHeaderBlock(
         ) {
             Text(
                 text = buildAnnotatedString {
-                    withStyle((MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp)).toSpanStyle()) {
+                    withStyle(Title_Bold16.toSpanStyle()) {
                         append("${profile.followersCount} ")
                     }
 
-                    withStyle((MaterialTheme.typography.bodyMedium).toSpanStyle()) {
+                    withStyle(Body_Normal16.toSpanStyle()) {
                         append(stringResource(R.string.followers_text))
                     }
                 },
@@ -137,11 +143,11 @@ fun ProfileHeaderBlock(
 
             Text(
                 text = buildAnnotatedString {
-                    withStyle((MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp)).toSpanStyle()) {
+                    withStyle(Body_Normal16.toSpanStyle()) {
                         append("${profile.followingCount} ")
                     }
 
-                    withStyle((MaterialTheme.typography.bodyMedium).toSpanStyle()) {
+                    withStyle(Body_Normal16.toSpanStyle()) {
                         append(stringResource(R.string.following_text))
                     }
                 },

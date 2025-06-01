@@ -1,7 +1,5 @@
 package com.example.kmp_social_app.glue.features.home
 
-import com.example.kmp_social_app.glue.mappers.toFollowUser
-import com.example.kmp_social_app.glue.mappers.toPost
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.data.remote.services.follows.FollowsApiDataSource
@@ -17,14 +15,14 @@ class FeatureHomeRepositoryImpl(
         return postApiDataSource.createPost(
             caption = caption,
             imageBytes = imageBytes
-        ).toPost()
+        )
     }
 
     override suspend fun getFeedPosts(page: Int, pageSize: Int): List<Post> {
         return postApiDataSource.getFeedPosts(
             page = page,
             pageSize = pageSize
-        ).map { it.toPost() }
+        )
     }
 
     override suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean {
@@ -35,9 +33,7 @@ class FeatureHomeRepositoryImpl(
     }
 
     override suspend fun getFollowingSuggestions(): List<FollowUser> {
-        return followsApiDataSource
-            .getFollowingSuggestions()
-            .map { it.toFollowUser() }
+        return followsApiDataSource.getFollowingSuggestions()
     }
 
     override suspend fun followOrUnfollow(followedUserId: String, shouldFollow: Boolean): Boolean {

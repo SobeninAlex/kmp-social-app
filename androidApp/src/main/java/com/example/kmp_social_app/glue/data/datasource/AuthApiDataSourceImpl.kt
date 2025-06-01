@@ -1,11 +1,12 @@
 package com.example.kmp_social_app.glue.data.datasource
 
+import com.example.kmp_social_app.glue.mappers.toAuthResult
 import com.example.kmp_social_app.glue.mappers.toUserSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.sobeninalex.common.models.auth.AuthResult
 import ru.sobeninalex.data.remote.services.authorization.AuthApiDataSource
 import ru.sobeninalex.data.remote.services.authorization.AuthApiService
-import ru.sobeninalex.data.remote.services.authorization.dto.AuthResultDTO
 import ru.sobeninalex.data.remote.services.authorization.dto.SingInRequestDTO
 import ru.sobeninalex.data.remote.services.authorization.dto.SingUpRequestDTO
 import ru.sobeninalex.utils.helpers.SomethingWrongException
@@ -16,7 +17,7 @@ class AuthApiDataSourceImpl(
     private val authApiService: AuthApiService,
 ) : AuthApiDataSource {
 
-    override suspend fun signUp(name: String, email: String, password: String): AuthResultDTO {
+    override suspend fun signUp(name: String, email: String, password: String): AuthResult {
         return withContext(Dispatchers.IO) {
             try {
                 val request = SingUpRequestDTO(
@@ -27,8 +28,9 @@ class AuthApiDataSourceImpl(
 
                 val response = authApiService.signUp(request)
 
-                response.authData?.also {
+                response.authData?.let {
                     userPreferences.setUserSettings(it.toUserSettings())
+                    it.toAuthResult()
                 } ?: throw SomethingWrongException(message = response.errorMessage)
             } catch (ex: Exception) {
                 throw ex
@@ -36,7 +38,7 @@ class AuthApiDataSourceImpl(
         }
     }
 
-    override suspend fun signIn(email: String, password: String): AuthResultDTO {
+    override suspend fun signIn(email: String, password: String): AuthResult {
         return withContext(Dispatchers.IO) {
             try {
                 val request = SingInRequestDTO(
@@ -46,8 +48,9 @@ class AuthApiDataSourceImpl(
 
                 val response = authApiService.signIn(request)
 
-                response.authData?.also {
+                response.authData?.let {
                     userPreferences.setUserSettings(it.toUserSettings())
+                    it.toAuthResult()
                 } ?: throw SomethingWrongException(message = response.errorMessage)
             } catch (ex: Exception) {
                 throw ex

@@ -23,6 +23,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.resources.Body_Normal14
+import ru.sobeninalex.resources.Title_Bold16
+import ru.sobeninalex.resources.roundedCornerShape20
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun FollowUserListItem(
@@ -33,7 +37,7 @@ fun FollowUserListItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
+            .clip(roundedCornerShape20)
             .background(MaterialTheme.colorScheme.secondary)
             .clickable { onItemClick() }
             .padding(12.dp),
@@ -50,14 +54,14 @@ fun FollowUserListItem(
         ) {
             Text(
                 text = followUser.name,
-                style = MaterialTheme.typography.titleSmall,
+                style = Title_Bold16,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 
             Text(
                 text = followUser.bio,
-                style = MaterialTheme.typography.bodySmall,
+                style = Body_Normal14,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -72,7 +76,7 @@ fun FollowUserListItemShimmer(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
+            .clip(roundedCornerShape20)
             .background(MaterialTheme.colorScheme.secondary)
             .shimmerLinearGradient()
             .padding(12.dp),
@@ -94,7 +98,7 @@ fun FollowUserListItemShimmer(
                 modifier = Modifier
                     .height(14.dp)
                     .fillMaxWidth(0.3f)
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(roundedCornerShape4)
                     .background(MaterialTheme.colorScheme.inverseSurface)
                     .shimmerLinearGradient()
             )
@@ -103,7 +107,7 @@ fun FollowUserListItemShimmer(
                 modifier = Modifier
                     .height(14.dp)
                     .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(roundedCornerShape4)
                     .background(MaterialTheme.colorScheme.inverseSurface)
                     .shimmerLinearGradient()
             )

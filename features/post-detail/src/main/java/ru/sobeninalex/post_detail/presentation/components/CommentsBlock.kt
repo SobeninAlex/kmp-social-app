@@ -15,13 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.compose.CommentListItem
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.models.post.PostComment
+import ru.sobeninalex.resources.Headline_Black24
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold18
 
 internal fun LazyListScope.postDetailCommentsBlock(
     isLoading: Boolean,
@@ -47,8 +48,7 @@ internal fun LazyListScope.postDetailCommentsBlock(
                     modifier = Modifier.padding(16.dp),
                     textAlign = TextAlign.Center,
                     text = "Empty...",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.SemiBold,
+                    style = Headline_Black24,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -84,7 +84,7 @@ internal fun CommentsBlockHeader(
     ) {
         Text(
             text = stringResource(R.string.comments_label),
-            style = MaterialTheme.typography.titleMedium,
+            style = Title_Bold18,
             color = MaterialTheme.colorScheme.onBackground
         )
 

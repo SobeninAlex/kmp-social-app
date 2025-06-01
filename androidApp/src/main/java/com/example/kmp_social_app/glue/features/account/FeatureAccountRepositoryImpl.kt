@@ -1,12 +1,6 @@
 package com.example.kmp_social_app.glue.features.account
 
-import com.example.kmp_social_app.glue.mappers.toFollowUser
-import com.example.kmp_social_app.glue.mappers.toPost
-import com.example.kmp_social_app.glue.mappers.toProfile
-import com.example.kmp_social_app.glue.mappers.toProfileDTO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import ru.sobeninalex.account.domain.FeatureAccountRepository
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.models.post.Post
@@ -33,7 +27,7 @@ class FeatureAccountRepositoryImpl(
             userId = userId,
             page = page,
             pageSize = pageSize
-        ).map { it.toFollowUser() }
+        )
     }
 
     override suspend fun getFollowing(userId: String, page: Int, pageSize: Int): List<FollowUser> {
@@ -41,7 +35,7 @@ class FeatureAccountRepositoryImpl(
             userId = userId,
             page = page,
             pageSize = pageSize
-        ).map { it.toFollowUser() }
+        )
     }
 
     override suspend fun getPostsByUserId(userId: String, page: Int, pageSize: Int): List<Post> {
@@ -49,7 +43,7 @@ class FeatureAccountRepositoryImpl(
             userId = userId,
             page = page,
             pageSize = pageSize
-        ).map { it.toPost() }
+        )
     }
 
     override suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean {
@@ -67,8 +61,8 @@ class FeatureAccountRepositoryImpl(
 
     override suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile {
         return accountApiDataSource.updateProfile(
-            profile = profile.toProfileDTO(),
+            profile = profile,
             imageBytes = imageBytes
-        ).toProfile()
+        )
     }
 }

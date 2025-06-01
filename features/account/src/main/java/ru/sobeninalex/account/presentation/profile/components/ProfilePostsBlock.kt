@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.compose.PostListItem
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.resources.Buttons_Medium14
+import ru.sobeninalex.resources.Title_Bold14
+import ru.sobeninalex.resources.Title_Bold16
 
 fun LazyListScope.profilePostsBlock(
     isLoading: Boolean,
@@ -36,7 +39,7 @@ fun LazyListScope.profilePostsBlock(
             ) {
                 Text(
                     text = "You don't have any posts",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = Title_Bold16,
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                 )
@@ -48,7 +51,7 @@ fun LazyListScope.profilePostsBlock(
                 ) {
                     Text(
                         text = "create post",
-                        style = MaterialTheme.typography.titleSmall
+                        style = Buttons_Medium14
                     )
                 }
             }

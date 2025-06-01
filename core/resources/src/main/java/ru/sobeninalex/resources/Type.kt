@@ -1,57 +1,90 @@
 package ru.sobeninalex.resources
 
-import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
-val Lexend = FontFamily(
-    Font(R.font.lexend_medium, FontWeight.Medium),
-    Font(R.font.lexend_semi_bold, FontWeight.SemiBold),
-    Font(R.font.lexend_bold, FontWeight.Bold)
-)
-val OpenSans = FontFamily(
-    Font(R.font.open_sans_light, FontWeight.Light),
-    Font(R.font.open_sans_regular, FontWeight.Normal)
-)
+private val defaultFontFamily = FontFamily.SansSerif
 
-val Typography = Typography(
-    headlineMedium = TextStyle( //h6
-        fontFamily = Lexend,
-        fontWeight = FontWeight.Bold,
-        fontSize = 21.sp
-    ),
-    titleMedium = TextStyle( //subtitle1
-        fontFamily = Lexend,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
-    ),
-    titleSmall = TextStyle( //subtitle2
-        fontFamily = Lexend,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
-    ),
-    bodyMedium = TextStyle( //body1
-        fontFamily = OpenSans,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    ),
-    bodySmall = TextStyle( //body2
-        fontFamily = OpenSans,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
-    ),
-    labelLarge = TextStyle( //button
-        fontFamily = Lexend,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 15.sp
-    ),
-    labelMedium = TextStyle( //caption
-            fontFamily = OpenSans
-    ),
-    labelSmall = TextStyle( //overline
-        fontFamily = OpenSans
-    )
+val Headline_Black32 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Black,
+    fontSize = 32.sp,
+    letterSpacing = 0.em,
+)
+val Headline_Black24 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Black,
+    fontSize = 24.sp,
+    letterSpacing = 0.em,
+)
+val Title_Bold20 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 20.sp,
+    letterSpacing = 0.em,
+)
+val Title_Bold18 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 18.sp,
+    letterSpacing = 0.em,
+)
+val Title_Bold16 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 16.sp,
+    letterSpacing = 0.em,
+)
+val Title_Bold14 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 14.sp,
+    letterSpacing = 0.em,
+    lineHeight = 16.sp
+)
+val Body_Normal16 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    letterSpacing = 0.em,
+)
+val Body_Light16 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Light,
+    fontSize = 16.sp,
+    letterSpacing = 0.em,
+    lineHeight = 22.sp
+)
+val Body_Normal14 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    letterSpacing = 0.em,
+)
+val Caption_Medium12 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 12.sp,
+    letterSpacing = 0.em,
+)
+val Caption_Normal12 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Normal,
+    fontSize = 12.sp,
+    letterSpacing = 0.02.em,
+)
+val Button_Medium16 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 16.sp,
+    letterSpacing = 0.02.em,
+)
+val Buttons_Medium14 = TextStyle(
+    fontFamily = defaultFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 14.sp,
+    letterSpacing = 0.02.em,
 )

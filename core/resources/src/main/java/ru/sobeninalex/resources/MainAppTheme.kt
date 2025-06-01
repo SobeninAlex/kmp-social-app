@@ -12,8 +12,6 @@ fun MainAppTheme(
     val colors = if (darkTheme) DarkColors else LightColors
     MaterialTheme(
         colorScheme = colors,
-        shapes = Shapes,
-        typography = Typography,
         content = content
     )
 }

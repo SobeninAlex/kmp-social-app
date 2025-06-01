@@ -45,6 +45,8 @@ import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold16
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun EditProfileScreen(
@@ -123,11 +125,11 @@ private fun EditProfileScreenContent(
                         .align(Alignment.BottomEnd)
                         .shadow(
                             elevation = 2.dp,
-                            shape = MaterialTheme.shapes.small
+                            shape = roundedCornerShape4
                         )
                         .background(
                             color = MaterialTheme.colorScheme.surface,
-                            shape = MaterialTheme.shapes.small
+                            shape = roundedCornerShape4
                         )
                         .size(40.dp)
                 ) {
@@ -163,7 +165,7 @@ private fun EditProfileScreenContent(
             ) {
                 Text(
                     text = stringResource(R.string.upload_changes_text),
-                    style = MaterialTheme.typography.titleSmall
+                    style = Title_Bold16
                 )
             }
         }

@@ -25,7 +25,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.sobeninalex.resources.Body_Normal14
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.roundedCornerShape20
 
 @Composable
 fun CustomTetField(
@@ -45,7 +47,7 @@ fun CustomTetField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        textStyle = MaterialTheme.typography.bodySmall,
+        textStyle = Body_Normal14,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
         ),
@@ -96,11 +98,11 @@ fun CustomTetField(
         placeholder = {
             Text(
                 text = stringResource(id = placeholder),
-                style = MaterialTheme.typography.bodySmall,
+                style = Body_Normal14,
                 color = ru.sobeninalex.resources.LightGray
             )
         },
-        shape = MaterialTheme.shapes.large,
+        shape = roundedCornerShape20,
     )
 }
 

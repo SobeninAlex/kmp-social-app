@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import ru.sobeninalex.resources.Title_Bold18
 
 @Composable
 fun EmptyScreen(
@@ -30,7 +31,7 @@ fun EmptyScreen(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = Title_Bold18,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

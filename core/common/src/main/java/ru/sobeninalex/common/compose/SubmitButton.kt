@@ -12,13 +12,14 @@ import androidx.compose.ui.graphics.Shape
 import ru.sobeninalex.resources.Black54
 import ru.sobeninalex.resources.DarkGray
 import ru.sobeninalex.resources.White
+import ru.sobeninalex.resources.roundedCornerShape8
 
 @Composable
 fun SubmitButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    shape: Shape = MaterialTheme.shapes.medium,
+    shape: Shape = roundedCornerShape8,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     disabledContainerColor: Color = DarkGray,
     contentColor: Color = White,

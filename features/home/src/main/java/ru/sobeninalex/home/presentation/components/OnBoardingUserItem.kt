@@ -27,6 +27,7 @@ import ru.sobeninalex.common.compose.CircleImage
 import ru.sobeninalex.common.compose.FollowButton
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold14
 
 @Composable
 internal fun OnBoardingUserCard(
@@ -60,7 +61,7 @@ internal fun OnBoardingUserCard(
 
             Text(
                 text = followUser.name,
-                style = MaterialTheme.typography.titleSmall,
+                style = Title_Bold14,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = MaterialTheme.colorScheme.onBackground

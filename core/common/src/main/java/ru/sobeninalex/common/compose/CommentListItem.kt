@@ -27,8 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.models.post.PostComment
+import ru.sobeninalex.resources.Body_Normal14
+import ru.sobeninalex.resources.Body_Normal16
 import ru.sobeninalex.resources.MainAppTheme
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold16
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun CommentListItem(
@@ -60,7 +64,7 @@ fun CommentListItem(
             ) {
                 Text(
                     text = comment.userName,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = Title_Bold16,
                 )
 
                 Box(
@@ -72,7 +76,7 @@ fun CommentListItem(
 
                 Text(
                     text = comment.createdAt,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = Body_Normal16,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)
                 )
@@ -97,7 +101,7 @@ fun CommentListItem(
 
             Text(
                 text = comment.content,
-                style = MaterialTheme.typography.bodySmall
+                style = Body_Normal14
             )
         }
     }
@@ -136,7 +140,7 @@ fun CommentListItemShimmer(
                     modifier = Modifier
                         .height(14.dp)
                         .width(50.dp)
-                        .clip(MaterialTheme.shapes.small)
+                        .clip(roundedCornerShape4)
                         .background(MaterialTheme.colorScheme.inverseSurface)
                         .shimmerLinearGradient()
                 )
@@ -153,7 +157,7 @@ fun CommentListItemShimmer(
                     modifier = Modifier
                         .height(14.dp)
                         .width(120.dp)
-                        .clip(MaterialTheme.shapes.small)
+                        .clip(roundedCornerShape4)
                         .background(MaterialTheme.colorScheme.inverseSurface)
                         .shimmerLinearGradient()
                 )
@@ -163,7 +167,7 @@ fun CommentListItemShimmer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
-                    .clip(shape = MaterialTheme.shapes.small)
+                    .clip(roundedCornerShape4)
                     .background(MaterialTheme.colorScheme.inverseSurface)
                     .shimmerLinearGradient()
             )

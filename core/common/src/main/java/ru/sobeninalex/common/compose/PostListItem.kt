@@ -33,7 +33,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.sobeninalex.common.models.post.Post
+import ru.sobeninalex.resources.Body_Normal14
+import ru.sobeninalex.resources.Caption_Medium12
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold16
+import ru.sobeninalex.resources.Title_Bold18
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun PostListItem(
@@ -78,7 +83,7 @@ fun PostListItem(
 
         Text(
             text = post.caption,
-            style = MaterialTheme.typography.bodySmall,
+            style = Body_Normal14,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
             maxLines = if (isDetailScreen) 50 else 2,
             overflow = TextOverflow.Ellipsis
@@ -121,7 +126,7 @@ fun PostListItemShimmer(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 8.dp)
                 .height(40.dp)
-                .clip(shape = MaterialTheme.shapes.small)
+                .clip(roundedCornerShape4)
                 .background(MaterialTheme.colorScheme.inverseSurface)
                 .shimmerLinearGradient()
         )
@@ -150,7 +155,7 @@ private fun PostItemHeader(
 
         Text(
             text = name,
-            style = MaterialTheme.typography.titleSmall,
+            style = Title_Bold16,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -163,9 +168,8 @@ private fun PostItemHeader(
 
         Text(
             text = date,
-            style = MaterialTheme.typography.labelMedium.copy(
+            style = Caption_Medium12.copy(
                 textAlign = TextAlign.Start,
-                fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier.weight(1f)
@@ -209,7 +213,7 @@ private fun PostItemHeaderShimmer(
             modifier = Modifier
                 .height(14.dp)
                 .fillMaxWidth(0.5f)
-                .clip(MaterialTheme.shapes.small)
+                .clip(roundedCornerShape4)
                 .background(MaterialTheme.colorScheme.inverseSurface)
                 .shimmerLinearGradient()
         )
@@ -250,7 +254,7 @@ private fun PostLikesRow(
 
         Text(
             text = "$likesCount",
-            style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp),
+            style = Title_Bold18,
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -270,7 +274,7 @@ private fun PostLikesRow(
 
         Text(
             text = "$commentsCount",
-            style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp),
+            style = Title_Bold18,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
@@ -287,7 +291,7 @@ private fun PostLikesRowShimmer(
         Box(
             modifier = Modifier
                 .size(height = 26.dp, width = 42.dp)
-                .clip(shape = MaterialTheme.shapes.small)
+                .clip(roundedCornerShape4)
                 .background(MaterialTheme.colorScheme.inverseSurface)
                 .shimmerLinearGradient()
         )
@@ -297,7 +301,7 @@ private fun PostLikesRowShimmer(
         Box(
             modifier = Modifier
                 .size(height = 26.dp, width = 42.dp)
-                .clip(shape = MaterialTheme.shapes.small)
+                .clip(roundedCornerShape4)
                 .background(color = MaterialTheme.colorScheme.inverseSurface)
                 .shimmerLinearGradient()
         )

@@ -41,6 +41,7 @@ import ru.sobeninalex.common.presentation.ObserveAsEvent
 import ru.sobeninalex.home.presentation.create_post.CreatePostScreen
 import ru.sobeninalex.home.presentation.post_list.HomeScreen
 import ru.sobeninalex.post_detail.presentation.PostDetailScreen
+import ru.sobeninalex.resources.roundedCornerShape8
 import kotlin.reflect.typeOf
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -91,7 +92,7 @@ fun MainNavigationGraph(
             ) {
                 Snackbar(
                     snackbarData = it,
-                    shape = MaterialTheme.shapes.medium,
+                    shape = roundedCornerShape8,
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentColor = MaterialTheme.colorScheme.onBackground,
                     dismissActionContentColor = MaterialTheme.colorScheme.onSurface

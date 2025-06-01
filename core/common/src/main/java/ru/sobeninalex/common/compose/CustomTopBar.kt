@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold18
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +34,7 @@ fun CustomTopBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium
+                style = Title_Bold18
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(

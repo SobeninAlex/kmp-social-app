@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.Title_Bold18
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 fun ErrorScreen(
@@ -39,7 +41,7 @@ fun ErrorScreen(
         ) {
             Text(
                 text = if (errorMessage.isNullOrEmpty()) stringResource(R.string.loading_error_message) else errorMessage,
-                style = MaterialTheme.typography.titleMedium,
+                style = Title_Bold18,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
@@ -47,7 +49,7 @@ fun ErrorScreen(
 
             OutlinedButton(
                 onClick = onClick,
-                shape = MaterialTheme.shapes.small,
+                shape = roundedCornerShape4,
                 border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth(fraction = 0.5f)
             ) {

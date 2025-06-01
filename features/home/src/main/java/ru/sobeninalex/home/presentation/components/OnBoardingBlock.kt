@@ -23,7 +23,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.models.follow.FollowUser
+import ru.sobeninalex.resources.Body_Normal16
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
 internal fun OnBoardingBlock(
@@ -41,7 +43,7 @@ internal fun OnBoardingBlock(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
-            style = MaterialTheme.typography.titleMedium,
+            style = Body_Normal16,
             textAlign = TextAlign.Center
         )
 
@@ -50,7 +52,7 @@ internal fun OnBoardingBlock(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp),
-            style = MaterialTheme.typography.bodySmall,
+            style = Body_Normal16,
             textAlign = TextAlign.Center
         )
 
@@ -64,7 +66,7 @@ internal fun OnBoardingBlock(
 
         OutlinedButton(
             onClick = onBoardingFinishClick,
-            shape = MaterialTheme.shapes.small,
+            shape = roundedCornerShape4,
             border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .fillMaxWidth(fraction = 0.5f)

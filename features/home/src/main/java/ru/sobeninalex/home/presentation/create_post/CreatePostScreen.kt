@@ -42,7 +42,9 @@ import ru.sobeninalex.common.compose.ImageCard
 import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.navigation.LocalNavController
+import ru.sobeninalex.resources.Buttons_Medium14
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.roundedCornerShape20
 
 @Composable
 fun CreatePostScreen() {
@@ -108,7 +110,7 @@ private fun CreatePostScreenContent(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(MaterialTheme.shapes.large)
+                                .clip(roundedCornerShape20)
                                 .clickable {
                                     pickImage.launch(
                                         PickVisualMediaRequest(
@@ -140,7 +142,7 @@ private fun CreatePostScreenContent(
                         ImageCard(
                             model = uiState.imageUri,
                             modifier = Modifier
-                                .clip(MaterialTheme.shapes.large)
+                                .clip(roundedCornerShape20)
                                 .fillMaxWidth()
                         )
                     }
@@ -167,7 +169,7 @@ private fun CreatePostScreenContent(
             ) {
                 Text(
                     text = stringResource(R.string.create_post_button_label),
-                    style = MaterialTheme.typography.titleSmall
+                    style = Buttons_Medium14
                 )
             }
         }

@@ -15,7 +15,6 @@ import kotlinx.serialization.json.Json
 import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.data.remote.services.account.AccountApiDataSource
 import ru.sobeninalex.data.remote.services.account.AccountApiService
-import ru.sobeninalex.data.remote.services.account.dto.ProfileDTO
 import ru.sobeninalex.data.remote.services.account.dto.UpdateProfileRequestDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
@@ -68,7 +67,7 @@ class AccountApiDataSourceImpl(
             )
     }
 
-    override suspend fun updateProfile(profile: ProfileDTO, imageBytes: ByteArray?): ProfileDTO {
+    override suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile {
         return withContext(Dispatchers.IO) {
             try {
                 val userSetting = userPreferences.getUserSettings()
@@ -106,7 +105,7 @@ class AccountApiDataSourceImpl(
                     userPreferences.setUserSettings(
                         updateProfile.toUserSettings(userSetting.token)
                     )
-                    refreshProfileFlow.emit(updateProfile.toProfile())
+                    refreshProfileFlow.emit(updateProfile)
                     updateProfile
                 } else {
                     throw SomethingWrongException(message = response.errorMessage)
