@@ -2,17 +2,18 @@ package com.example.kmp_social_app.glue.data.datasource
 
 import com.example.kmp_social_app.glue.mappers.toProfile
 import com.example.kmp_social_app.glue.mappers.toUserSettings
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import ru.sobeninalex.common.models.profile.Profile
+import ru.sobeninalex.common.presentation.CustomCoroutineScope
 import ru.sobeninalex.data.remote.services.account.AccountApiDataSource
 import ru.sobeninalex.data.remote.services.account.AccountApiService
 import ru.sobeninalex.data.remote.services.account.dto.UpdateProfileRequestDTO
@@ -25,10 +26,8 @@ import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 class AccountApiDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val accountApiService: AccountApiService,
+    private val coroutineScope: CustomCoroutineScope,
 ) : AccountApiDataSource {
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
     private val refreshProfileFlow = MutableSharedFlow<Profile>()
     private var _profileId: String = ""
 
@@ -52,14 +51,16 @@ class AccountApiDataSourceImpl(
         } else {
             throw SomethingWrongException(message = response.errorMessage)
         }
-    }.catch { exception ->
-        throw exception
     }
 
 
     override fun getProfileById(profileId: String): StateFlow<Profile> {
         _profileId = profileId
         return profile.mergeWith(refreshProfileFlow)
+            .catch { exception ->
+                throw exception
+            }
+            .flowOn(Dispatchers.IO)
             .stateIn(
                 scope = coroutineScope,
                 started = SharingStarted.Lazily,

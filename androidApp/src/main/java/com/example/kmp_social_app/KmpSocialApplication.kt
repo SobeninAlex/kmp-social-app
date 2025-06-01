@@ -2,6 +2,7 @@ package com.example.kmp_social_app
 
 import android.app.Application
 import com.example.kmp_social_app.di.AppModule
+import com.example.kmp_social_app.glue.core.common.CommonModule
 import com.example.kmp_social_app.glue.core.utils.UtilsModule
 import com.example.kmp_social_app.glue.data.DataModule
 import com.example.kmp_social_app.glue.features.account.FeatureAccountModule
@@ -19,7 +20,10 @@ class KmpSocialApplication : Application() {
             androidContext(this@KmpSocialApplication)
             modules(
                 UtilsModule,
+                CommonModule,
+
                 AppModule,
+
                 DataModule,
 
                 FeatureAccountModule,
