@@ -29,7 +29,6 @@ import ru.sobeninalex.account.presentation.profile.components.profileHeaderBlock
 import ru.sobeninalex.account.presentation.profile.components.profilePostsBlock
 import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
 import ru.sobeninalex.common.compose.CustomTopBar
-import ru.sobeninalex.common.compose.LoadingDialog
 import ru.sobeninalex.common.compose.PostListItemShimmer
 import ru.sobeninalex.common.models.follow.FollowsType
 import ru.sobeninalex.common.navigation.LocalNavController
