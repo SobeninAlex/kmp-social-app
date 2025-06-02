@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.sobeninalex.account.domain.usecase.UpdateProfileUseCase
-import ru.sobeninalex.common.event.ProfileUpdateEvent
+import ru.sobeninalex.common.event.profile.ProfileUpdatedSharedFlowEvent
 import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.navigation.args.EditProfileArgs
 import ru.sobeninalex.common.presentation.BaseViewModel
@@ -63,7 +63,7 @@ internal class EditProfileViewModel(
                 imageBytes = byteArray
             )
         }.onSuccess {
-            ProfileUpdateEvent.sendEvent(it)
+            ProfileUpdatedSharedFlowEvent.sendEvent(it)
             _uiState.update { oldState ->
                 oldState.copy(
                     isLoading = false,

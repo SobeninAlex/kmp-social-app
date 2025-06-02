@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.common.event.FollowStateChangeEvent
-import ru.sobeninalex.common.event.PostUpdateEvent
-import ru.sobeninalex.common.event.ProfileUpdateEvent
-import ru.sobeninalex.common.event.RefreshContentEvent
+import ru.sobeninalex.common.event.folllow.FollowStateChangedChannelEvent
+import ru.sobeninalex.common.event.post.PostUpdatedChannelEvent
+import ru.sobeninalex.common.event.profile.ProfileUpdatedSharedFlowEvent
+import ru.sobeninalex.common.event.other.RefreshContentSharedFlowEvent
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.profile.Profile
@@ -38,19 +38,19 @@ internal class HomeViewModel(
     init {
         loadContent()
 
-        PostUpdateEvent.event.onEach { post ->
+        PostUpdatedChannelEvent.event.onEach { post ->
             updatePost(post.postId) { post }
         }.launchIn(viewModelScope)
 
-        FollowStateChangeEvent.event.onEach {
+        FollowStateChangedChannelEvent.event.onEach {
             refreshContent()
         }.launchIn(viewModelScope)
 
-        ProfileUpdateEvent.event.onEach { profile ->
+        ProfileUpdatedSharedFlowEvent.event.onEach { profile ->
             updatePostsUser(profile)
         }.launchIn(viewModelScope)
 
-        RefreshContentEvent.event.onEach {
+        RefreshContentSharedFlowEvent.event.onEach {
             refreshContent()
         }.launchIn(viewModelScope)
     }

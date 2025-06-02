@@ -1,6 +1,14 @@
 package ru.sobeninalex.home.presentation.post_list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,18 +19,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,11 +42,12 @@ import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.PostListItem
 import ru.sobeninalex.common.compose.PostListItemShimmer
 import ru.sobeninalex.common.compose.PullRefreshLayout
+import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.common.navigation.MainGraph
 import ru.sobeninalex.home.presentation.components.OnBoardingBlock
+import ru.sobeninalex.resources.Buttons_Medium14
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.resources.White87
 
 @Composable
 fun HomeScreen() {
@@ -56,7 +67,6 @@ private fun HomeScreenContent(
     action: (HomeAction) -> Unit
 ) {
     val navController = LocalNavController.current
-
     val lazyListState = rememberLazyListState()
 
     val shouldLoadMorePosts by remember {
@@ -68,6 +78,10 @@ private fun HomeScreenContent(
                 (lastVisibleItem.index == lazyListState.layoutInfo.totalItemsCount - 1)
             }
         }
+    }
+
+    val visibilityFAB by remember {
+        derivedStateOf { !lazyListState.isScrollInProgress }
     }
 
     Scaffold(
@@ -87,17 +101,41 @@ private fun HomeScreenContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(MainGraph.CreatePostRoute)
-                },
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = White87
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null,
+            AnimatedVisibility(
+                visible = visibilityFAB,
+                enter = fadeIn(
+                    animationSpec = tween(delayMillis = 1000)
+                ) + slideInHorizontally(
+                    initialOffsetX = { it / 2 },
+                    animationSpec = tween(delayMillis = 1000)
+                ),
+                exit = fadeOut() + slideOutHorizontally(
+                    targetOffsetX = { it / 2 }
                 )
+            ) {
+                SubmitButton(
+                    onClick = {
+                        navController.navigate(MainGraph.CreatePostRoute)
+                    },
+                    containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = null,
+                        )
+
+                        Text(
+                            modifier = Modifier.padding(end = 4.dp),
+                            text = stringResource(R.string.add_new_post),
+                            style = Buttons_Medium14
+                        )
+                    }
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.EndOverlay

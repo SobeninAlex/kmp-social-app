@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.common.event.RefreshContentEvent
+import ru.sobeninalex.common.event.other.RefreshContentSharedFlowEvent
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.home.domain.usecase.CreatePostUseCase
 import ru.sobeninalex.utils.helpers.ImageByteReader
@@ -56,8 +56,8 @@ internal class CreatePostViewModel(
                 caption = _uiState.value.caption,
                 imageBytes = byteArray
             )
-        }.onSuccess { newPost ->
-            RefreshContentEvent.sendEvent()
+        }.onSuccess { _ ->
+            RefreshContentSharedFlowEvent.sendEvent()
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,

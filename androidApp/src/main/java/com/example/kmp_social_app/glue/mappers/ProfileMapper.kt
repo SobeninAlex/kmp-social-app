@@ -2,7 +2,7 @@ package com.example.kmp_social_app.glue.mappers
 
 import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.data.remote.services.account.dto.ProfileDTO
-import ru.sobeninalex.utils.helpers.toCurrentUrl
+import ru.sobeninalex.utils.helpers.toClientUrl
 import ru.sobeninalex.utils.preferences.user_prefs.UserSettings
 
 fun ProfileDTO.toProfile() = Profile(
@@ -10,7 +10,7 @@ fun ProfileDTO.toProfile() = Profile(
     name = name,
     email = email,
     bio = bio,
-    avatar = avatar?.toCurrentUrl(),
+    avatar = avatar?.toClientUrl(),
     followersCount = followersCount,
     followingCount = followingCount,
     isFollowing = isFollowing ?: false,
@@ -22,7 +22,7 @@ fun Profile.toProfileDTO() = ProfileDTO(
     name = name,
     email = email,
     bio = bio,
-    avatar = avatar?.toCurrentUrl(),
+    avatar = avatar?.toClientUrl(),
     followersCount = followersCount,
     followingCount = followingCount,
     isFollowing = isFollowing ?: false,

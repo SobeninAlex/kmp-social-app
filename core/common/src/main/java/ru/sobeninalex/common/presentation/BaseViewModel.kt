@@ -5,7 +5,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import ru.sobeninalex.common.event.SnackbarEvent
+import ru.sobeninalex.common.event.other.SnackbarEvent
 
 open class BaseViewModel : ViewModel(), KoinComponent {
 

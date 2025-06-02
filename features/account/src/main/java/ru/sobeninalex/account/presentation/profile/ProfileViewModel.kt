@@ -2,21 +2,16 @@ package ru.sobeninalex.account.presentation.profile
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.sobeninalex.account.domain.usecase.FollowOrUnfollowUseCase
 import ru.sobeninalex.account.domain.usecase.GetPostsByUserIdUseCase
 import ru.sobeninalex.account.domain.usecase.GetProfileUseCase
 import ru.sobeninalex.account.domain.usecase.LikeOrUnlikeUseCase
-import ru.sobeninalex.common.event.FollowStateChangeEvent
-import ru.sobeninalex.common.event.PostUpdateEvent
-import ru.sobeninalex.common.event.ProfileUpdateEvent
+import ru.sobeninalex.common.event.folllow.FollowStateChangedChannelEvent
+import ru.sobeninalex.common.event.post.PostUpdatedChannelEvent
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.presentation.BaseViewModel
@@ -103,7 +98,7 @@ internal class ProfileViewModel(
                         isFollowing = !profile.isFollowing
                     )
                 }
-                FollowStateChangeEvent.sendEvent()
+                FollowStateChangedChannelEvent.sendEvent()
             }.onFailure { error ->
                 throw error
             }
@@ -174,7 +169,7 @@ internal class ProfileViewModel(
 
     private fun postUpdateEvent(post: Post) {
         viewModelScope.launch {
-            PostUpdateEvent.sendEvent(post)
+            PostUpdatedChannelEvent.sendEvent(post)
         }
     }
 }

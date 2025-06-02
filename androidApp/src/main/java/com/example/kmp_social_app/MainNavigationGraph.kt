@@ -29,8 +29,8 @@ import ru.sobeninalex.account.presentation.follows.FollowsScreen
 import ru.sobeninalex.account.presentation.profile.ProfileScreen
 import ru.sobeninalex.authorization.presentation.login.LoginScreen
 import ru.sobeninalex.authorization.presentation.signup.SignUpScreen
-import ru.sobeninalex.common.event.SnackbarEvent
-import ru.sobeninalex.common.event.UnauthorizedEvent
+import ru.sobeninalex.common.event.other.SnackbarEvent
+import ru.sobeninalex.common.event.other.UnauthorizedEvent
 import ru.sobeninalex.common.navigation.AuthGraph
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.common.navigation.MainGraph

@@ -7,8 +7,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import ru.sobeninalex.common.event.SnackbarEvent
-import ru.sobeninalex.common.event.UnauthorizedEvent
+import ru.sobeninalex.common.event.other.SnackbarEvent
+import ru.sobeninalex.common.event.other.UnauthorizedEvent
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.helpers.UnauthorizedException

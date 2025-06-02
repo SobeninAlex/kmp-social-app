@@ -20,6 +20,7 @@ import ru.sobeninalex.data.remote.services.account.dto.UpdateProfileRequestDTO
 import ru.sobeninalex.utils.helpers.Constants
 import ru.sobeninalex.utils.helpers.SomethingWrongException
 import ru.sobeninalex.utils.helpers.mergeWith
+import ru.sobeninalex.utils.helpers.toClientUrl
 import ru.sobeninalex.utils.helpers.toServerUrl
 import ru.sobeninalex.utils.preferences.user_prefs.UserPreferences
 
@@ -99,7 +100,7 @@ class AccountApiDataSourceImpl(
                         )
 
                         profileResponse.user?.let {
-                            avatar = it.avatar
+                            avatar = it.avatar?.toClientUrl()
                         }
                     }
                     val updateProfile = profile.copy(avatar = avatar)

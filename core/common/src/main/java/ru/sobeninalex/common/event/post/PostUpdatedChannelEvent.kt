@@ -1,10 +1,10 @@
-package ru.sobeninalex.common.event
+package ru.sobeninalex.common.event.post
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import ru.sobeninalex.common.models.post.Post
 
-object PostUpdateEvent {
+object PostUpdatedChannelEvent {
     private val _event = Channel<Post>()
     val event = _event.receiveAsFlow()
 

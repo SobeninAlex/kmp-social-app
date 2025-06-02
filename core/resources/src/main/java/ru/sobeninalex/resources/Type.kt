@@ -1,12 +1,13 @@
 package ru.sobeninalex.resources
 
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
-private val defaultFontFamily = FontFamily.SansSerif
+private val defaultFontFamily = FontFamily(Font(R.font.lexend_medium))
 
 val Headline_Black32 = TextStyle(
     fontFamily = defaultFontFamily,

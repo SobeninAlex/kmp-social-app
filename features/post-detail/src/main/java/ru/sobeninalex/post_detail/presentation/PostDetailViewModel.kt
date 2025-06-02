@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.sobeninalex.common.event.PostUpdateEvent
+import ru.sobeninalex.common.event.post.PostUpdatedChannelEvent
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.post.PostComment
 import ru.sobeninalex.common.presentation.BaseViewModel
@@ -246,7 +246,7 @@ internal class PostDetailViewModel(
 
     private fun postUpdateEvent(post: Post) {
         viewModelScope.launch {
-            PostUpdateEvent.sendEvent(post)
+            PostUpdatedChannelEvent.sendEvent(post)
         }
     }
 }

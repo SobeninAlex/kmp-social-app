@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.merge
 import ru.sobeninalex.utils.helpers.Constants.BASE_URL
 import ru.sobeninalex.utils.helpers.Constants.SERVER_URL
 
-fun String.toCurrentUrl(): String {
+fun String.toClientUrl(): String {
     return "$BASE_URL${this.substring(21)}"
 }
 
