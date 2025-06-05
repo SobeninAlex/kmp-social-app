@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -38,15 +36,14 @@ fun TitleBottomSheet(
     onDismissRequest: () -> Unit,
     title: String,
     subTitle: String? = null,
-    sheetState: SheetState = rememberModalBottomSheetState(),
-    showCloseIcon: Boolean = true,
-    dragHandle: Boolean = true,
     shape: Shape = BottomSheetDefaults.ExpandedShape,
     containerColor: Color = MaterialTheme.colorScheme.secondary,
-    footer: @Composable (ColumnScope.() -> Unit)? = null,
+    footer: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val skipPartiallyExpanded = footer != null
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = skipPartiallyExpanded)
 
     ModalBottomSheet(
         modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
@@ -54,29 +51,23 @@ fun TitleBottomSheet(
         sheetState = sheetState,
         containerColor = containerColor,
         shape = shape,
-        dragHandle = { if (dragHandle) CustomDragHandle() },
+        dragHandle = { CustomDragHandle() },
     ) {
-        if (title.isNotEmpty() || showCloseIcon) {
-            BottomSheetTitle(
-                title = title,
-                subTitle = subTitle,
-                onCloseClick = {
-                    scope.launch {
-                        sheetState.hide()
-                        onDismissRequest()
-                    }
+        BottomSheetTitle(
+            title = title,
+            subTitle = subTitle,
+            onCloseClick = {
+                scope.launch {
+                    sheetState.hide()
+                    onDismissRequest()
                 }
-            )
-
-            HorizontalLine()
-        }
-
-        if (footer == null) {
-            content()
-        } else {
-            Box(modifier = Modifier.weight(1f)) {
-                content()
             }
+        )
+
+        HorizontalLine()
+
+        Box(modifier = Modifier.weight(1f)) {
+            content()
         }
 
         footer?.let {
@@ -86,7 +77,7 @@ fun TitleBottomSheet(
                     .background(containerColor)
             ) {
                 HorizontalLine()
-                footer()
+                it()
             }
         }
     }

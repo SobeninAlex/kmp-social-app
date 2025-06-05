@@ -91,15 +91,13 @@ private fun HomeScreenContent(
         derivedStateOf { !lazyListState.isScrollInProgress }
     }
 
-    var showBottomSheet by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             CustomTopBar(
                 title = "Welcome",
                 actions = {
                     IconButton(
-                        onClick = { showBottomSheet = true }
+                        onClick = { /*todo*/ }
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.person_circle_icon),
@@ -241,62 +239,6 @@ private fun HomeScreenContent(
                     action(HomeAction.OnDeletePost(post))
                 }
             )
-        }
-    }
-
-    if (showBottomSheet) {
-        TitleBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
-            title = "title sheet",
-            subTitle = "subtitle sheet",
-            footer = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "Button",
-                            style = Title_Bold14,
-                            color = White
-                        )
-                    }
-
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "Button",
-                            style = Title_Bold14,
-                            color = White
-                        )
-                    }
-                }
-            }
-        ) {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(count = 20) {
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "Button $it",
-                            style = Title_Bold14,
-                            color = White
-                        )
-                    }
-                }
-            }
         }
     }
 }
