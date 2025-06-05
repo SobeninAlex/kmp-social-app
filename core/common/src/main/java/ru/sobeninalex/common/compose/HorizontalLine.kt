@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HorizontalLine(
-    visible: Boolean
+    visible: Boolean = true
 ) {
     if (visible) {
         HorizontalDivider(
