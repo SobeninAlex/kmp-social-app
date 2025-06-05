@@ -3,11 +3,8 @@ package ru.sobeninalex.common.compose
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.sobeninalex.resources.Caption_Medium12
 import ru.sobeninalex.resources.R
+import ru.sobeninalex.resources.White87
 import ru.sobeninalex.resources.roundedCornerShape4
 
 @Composable
@@ -54,25 +51,24 @@ fun FollowButton(
             defaultElevation = 0.dp
         )
     ) {
-        if (followingOperation) {
-            AnimatedVisibility(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                visible = true,
-                enter = fadeIn(tween(300)),
-                exit = fadeOut(tween(300))
+        Box(
+            modifier = Modifier.align(Alignment.CenterVertically)
+        ) {
+            Animate(
+                visible = followingOperation,
+                modifier = Modifier.align(Alignment.Center)
             ) {
                 DotsLoadingIndicator()
             }
-        } else {
-            AnimatedVisibility(
-                visible = true,
-                enter = fadeIn(tween(300)),
-                exit = fadeOut(tween(300))
+
+            Animate(
+                visible = !followingOperation,
+                modifier = Modifier.align(Alignment.Center)
             ) {
                 Text(
                     text = stringResource(id = text),
                     style = Caption_Medium12,
-                    color = if (isOutline) MaterialTheme.colorScheme.onBackground else ru.sobeninalex.resources.White87
+                    color = if (isOutline) MaterialTheme.colorScheme.onBackground else White87
                 )
             }
         }

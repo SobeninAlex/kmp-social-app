@@ -17,6 +17,7 @@ import ru.sobeninalex.common.models.profile.Profile
 import ru.sobeninalex.common.presentation.BaseViewModel
 import ru.sobeninalex.common.presentation.DefaultPagingManager
 import ru.sobeninalex.common.presentation.PagingManager
+import ru.sobeninalex.home.domain.usecase.DeletePostUseCase
 import ru.sobeninalex.home.domain.usecase.FollowOrUnfollowUseCase
 import ru.sobeninalex.home.domain.usecase.GetFeedPostsUseCase
 import ru.sobeninalex.home.domain.usecase.GetFollowingSuggestionsUseCase
@@ -28,6 +29,7 @@ internal class HomeViewModel(
     private val followOrUnfollowUseCase: FollowOrUnfollowUseCase,
     private val getFeedPostsUseCase: GetFeedPostsUseCase,
     private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
+    private val deletePostUseCase: DeletePostUseCase,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -62,8 +64,52 @@ internal class HomeViewModel(
             is HomeAction.LoadMorePosts -> loadMorePosts()
             is HomeAction.OnFollowButtonClick -> followUser(user = action.followedUser)
             is HomeAction.OnLikeClick -> likeOrUnlike(post = action.post)
-            is HomeAction.OnCommentClick -> TODO()
+            is HomeAction.OnCommentClick -> { /*todo*/ }
             is HomeAction.UpdatePost -> updatePost(action.post.postId) { action.post }
+            is HomeAction.ShowDeletePostDialog -> showDeleteDialog(post = action.post)
+            is HomeAction.HideDeletePostDialog -> hideDeleteDialog()
+            is HomeAction.OnDeletePost -> deletePost(post = action.post)
+        }
+    }
+
+    private fun deletePost(post: Post) {
+        updatePost(post.postId) { it.copy(isDeletingPost = true) }
+        viewModelScope.launch {
+            delay(1500) //todo for test
+            runCatching {
+                deletePostUseCase(postId = post.postId)
+            }.onSuccess {
+                val posts = _uiState.value.posts.filter { it.postId != post.postId }
+                _uiState.update { state ->
+                    state.copy(
+                        posts = posts,
+                    )
+                }
+            }.onFailure { error ->
+                updatePost(post.postId) { it.copy(isDeletingPost = false) }
+                throw error
+            }
+        }
+    }
+
+    private fun showDeleteDialog(post: Post) {
+        _uiState.update { state ->
+            state.copy(
+                deleteDialogState = DeleteDialogState(
+                    show = true,
+                    post = post
+                )
+            )
+        }
+    }
+
+    private fun hideDeleteDialog() {
+        _uiState.update { state ->
+            state.copy(
+                deleteDialogState = DeleteDialogState(
+                    show = false,
+                )
+            )
         }
     }
 

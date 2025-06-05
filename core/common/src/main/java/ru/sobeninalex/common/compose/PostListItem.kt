@@ -1,6 +1,10 @@
 package ru.sobeninalex.common.compose
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -31,7 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.resources.Body_Normal14
 import ru.sobeninalex.resources.Caption_Medium12
@@ -46,6 +50,7 @@ fun PostListItem(
     post: Post,
     onPostClick: () -> Unit,
     onProfileClick: (String) -> Unit,
+    onDeleteClick: () -> Unit = {},
     onLikeClick: () -> Unit,
     onCommentClick: () -> Unit,
     isDetailScreen: Boolean = false,
@@ -57,10 +62,16 @@ fun PostListItem(
             .clickable { onPostClick() }
     ) {
         PostItemHeader(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            modifier = Modifier
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .height(42.dp),
             name = post.userName,
             avatar = post.userAvatar,
             date = post.createdAt,
+            isOwnPost = post.isOwnPost,
+            isDetailScreen = isDetailScreen,
+            onDeleteClick = onDeleteClick,
+            isDeletingPost = post.isDeletingPost,
             onProfileClick = { onProfileClick(post.userId) }
         )
 
@@ -139,7 +150,11 @@ private fun PostItemHeader(
     name: String,
     avatar: String?,
     date: String,
-    onProfileClick: () -> Unit
+    isOwnPost: Boolean,
+    onProfileClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    isDetailScreen: Boolean,
+    isDeletingPost: Boolean,
 ) {
     Row(
         modifier = modifier
@@ -175,11 +190,35 @@ private fun PostItemHeader(
             modifier = Modifier.weight(1f)
         )
 
-        Icon(
-            painter = painterResource(R.drawable.round_more_horiz_24),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
-        )
+        if (isOwnPost && !isDetailScreen) {
+            Box(
+                modifier = Modifier.size(32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Animate(
+                    visible = isDeletingPost
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp).padding(4.dp),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
+                Animate(
+                    visible = !isDeletingPost
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_delete_24),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable { onDeleteClick() }
+                            .padding(4.dp)
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -316,11 +355,12 @@ private fun PostListItemPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
             PostListItem(
-                post = Post.Preview,
+                post = Post.Preview.copy(isOwnPost = true),
                 onPostClick = {},
                 onProfileClick = {},
                 onLikeClick = {},
-                onCommentClick = {}
+                onCommentClick = {},
+                onDeleteClick = {},
             )
         }
     }
@@ -350,7 +390,8 @@ private fun PostListItemPreviewDark() {
                 onPostClick = {},
                 onProfileClick = {},
                 onLikeClick = {},
-                onCommentClick = {}
+                onDeleteClick = {},
+                onCommentClick = {},
             )
         }
     }

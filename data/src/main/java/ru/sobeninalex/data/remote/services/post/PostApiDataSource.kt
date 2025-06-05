@@ -20,4 +20,6 @@ interface PostApiDataSource {
     suspend fun createPost(caption: String, imageBytes: ByteArray): Post
 
     suspend fun getFeedPosts(page: Int, pageSize: Int): List<Post>
+
+    suspend fun deletePost(postId: String): Boolean
 }

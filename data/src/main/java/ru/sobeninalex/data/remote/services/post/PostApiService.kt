@@ -94,6 +94,18 @@ class PostApiService : KtorApiService() {
             .body()
     }
 
+    suspend fun deletePost(
+        token: String,
+        postId: String
+    ): PostResponseDTO {
+        return client.delete {
+            route("/post/$postId")
+            setToken(token)
+        }
+            .checkAuth()
+            .body()
+    }
+
     suspend fun createPost(
         token: String,
         postData: String,

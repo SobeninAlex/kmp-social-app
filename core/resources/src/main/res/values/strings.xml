@@ -23,6 +23,8 @@
     <string name="loading_error_message">Ooops, error!</string>
     <string name="retry_button_text">Retry</string>
     <string name="followers_text">"Followers"</string>
+    <string name="delete_post_question">"Delete post?"</string>
+    <string name="impossible_to_restore">"The post will be impossible to restore"</string>
     <string name="following_text">"Following"</string>
     <string name="profile_destination_title">Profile</string>
     <string name="user_bio_hint">Type your bio</string>
@@ -43,4 +45,6 @@
     <string name="select_post_image_label">Post image:</string>
     <string name="to_create_account">No account? Create</string>
     <string name="profile_changed">"Profile changed successfully"</string>
+    <string name="cancel">"Cancel"</string>
+    <string name="confirm">"Confirm"</string>
 </resources>

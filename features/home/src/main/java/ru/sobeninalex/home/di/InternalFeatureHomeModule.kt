@@ -3,6 +3,7 @@ package ru.sobeninalex.home.di
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import ru.sobeninalex.home.domain.usecase.CreatePostUseCase
+import ru.sobeninalex.home.domain.usecase.DeletePostUseCase
 import ru.sobeninalex.home.domain.usecase.FollowOrUnfollowUseCase
 import ru.sobeninalex.home.domain.usecase.GetFeedPostsUseCase
 import ru.sobeninalex.home.domain.usecase.GetFollowingSuggestionsUseCase
@@ -16,13 +17,15 @@ val InternalFeatureHomeModule = module {
             getFollowingSuggestionsUseCase = get(),
             followOrUnfollowUseCase = get(),
             getFeedPostsUseCase = get(),
-            likeOrUnlikeUseCase = get()
+            likeOrUnlikeUseCase = get(),
+            deletePostUseCase = get(),
         )
     }
     factory { GetFollowingSuggestionsUseCase(repository = get()) }
     factory { FollowOrUnfollowUseCase(repository = get()) }
     factory { GetFeedPostsUseCase(repository = get()) }
     factory { LikeOrUnlikeUseCase(repository = get()) }
+    factory { DeletePostUseCase(repository = get()) }
 
     viewModel<CreatePostViewModel> {
         CreatePostViewModel(

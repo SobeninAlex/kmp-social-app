@@ -59,6 +59,27 @@ class PostApiDataSourceImpl(
         }
     }
 
+    override suspend fun deletePost(postId: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val userDate = userPreferences.getUserSettings()
+
+                val response = postApiService.deletePost(
+                    token = userDate.token,
+                    postId = postId
+                )
+
+                if (response.isSuccess) {
+                    true
+                } else {
+                    throw SomethingWrongException(message = response.errorMessage)
+                }
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
+    }
+
     override suspend fun getPostComments(
         postId: String,
         page: Int,

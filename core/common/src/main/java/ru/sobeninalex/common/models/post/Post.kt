@@ -13,6 +13,7 @@ data class Post(
     val isLiked: Boolean = false,
     val isOwnPost: Boolean = false,
     val enabledLike: Boolean = true,
+    val isDeletingPost: Boolean = false
 ) {
     companion object {
         val Preview = Post(

@@ -14,4 +14,6 @@ interface FeatureHomeRepository {
     suspend fun getFollowingSuggestions(): List<FollowUser>
 
     suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean
+
+    suspend fun deletePost(postId: String): Boolean
 }

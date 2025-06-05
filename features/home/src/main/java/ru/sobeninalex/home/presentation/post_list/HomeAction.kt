@@ -18,4 +18,10 @@ internal sealed interface HomeAction {
     data object LoadMorePosts : HomeAction
 
     data class UpdatePost(val post: Post) : HomeAction
+
+    data class ShowDeletePostDialog(val post: Post) : HomeAction
+
+    data object HideDeletePostDialog : HomeAction
+
+    data class OnDeletePost(val post: Post) : HomeAction
 }

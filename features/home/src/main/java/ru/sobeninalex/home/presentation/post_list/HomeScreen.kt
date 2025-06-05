@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
+import ru.sobeninalex.common.compose.CustomDialog
 import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.PostListItem
@@ -194,6 +195,7 @@ private fun HomeScreenContent(
                             action(HomeAction.OnCommentClick(post = post))
                         },
                         isDetailScreen = false,
+                        onDeleteClick = { action(HomeAction.ShowDeletePostDialog(post)) }
                     )
                 }
 
@@ -211,6 +213,20 @@ private fun HomeScreenContent(
             CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+
+    if (uiState.deleteDialogState.show) {
+        uiState.deleteDialogState.post?.let { post ->
+            CustomDialog(
+                title = stringResource(R.string.delete_post_question),
+                subtitle = stringResource(R.string.impossible_to_restore),
+                onDismissRequest = { action(HomeAction.HideDeletePostDialog) },
+                onConfirmClick = {
+                    action(HomeAction.HideDeletePostDialog)
+                    action(HomeAction.OnDeletePost(post))
+                }
             )
         }
     }

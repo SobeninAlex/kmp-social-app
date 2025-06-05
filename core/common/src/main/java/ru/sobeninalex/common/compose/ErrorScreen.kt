@@ -1,9 +1,5 @@
 package ru.sobeninalex.common.compose
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,10 +25,8 @@ fun ErrorScreen(
     errorMessage: String?,
     onClick: () -> Unit
 ) {
-    AnimatedVisibility(
+    Animate(
         visible = visibility,
-        enter = fadeIn(tween(500)),
-        exit = fadeOut(tween(500))
     ) {
         Column(
             modifier = modifier,
