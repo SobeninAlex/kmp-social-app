@@ -2,6 +2,7 @@ package ru.sobeninalex.account.di
 
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
+import ru.sobeninalex.account.domain.usecase.DeletePostUseCase
 import ru.sobeninalex.account.domain.usecase.FollowOrUnfollowUseCase
 import ru.sobeninalex.account.domain.usecase.GetFollowsUseCase
 import ru.sobeninalex.account.domain.usecase.GetPostsByUserIdUseCase
@@ -22,12 +23,14 @@ val InternalFeatureAccountModule = module {
             getPostsByUserIdUseCase = get(),
             followOrUnfollowUseCase = get(),
             likeOrUnlikeUseCase = get(),
+            deletePostUseCase = get(),
         )
     }
     factory { GetProfileUseCase(repository = get()) }
     factory { GetPostsByUserIdUseCase(repository = get()) }
     factory { FollowOrUnfollowUseCase(repository = get()) }
     factory { LikeOrUnlikeUseCase(repository = get()) }
+    factory { DeletePostUseCase(repository = get()) }
 
     viewModel { (args: EditProfileArgs) ->
         EditProfileViewModel(

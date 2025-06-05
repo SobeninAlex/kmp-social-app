@@ -11,6 +11,7 @@ import ru.sobeninalex.common.event.folllow.FollowStateChangedChannelEvent
 import ru.sobeninalex.common.event.post.PostUpdatedChannelEvent
 import ru.sobeninalex.common.event.profile.ProfileUpdatedSharedFlowEvent
 import ru.sobeninalex.common.event.other.RefreshContentSharedFlowEvent
+import ru.sobeninalex.common.event.post.PostDeletedSharedFlowEvent
 import ru.sobeninalex.common.models.follow.FollowUser
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.profile.Profile
@@ -52,6 +53,10 @@ internal class HomeViewModel(
             updatePostsUser(profile)
         }.launchIn(viewModelScope)
 
+        PostDeletedSharedFlowEvent.event.onEach { postId ->
+            deletePostById(postId = postId)
+        }.launchIn(viewModelScope)
+
         RefreshContentSharedFlowEvent.event.onEach {
             refreshContent()
         }.launchIn(viewModelScope)
@@ -72,6 +77,15 @@ internal class HomeViewModel(
         }
     }
 
+    private fun deletePostById(postId: String) {
+        val posts = _uiState.value.posts.filter { it.postId != postId }
+        _uiState.update { state ->
+            state.copy(
+                posts = posts,
+            )
+        }
+    }
+
     private fun deletePost(post: Post) {
         updatePost(post.postId) { it.copy(isDeletingPost = true) }
         viewModelScope.launch {
@@ -79,12 +93,7 @@ internal class HomeViewModel(
             runCatching {
                 deletePostUseCase(postId = post.postId)
             }.onSuccess {
-                val posts = _uiState.value.posts.filter { it.postId != post.postId }
-                _uiState.update { state ->
-                    state.copy(
-                        posts = posts,
-                    )
-                }
+                deletePostById(postId = post.postId)
             }.onFailure { error ->
                 updatePost(post.postId) { it.copy(isDeletingPost = false) }
                 throw error
@@ -95,7 +104,7 @@ internal class HomeViewModel(
     private fun showDeleteDialog(post: Post) {
         _uiState.update { state ->
             state.copy(
-                deleteDialogState = DeleteDialogState(
+                deletePostDialogState = DeletePostDialogState(
                     show = true,
                     post = post
                 )
@@ -106,7 +115,7 @@ internal class HomeViewModel(
     private fun hideDeleteDialog() {
         _uiState.update { state ->
             state.copy(
-                deleteDialogState = DeleteDialogState(
+                deletePostDialogState = DeletePostDialogState(
                     show = false,
                 )
             )

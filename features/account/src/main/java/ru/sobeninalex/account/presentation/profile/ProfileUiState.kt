@@ -11,6 +11,7 @@ internal data class ProfileUiState(
     val posts: List<Post> = emptyList(),
     val endReached: Boolean = true,
     val followingOperation: Boolean = false,
+    val deletePostDialogState: DeletePostDialogState = DeletePostDialogState(),
 ) {
 
     companion object {
@@ -21,3 +22,9 @@ internal data class ProfileUiState(
         )
     }
 }
+
+@Immutable
+internal data class DeletePostDialogState(
+    val show: Boolean = false,
+    val post: Post? = null
+)

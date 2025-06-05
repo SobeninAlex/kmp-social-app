@@ -12,7 +12,7 @@ internal data class HomeUiState(
     val users: List<FollowUser> = emptyList(),
     val showUsersRecommendation: Boolean = true,
     val endReached: Boolean = true,
-    val deleteDialogState: DeleteDialogState = DeleteDialogState(),
+    val deletePostDialogState: DeletePostDialogState = DeletePostDialogState(),
 ) {
     companion object {
         val Preview = HomeUiState(
@@ -23,7 +23,7 @@ internal data class HomeUiState(
 }
 
 @Immutable
-internal data class DeleteDialogState(
+internal data class DeletePostDialogState(
     val show: Boolean = false,
     val post: Post? = null
 )

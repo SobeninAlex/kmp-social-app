@@ -65,4 +65,8 @@ class FeatureAccountRepositoryImpl(
             imageBytes = imageBytes
         )
     }
+
+    override suspend fun deletePost(postId: String): Boolean {
+        return postApiDataSource.deletePost(postId = postId)
+    }
 }

@@ -20,4 +20,6 @@ interface FeatureAccountRepository {
     suspend fun likeOrUnlikePost(postId: String, shouldLike: Boolean): Boolean
 
     suspend fun updateProfile(profile: Profile, imageBytes: ByteArray?): Profile
+
+    suspend fun deletePost(postId: String): Boolean
 }

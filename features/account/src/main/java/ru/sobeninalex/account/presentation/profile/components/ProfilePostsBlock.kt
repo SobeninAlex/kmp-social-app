@@ -26,6 +26,7 @@ fun LazyListScope.profilePostsBlock(
     onPostClick: (Post) -> Unit,
     onLikeClick: (Post) -> Unit,
     onCommentClick: (Post) -> Unit,
+    onDeleteClick: (Post) -> Unit,
     isOwnProfile: Boolean,
 ) {
     if (posts.isEmpty() && isOwnProfile && !isLoading) {
@@ -68,6 +69,7 @@ fun LazyListScope.profilePostsBlock(
                 onProfileClick = {},
                 onLikeClick = { onLikeClick(post) },
                 onCommentClick = { onCommentClick(post) },
+                onDeleteClick = { onDeleteClick(post) }
             )
         }
     }

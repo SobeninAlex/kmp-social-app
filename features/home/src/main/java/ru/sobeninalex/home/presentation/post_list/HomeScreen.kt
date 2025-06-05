@@ -194,7 +194,6 @@ private fun HomeScreenContent(
                         onCommentClick = {
                             action(HomeAction.OnCommentClick(post = post))
                         },
-                        isDetailScreen = false,
                         onDeleteClick = { action(HomeAction.ShowDeletePostDialog(post)) }
                     )
                 }
@@ -217,8 +216,8 @@ private fun HomeScreenContent(
         }
     }
 
-    if (uiState.deleteDialogState.show) {
-        uiState.deleteDialogState.post?.let { post ->
+    if (uiState.deletePostDialogState.show) {
+        uiState.deletePostDialogState.post?.let { post ->
             CustomDialog(
                 title = stringResource(R.string.delete_post_question),
                 subtitle = stringResource(R.string.impossible_to_restore),

@@ -10,4 +10,10 @@ internal sealed interface ProfileAction {
     data class OnFollowButtonClick(val profile: Profile) : ProfileAction
 
     data class OnLikeClick(val post: Post): ProfileAction
+
+    data class ShowDeletePostDialog(val post: Post) : ProfileAction
+
+    data object HideDeletePostDialog : ProfileAction
+
+    data class OnDeletePost(val post: Post) : ProfileAction
 }

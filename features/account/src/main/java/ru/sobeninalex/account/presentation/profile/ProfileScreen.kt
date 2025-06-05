@@ -27,6 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.sobeninalex.account.presentation.profile.components.profileHeaderBlock
 import ru.sobeninalex.account.presentation.profile.components.profilePostsBlock
+import ru.sobeninalex.common.compose.CustomDialog
 import ru.sobeninalex.common.compose.CustomRotatingDotsLoader
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.PostListItemShimmer
@@ -142,7 +143,10 @@ private fun ProfileScreenContent(
                         action(ProfileAction.OnLikeClick(post = it))
                     },
                     onCommentClick = {},
-                    isOwnProfile = uiState.profile?.isOwnProfile ?: false
+                    isOwnProfile = uiState.profile?.isOwnProfile ?: false,
+                    onDeleteClick = {
+                        action(ProfileAction.ShowDeletePostDialog(it))
+                    }
                 )
 
                 if (uiState.isLoading && !uiState.endReached) {
@@ -159,6 +163,20 @@ private fun ProfileScreenContent(
             CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+
+    if (uiState.deletePostDialogState.show) {
+        uiState.deletePostDialogState.post?.let { post ->
+            CustomDialog(
+                title = stringResource(R.string.delete_post_question),
+                subtitle = stringResource(R.string.impossible_to_restore),
+                onDismissRequest = { action(ProfileAction.HideDeletePostDialog) },
+                onConfirmClick = {
+                    action(ProfileAction.HideDeletePostDialog)
+                    action(ProfileAction.OnDeletePost(post))
+                }
             )
         }
     }

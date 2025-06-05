@@ -6,11 +6,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.sobeninalex.account.domain.usecase.DeletePostUseCase
 import ru.sobeninalex.account.domain.usecase.FollowOrUnfollowUseCase
 import ru.sobeninalex.account.domain.usecase.GetPostsByUserIdUseCase
 import ru.sobeninalex.account.domain.usecase.GetProfileUseCase
 import ru.sobeninalex.account.domain.usecase.LikeOrUnlikeUseCase
 import ru.sobeninalex.common.event.folllow.FollowStateChangedChannelEvent
+import ru.sobeninalex.common.event.post.PostDeletedSharedFlowEvent
 import ru.sobeninalex.common.event.post.PostUpdatedChannelEvent
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.common.models.profile.Profile
@@ -26,6 +28,7 @@ internal class ProfileViewModel(
     private val getPostsByUserIdUseCase: GetPostsByUserIdUseCase,
     private val followOrUnfollowUseCase: FollowOrUnfollowUseCase,
     private val likeOrUnlikeUseCase: LikeOrUnlikeUseCase,
+    private val deletePostUseCase: DeletePostUseCase,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
@@ -57,6 +60,55 @@ internal class ProfileViewModel(
         is ProfileAction.LoadMorePosts -> loadMorePosts()
         is ProfileAction.OnFollowButtonClick -> followUser(profile = action.profile)
         is ProfileAction.OnLikeClick -> likeOrUnlike(post = action.post)
+        is ProfileAction.HideDeletePostDialog -> hideDeleteDialog()
+        is ProfileAction.ShowDeletePostDialog -> showDeleteDialog(post = action.post)
+        is ProfileAction.OnDeletePost -> deletePost(post = action.post)
+    }
+
+    private fun deletePost(post: Post) {
+        updatePost(post.postId) { it.copy(isDeletingPost = true) }
+        viewModelScope.launch {
+            delay(1500) //todo for test
+            runCatching {
+                deletePostUseCase(postId = post.postId)
+            }.onSuccess {
+                PostDeletedSharedFlowEvent.sendEvent(postId = post.postId)
+                deletePostById(postId = post.postId)
+            }.onFailure { error ->
+                updatePost(post.postId) { it.copy(isDeletingPost = false) }
+                throw error
+            }
+        }
+    }
+
+    private fun deletePostById(postId: String) {
+        val posts = _uiState.value.posts.filter { it.postId != postId }
+        _uiState.update { state ->
+            state.copy(
+                posts = posts,
+            )
+        }
+    }
+
+    private fun showDeleteDialog(post: Post) {
+        _uiState.update { state ->
+            state.copy(
+                deletePostDialogState = DeletePostDialogState(
+                    show = true,
+                    post = post
+                )
+            )
+        }
+    }
+
+    private fun hideDeleteDialog() {
+        _uiState.update { state ->
+            state.copy(
+                deletePostDialogState = DeletePostDialogState(
+                    show = false,
+                )
+            )
+        }
     }
 
     private fun likeOrUnlike(post: Post) {
