@@ -28,8 +28,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.sobeninalex.resources.Body_Normal14
 import ru.sobeninalex.resources.R
-import ru.sobeninalex.resources.Title_Bold14
 import ru.sobeninalex.resources.Title_Bold16
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,13 +42,11 @@ fun TitleBottomSheet(
     showCloseIcon: Boolean = true,
     dragHandle: Boolean = true,
     shape: Shape = BottomSheetDefaults.ExpandedShape,
-//    expandedFraction: Float = 0.95f,
     containerColor: Color = MaterialTheme.colorScheme.secondary,
     footer: @Composable (ColumnScope.() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-//    val modifier = if (fraction != null) Modifier.fillMaxHeight(fraction) else Modifier
 
     ModalBottomSheet(
         modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
@@ -58,40 +56,37 @@ fun TitleBottomSheet(
         shape = shape,
         dragHandle = { if (dragHandle) CustomDragHandle() },
     ) {
-        Column(
-//            modifier = modifier
-        ) {
-            if (title.isNotEmpty() || showCloseIcon) {
-                BottomSheetTitle(
-                    title = title,
-                    subTitle = subTitle,
-                    onCloseClick = {
-                        scope.launch {
-                            sheetState.hide()
-                            onDismissRequest()
-                        }
+        if (title.isNotEmpty() || showCloseIcon) {
+            BottomSheetTitle(
+                title = title,
+                subTitle = subTitle,
+                onCloseClick = {
+                    scope.launch {
+                        sheetState.hide()
+                        onDismissRequest()
                     }
-                )
+                }
+            )
 
-                HorizontalLine()
-            }
+            HorizontalLine()
+        }
 
-            if (footer == null) {
+        if (footer == null) {
+            content()
+        } else {
+            Box(modifier = Modifier.weight(1f)) {
                 content()
-            } else {
-                Box(modifier = Modifier.weight(1f)) {
-                    content()
-                }
             }
+        }
 
-            footer?.let {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(containerColor)
-                ) {
-                    footer()
-                }
+        footer?.let {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(containerColor)
+            ) {
+                HorizontalLine()
+                footer()
             }
         }
     }
@@ -109,7 +104,9 @@ private fun BottomSheetTitle(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Column {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             Text(
                 text = title,
                 style = Title_Bold16,
@@ -118,7 +115,7 @@ private fun BottomSheetTitle(
             subTitle?.let {
                 Text(
                     text = it,
-                    style = Title_Bold14,
+                    style = Body_Normal14,
                     color = MaterialTheme.colorScheme.onBackground
                 )
             }
