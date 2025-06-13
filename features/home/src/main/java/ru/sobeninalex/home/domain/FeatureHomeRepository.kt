@@ -5,7 +5,7 @@ import ru.sobeninalex.common.models.post.Post
 
 interface FeatureHomeRepository {
 
-    suspend fun createPost(caption: String, imageBytes: ByteArray): Post
+    suspend fun createPost(caption: String, imageBytes: List<ByteArray>): Post
 
     suspend fun followOrUnfollow(followedUserId: String, shouldFollow: Boolean): Boolean
 

@@ -1,9 +1,5 @@
 package ru.sobeninalex.home.presentation.create_post
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -16,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,6 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
+import ru.sobeninalex.common.compose.AttachmentsBottomSheet
 import ru.sobeninalex.common.compose.CustomTetField
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.ImageCard
@@ -64,14 +66,8 @@ private fun CreatePostScreenContent(
 ) {
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
-    val pickImage = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            uri?.let {
-                onAction(CreatePostAction.OnChangeImageUri(it))
-            }
-        },
-    )
+
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.uploadPostSuccess) {
         if (uiState.uploadPostSuccess) {
@@ -101,23 +97,26 @@ private fun CreatePostScreenContent(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                ) {
-                    if (uiState.imageUri == Uri.EMPTY) {
+                LazyRow {
+                    items(
+                        items = uiState.attachmentsUri
+                    ) { uri ->
+                        ImageCard(
+                            model = uri,
+                            modifier = Modifier
+                                .height(300.dp)
+                                .clip(roundedCornerShape20)
+                                .aspectRatio(1f)
+                        )
+                    }
+
+                    item {
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .height(400.dp)
                                 .clip(roundedCornerShape20)
-                                .clickable {
-                                    pickImage.launch(
-                                        PickVisualMediaRequest(
-                                            ActivityResultContracts.PickVisualMedia.ImageOnly
-                                        )
-                                    )
-                                }
+                                .aspectRatio(1f)
+                                .clickable { showBottomSheet = true }
                         ) {
                             val mock = if (isSystemInDarkTheme()) {
                                 painterResource(R.drawable.img_mock_picture_dark)
@@ -138,13 +137,6 @@ private fun CreatePostScreenContent(
                                     .align(Alignment.Center)
                             )
                         }
-                    } else {
-                        ImageCard(
-                            model = uiState.imageUri,
-                            modifier = Modifier
-                                .clip(roundedCornerShape20)
-                                .fillMaxWidth()
-                        )
                     }
                 }
 
@@ -173,7 +165,13 @@ private fun CreatePostScreenContent(
                 )
             }
         }
+    }
 
+    if (showBottomSheet) {
+        AttachmentsBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            onPick = { onAction(CreatePostAction.OnPickAttachments(it)) }
+        )
     }
 
     if (uiState.isLoading) {

@@ -7,9 +7,9 @@ import androidx.compose.runtime.Immutable
 internal data class CreatePostUiState(
     val isLoading: Boolean = false,
     val caption: String = "",
-    val imageUri: Uri = Uri.EMPTY,
+    val attachmentsUri: List<Uri> = emptyList(),
     val uploadPostSuccess: Boolean = false
 ) {
 
-    val createPostButtonEnabled: Boolean get() = caption.isNotBlank() && imageUri != Uri.EMPTY
+    val createPostButtonEnabled: Boolean get() = caption.isNotBlank() && attachmentsUri.isNotEmpty()
 }

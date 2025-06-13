@@ -46,9 +46,9 @@ internal class EditProfileViewModel(
             }
 
             runCatching {
-                imageByteReader.readImageBytes(imageUri)
+                imageByteReader.readImageBytes(listOf(imageUri))
             }.onSuccess { result ->
-                onUpdateProfile(byteArray = result)
+                onUpdateProfile(byteArray = result.first())
             }.onFailure { error ->
                 _uiState.update { it.copy(isLoading = false) }
                 throw error

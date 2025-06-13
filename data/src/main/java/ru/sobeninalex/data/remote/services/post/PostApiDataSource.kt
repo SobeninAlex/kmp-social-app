@@ -17,7 +17,7 @@ interface PostApiDataSource {
 
     suspend fun deleteComment(commentId: String, postId: String)
 
-    suspend fun createPost(caption: String, imageBytes: ByteArray): Post
+    suspend fun createPost(caption: String, imageBytes: List<ByteArray>): Post
 
     suspend fun getFeedPosts(page: Int, pageSize: Int): List<Post>
 

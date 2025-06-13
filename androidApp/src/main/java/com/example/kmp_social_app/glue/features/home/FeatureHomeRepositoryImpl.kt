@@ -11,7 +11,7 @@ class FeatureHomeRepositoryImpl(
     private val followsApiDataSource: FollowsApiDataSource,
 ) : FeatureHomeRepository {
 
-    override suspend fun createPost(caption: String, imageBytes: ByteArray): Post {
+    override suspend fun createPost(caption: String, imageBytes: List<ByteArray>): Post {
         return postApiDataSource.createPost(
             caption = caption,
             imageBytes = imageBytes

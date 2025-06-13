@@ -109,19 +109,21 @@ class PostApiService : KtorApiService() {
     suspend fun createPost(
         token: String,
         postData: String,
-        imageBytes: ByteArray
+        imageBytes: List<ByteArray>
     ): PostResponseDTO {
         return client.submitFormWithBinaryData(
             formData = formData {
                 append(key = "post_data", value = postData)
-                append(
-                    key = "image",
-                    value = imageBytes,
-                    headers = Headers.build {
-                        append(HttpHeaders.ContentType, value = "image/*")
-                        append(HttpHeaders.ContentDisposition, value = "filename=post.jpg")
-                    }
-                )
+                imageBytes.forEachIndexed { index,  item ->
+                    append(
+                        key = "image",
+                        value = item,
+                        headers = Headers.build {
+                            append(HttpHeaders.ContentType, value = "image/*")
+                            append(HttpHeaders.ContentDisposition, value = "filename=post$index.jpg")
+                        }
+                    )
+                }
             }
         ) {
             route("/post/create")

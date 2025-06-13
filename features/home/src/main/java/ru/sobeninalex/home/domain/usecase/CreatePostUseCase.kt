@@ -10,14 +10,14 @@ internal class CreatePostUseCase(
 
     suspend operator fun invoke(
         caption: String,
-        imageBytes: ByteArray
+        imagesBytes: List<ByteArray>
     ) : Post {
         if (caption.isBlank() || caption.length > 300) {
             throw SomethingWrongException(message = "Description length do not more than 300 symbols")
         }
         return repository.createPost(
             caption = caption,
-            imageBytes = imageBytes
+            imageBytes = imagesBytes
         )
     }
 }

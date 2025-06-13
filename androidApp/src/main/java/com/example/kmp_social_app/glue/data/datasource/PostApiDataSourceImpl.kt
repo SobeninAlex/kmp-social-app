@@ -196,7 +196,7 @@ class PostApiDataSourceImpl(
         }
     }
 
-    override suspend fun createPost(caption: String, imageBytes: ByteArray): Post {
+    override suspend fun createPost(caption: String, imageBytes: List<ByteArray>): Post {
         return withContext(Dispatchers.IO) {
             try {
                 val userSetting = userPreferences.getUserSettings()

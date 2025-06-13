@@ -8,7 +8,7 @@ import ru.sobeninalex.utils.helpers.toClientUrl
 fun PostDTO.toPost() = Post(
     postId = postId,
     caption = caption,
-    imageUrl = imageUrl?.toClientUrl(),
+    imageUrls = imageUrls.map { it.toClientUrl() },
     likesCount = likesCount,
     commentsCount = commentsCount,
     createdAt = DateFormatter.parseDate(createdAt),

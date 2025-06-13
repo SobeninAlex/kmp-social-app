@@ -47,4 +47,11 @@
     <string name="profile_changed">"Profile changed successfully"</string>
     <string name="cancel">"Cancel"</string>
     <string name="confirm">"Confirm"</string>
+    <string name="attach">"Attach"</string>
+
+    <string name="take_photo">take photo</string>
+    <string name="take_video">take video</string>
+    <string name="pick_image">upload from gallery</string>
+    <string name="pick_file">upload file</string>
+    <string name="local_storage">storage</string>
 </resources>

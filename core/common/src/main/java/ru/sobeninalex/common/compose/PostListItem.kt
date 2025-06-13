@@ -77,7 +77,7 @@ fun PostListItem(
 
         ImageCard(
             onClick = onPostClick,
-            model = post.imageUrl,
+            model = post.imageUrls.first(), //todo
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1.0f),

@@ -6,7 +6,7 @@ internal sealed interface CreatePostAction {
 
     data class OnChangeCaption(val caption: String) : CreatePostAction
 
-    data class OnChangeImageUri(val imageUri: Uri) : CreatePostAction
-
     data object OnCreatePostClick : CreatePostAction
+
+    data class OnPickAttachments(val uris: List<Uri>) : CreatePostAction
 }

@@ -9,11 +9,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HorizontalLine(
+    modifier: Modifier = Modifier,
     visible: Boolean = true
 ) {
     if (visible) {
         HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.onSurface
         )

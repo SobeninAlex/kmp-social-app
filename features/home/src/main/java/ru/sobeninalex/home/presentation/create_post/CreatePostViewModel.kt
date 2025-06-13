@@ -20,8 +20,8 @@ internal class CreatePostViewModel(
 
     fun onAction(action: CreatePostAction) = when (action) {
         is CreatePostAction.OnChangeCaption -> onChangeCaption(action.caption)
-        is CreatePostAction.OnChangeImageUri -> onChangeImageUri(action.imageUri)
         is CreatePostAction.OnCreatePostClick -> createPost()
+        is CreatePostAction.OnPickAttachments ->  onPickAttachments(action.uris)
     }
 
     private fun onChangeCaption(caption: String) {
@@ -30,9 +30,11 @@ internal class CreatePostViewModel(
         }
     }
 
-    private fun onChangeImageUri(imageUri: Uri) {
+    private fun onPickAttachments(uris: List<Uri>) {
         _uiState.update { state ->
-            state.copy(imageUri = imageUri)
+            state.copy(
+                attachmentsUri = state.attachmentsUri + uris
+            )
         }
     }
 
@@ -40,7 +42,7 @@ internal class CreatePostViewModel(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             runCatching {
-                imageByteReader.readImageBytes(_uiState.value.imageUri)
+                imageByteReader.readImageBytes(_uiState.value.attachmentsUri)
             }.onSuccess {
                 uploadPost(it)
             }.onFailure { error ->
@@ -50,11 +52,11 @@ internal class CreatePostViewModel(
         }
     }
 
-    private suspend fun uploadPost(byteArray: ByteArray) {
+    private suspend fun uploadPost(byteArray: List<ByteArray>) {
         runCatching {
             createPostUseCase(
                 caption = _uiState.value.caption,
-                imageBytes = byteArray
+                imagesBytes = byteArray
             )
         }.onSuccess { _ ->
             RefreshContentSharedFlowEvent.sendEvent()
