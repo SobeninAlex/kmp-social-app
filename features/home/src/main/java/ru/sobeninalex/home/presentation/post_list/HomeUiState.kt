@@ -8,6 +8,7 @@ import ru.sobeninalex.common.models.post.Post
 internal data class HomeUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
+    val throwable: Throwable? = null,
     val posts: List<Post> = emptyList(),
     val users: List<FollowUser> = emptyList(),
     val showUsersRecommendation: Boolean = true,

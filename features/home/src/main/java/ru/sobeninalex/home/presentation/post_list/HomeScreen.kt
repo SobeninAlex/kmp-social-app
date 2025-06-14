@@ -46,6 +46,7 @@ import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.PostListItem
 import ru.sobeninalex.common.compose.PostListItemShimmer
 import ru.sobeninalex.common.compose.PullRefreshLayout
+import ru.sobeninalex.common.compose.RepeatScreen
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.compose.TitleBottomSheet
 import ru.sobeninalex.common.navigation.LocalNavController
@@ -88,7 +89,7 @@ private fun HomeScreenContent(
     }
 
     val visibilityFAB by remember {
-        derivedStateOf { !lazyListState.isScrollInProgress }
+        derivedStateOf { !lazyListState.isScrollInProgress && uiState.throwable == null }
     }
 
     Scaffold(
@@ -218,6 +219,12 @@ private fun HomeScreenContent(
             CustomRotatingDotsLoader(
                 isLoading = uiState.isLoading,
                 modifier = Modifier.fillMaxSize()
+            )
+
+            RepeatScreen(
+                modifier = Modifier.fillMaxSize(),
+                visibility = uiState.throwable != null,
+                onRepeatClick = { action(HomeAction.OnRepeatClick) }
             )
         }
     }

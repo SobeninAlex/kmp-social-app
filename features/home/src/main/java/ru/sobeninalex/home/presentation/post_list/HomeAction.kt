@@ -7,6 +7,8 @@ internal sealed interface HomeAction {
 
     data object Refresh : HomeAction
 
+    data object OnRepeatClick : HomeAction
+
     data object OnBoardingFinishClick : HomeAction
 
     data class OnFollowButtonClick(val followedUser: FollowUser) : HomeAction

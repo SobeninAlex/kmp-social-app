@@ -69,11 +69,12 @@ internal class HomeViewModel(
             is HomeAction.LoadMorePosts -> loadMorePosts()
             is HomeAction.OnFollowButtonClick -> followUser(user = action.followedUser)
             is HomeAction.OnLikeClick -> likeOrUnlike(post = action.post)
-            is HomeAction.OnCommentClick -> { /*todo*/ }
+            is HomeAction.OnCommentClick -> {/*todo*/}
             is HomeAction.UpdatePost -> updatePost(action.post.postId) { action.post }
             is HomeAction.ShowDeletePostDialog -> showDeleteDialog(post = action.post)
             is HomeAction.HideDeletePostDialog -> hideDeleteDialog()
             is HomeAction.OnDeletePost -> deletePost(post = action.post)
+            is HomeAction.OnRepeatClick -> loadContent()
         }
     }
 
@@ -193,7 +194,7 @@ internal class HomeViewModel(
     }
 
     private fun loadContent() {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true, throwable = null) }
         loadData()
     }
 
@@ -212,6 +213,7 @@ internal class HomeViewModel(
                 }.onSuccess { response ->
                     _uiState.update { it.copy(users = response) }
                 }.onFailure { error ->
+                    _uiState.update { it.copy(isLoading = false, throwable = error) }
                     throw error
                 }
             }

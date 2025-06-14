@@ -54,4 +54,7 @@
     <string name="pick_image">upload from gallery</string>
     <string name="pick_file">upload file</string>
     <string name="local_storage">storage</string>
+
+    <string name="something_went_wrong">Oops..!! Something went wrong</string>
+    <string name="repeat">Repeat</string>
 </resources>
