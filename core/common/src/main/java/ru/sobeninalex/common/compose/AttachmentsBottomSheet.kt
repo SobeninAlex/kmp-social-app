@@ -40,7 +40,7 @@ fun AttachmentsBottomSheet(
     val context = LocalContext.current
     var cameraUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
     var type = PickType.PICK_IMAGE_AND_VIDEO
-    val authority = "com.example.kmp_social_app.fileprovider"
+    val authority = stringResource(R.string.file_provider)
 
     //лаунчер фото камеры
     val cameraPictureLauncher = rememberLauncherForActivityResult(

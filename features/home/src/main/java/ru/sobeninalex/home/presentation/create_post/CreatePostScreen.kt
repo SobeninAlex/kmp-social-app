@@ -6,14 +6,19 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -87,7 +92,7 @@ private fun CreatePostScreenContent(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(vertical = 16.dp)
                 .padding(scaffoldPadding)
         ) {
             Column(
@@ -97,15 +102,19 @@ private fun CreatePostScreenContent(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LazyRow {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterHorizontally),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
                     items(
                         items = uiState.attachmentsUri
                     ) { uri ->
                         ImageCard(
                             model = uri,
                             modifier = Modifier
-                                .height(300.dp)
                                 .clip(roundedCornerShape20)
+                                .fillParentMaxWidth(0.9f)
                                 .aspectRatio(1f)
                         )
                     }
@@ -113,8 +122,8 @@ private fun CreatePostScreenContent(
                     item {
                         Box(
                             modifier = Modifier
-                                .height(400.dp)
                                 .clip(roundedCornerShape20)
+                                .fillParentMaxWidth(0.9f)
                                 .aspectRatio(1f)
                                 .clickable { showBottomSheet = true }
                         ) {
@@ -141,7 +150,7 @@ private fun CreatePostScreenContent(
                 }
 
                 CustomTetField(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     isSingleLine = false,
                     value = uiState.caption,
                     onValueChange = { onAction(CreatePostAction.OnChangeCaption(it)) },
@@ -153,6 +162,7 @@ private fun CreatePostScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
+                    .padding(horizontal = 16.dp)
                     .align(Alignment.BottomCenter),
                 enabled = uiState.createPostButtonEnabled,
                 onClick = {
