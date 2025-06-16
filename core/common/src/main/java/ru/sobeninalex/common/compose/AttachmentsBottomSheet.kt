@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,8 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import ru.sobeninalex.resources.R
 import ru.sobeninalex.resources.Body_Normal16
+import ru.sobeninalex.resources.R
 import java.io.File
 
 @Composable
@@ -158,9 +159,7 @@ fun AttachmentsBottomSheet(
                     activityResultLauncher.launch(cameraPermissions)
                 }
             )
-            HorizontalLine(
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
+            HorizontalLine(modifier = Modifier.padding(horizontal = 16.dp))
 
             PickerButton(
                 painter = painterResource(id = R.drawable.ic_videocamera_fill_24_black),
@@ -170,9 +169,7 @@ fun AttachmentsBottomSheet(
                     activityResultLauncher.launch(videoCameraPermissions)
                 }
             )
-            HorizontalLine(
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
+            HorizontalLine(modifier = Modifier.padding(horizontal = 16.dp))
 
             PickerButton(
                 painter = painterResource(id = R.drawable.ic_image_fill_24_black),
@@ -184,9 +181,7 @@ fun AttachmentsBottomSheet(
             )
 
             if (shouldPickFiles) {
-                HorizontalLine(
-                    modifier = Modifier.padding(vertical = 16.dp)
-                )
+                HorizontalLine(modifier = Modifier.padding(horizontal = 16.dp))
 
                 PickerButton(
                     painter = painterResource(id = R.drawable.ic_folder_fill_24_black),
@@ -215,13 +210,15 @@ private fun PickerButton(
     ) {
         Icon(
             painter = painter,
-            contentDescription = null
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = text,
             style = Body_Normal16,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

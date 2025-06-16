@@ -7,18 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -47,6 +43,7 @@ import ru.sobeninalex.common.compose.CustomTetField
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.ImageCard
 import ru.sobeninalex.common.compose.LoadingDialog
+import ru.sobeninalex.common.compose.MediaPager
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.resources.Buttons_Medium14
@@ -60,14 +57,14 @@ fun CreatePostScreen() {
 
     CreatePostScreenContent(
         uiState = uiState,
-        onAction = viewModel::onAction
+        action = viewModel::onAction
     )
 }
 
 @Composable
 private fun CreatePostScreenContent(
     uiState: CreatePostUiState,
-    onAction: (CreatePostAction) -> Unit
+    action: (CreatePostAction) -> Unit
 ) {
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
@@ -112,6 +109,7 @@ private fun CreatePostScreenContent(
                     ) { uri ->
                         ImageCard(
                             model = uri,
+                            onClick = { action(CreatePostAction.ShowMediaPager(uri = uri)) },
                             modifier = Modifier
                                 .clip(roundedCornerShape20)
                                 .fillParentMaxWidth(0.9f)
@@ -153,7 +151,7 @@ private fun CreatePostScreenContent(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     isSingleLine = false,
                     value = uiState.caption,
-                    onValueChange = { onAction(CreatePostAction.OnChangeCaption(it)) },
+                    onValueChange = { action(CreatePostAction.OnChangeCaption(it)) },
                     placeholder = R.string.post_caption_hint
                 )
             }
@@ -166,7 +164,7 @@ private fun CreatePostScreenContent(
                     .align(Alignment.BottomCenter),
                 enabled = uiState.createPostButtonEnabled,
                 onClick = {
-                    onAction(CreatePostAction.OnCreatePostClick)
+                    action(CreatePostAction.OnCreatePostClick)
                 },
             ) {
                 Text(
@@ -177,10 +175,18 @@ private fun CreatePostScreenContent(
         }
     }
 
+    if (uiState.mediaPagerState.show) {
+        MediaPager(
+            mediaFiles = uiState.attachmentsUri,
+            startMediaFile = uiState.mediaPagerState.uri,
+            onDismissRequest = { action(CreatePostAction.HideMediaPager) }
+        )
+    }
+
     if (showBottomSheet) {
         AttachmentsBottomSheet(
             onDismissRequest = { showBottomSheet = false },
-            onPick = { onAction(CreatePostAction.OnPickAttachments(it)) }
+            onPick = { action(CreatePostAction.OnPickAttachments(it)) }
         )
     }
 

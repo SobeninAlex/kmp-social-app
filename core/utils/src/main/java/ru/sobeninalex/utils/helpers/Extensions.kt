@@ -16,3 +16,7 @@ fun String.toServerUrl(): String {
 fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
     return merge(this, another)
 }
+
+fun String.isImgUri(): Boolean {
+    return this.contains(".*(photopicker).*".toRegex())
+}

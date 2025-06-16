@@ -21,7 +21,21 @@ internal class CreatePostViewModel(
     fun onAction(action: CreatePostAction) = when (action) {
         is CreatePostAction.OnChangeCaption -> onChangeCaption(action.caption)
         is CreatePostAction.OnCreatePostClick -> createPost()
-        is CreatePostAction.OnPickAttachments ->  onPickAttachments(action.uris)
+        is CreatePostAction.OnPickAttachments -> onPickAttachments(action.uris)
+        is CreatePostAction.HideMediaPager -> hideMediaPager()
+        is CreatePostAction.ShowMediaPager -> showMediaPager(uri = action.uri)
+    }
+
+    private fun showMediaPager(uri: Uri) {
+        _uiState.update { state ->
+            state.copy(mediaPagerState = MediaPagerState(show = true, uri = uri))
+        }
+    }
+
+    private fun hideMediaPager() {
+        _uiState.update { state ->
+            state.copy(mediaPagerState = MediaPagerState(show = false))
+        }
     }
 
     private fun onChangeCaption(caption: String) {
