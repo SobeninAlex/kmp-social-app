@@ -25,7 +25,7 @@ fun CustomTopBar(
     onBackClick: (() -> Unit)? = null,
     elevation: Dp = 1.dp,
     containerColor: Color = MaterialTheme.colorScheme.secondary,
-    navigationIconContentColor: Color = MaterialTheme.colorScheme.onBackground,
+    navigationIconContentColor: Color = MaterialTheme.colorScheme.primary,
     titleContentColor: Color = MaterialTheme.colorScheme.onBackground,
     actionIconContentColor: Color = MaterialTheme.colorScheme.primary,
     actions: @Composable RowScope.() -> Unit = {},
@@ -51,7 +51,6 @@ fun CustomTopBar(
                     Icon(
                         painter = painterResource(R.drawable.round_arrow_back),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

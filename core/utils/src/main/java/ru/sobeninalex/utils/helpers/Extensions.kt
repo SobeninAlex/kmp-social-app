@@ -17,6 +17,8 @@ fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
     return merge(this, another)
 }
 
-fun String.isImgUri(): Boolean {
-    return this.contains(".*(photopicker).*".toRegex())
-}
+//content://media/picker/0/com.android.providers.media.photopicker/media/1000000039
+val String.isImgUri: Boolean get() = this.contains(".*(photopicker).*".toRegex())
+
+//content://com.example.kmp_social_app.fileprovider/external_cache/movie_17503373802622399534457167365400.mp4
+val String.isVideoUri: Boolean get() = this.endsWith(".mp4")
