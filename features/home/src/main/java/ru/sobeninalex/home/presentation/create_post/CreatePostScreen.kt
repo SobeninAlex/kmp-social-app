@@ -43,7 +43,7 @@ import ru.sobeninalex.common.compose.CustomTetField
 import ru.sobeninalex.common.compose.CustomTopBar
 import ru.sobeninalex.common.compose.ImageCard
 import ru.sobeninalex.common.compose.LoadingDialog
-import ru.sobeninalex.common.compose.MediaPager
+import ru.sobeninalex.common.compose.FullscreenMediaPager
 import ru.sobeninalex.common.compose.SubmitButton
 import ru.sobeninalex.common.navigation.LocalNavController
 import ru.sobeninalex.resources.Buttons_Medium14
@@ -176,7 +176,7 @@ private fun CreatePostScreenContent(
     }
 
     if (uiState.mediaPagerState.show) {
-        MediaPager(
+        FullscreenMediaPager(
             mediaFiles = uiState.attachmentsUri,
             startMediaFile = uiState.mediaPagerState.uri,
             onDismissRequest = { action(CreatePostAction.HideMediaPager) }

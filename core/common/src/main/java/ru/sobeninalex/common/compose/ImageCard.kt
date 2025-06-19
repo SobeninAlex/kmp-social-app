@@ -15,15 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.disk.DiskCache
-import coil3.disk.directory
-import coil3.memory.MemoryCache
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
 import ru.sobeninalex.resources.R
 
 @Composable
@@ -43,43 +36,12 @@ fun ImageCard(
     var isLoading by remember { mutableStateOf(false) }
     var isSuccess by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-
-    val imageRequest = remember(model, context) {
-        ImageRequest.Builder(context)
-            .data(model)
-            .memoryCacheKey(model.toString())
-            .placeholderMemoryCacheKey(model.toString())
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .memoryCachePolicy(CachePolicy.ENABLED)
-            .build()
-    }
-
-    val imageLoader = remember(context) {
-        ImageLoader.Builder(context)
-            .memoryCachePolicy(CachePolicy.ENABLED)
-            .memoryCache {
-                MemoryCache.Builder()
-                    .maxSizePercent(context, 0.25)
-                    .build()
-            }
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .diskCache {
-                DiskCache.Builder()
-                    .directory(context.cacheDir.resolve("image_cache"))
-                    .maxSizeBytes(100L * 1024 * 1024)
-                    .build()
-            }
-            .build()
-    }
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.clickable { onClick() }
     ) {
         AsyncImage(
-            model = imageRequest,
-            imageLoader = imageLoader,
+            model = model,
             modifier = Modifier.fillMaxSize(),
             contentDescription = null,
             placeholder = placeholder,

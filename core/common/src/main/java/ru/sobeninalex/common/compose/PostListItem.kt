@@ -13,11 +13,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -31,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import ru.sobeninalex.common.models.post.Post
 import ru.sobeninalex.resources.Body_Normal14
 import ru.sobeninalex.resources.Caption_Medium12
+import ru.sobeninalex.resources.MainAppTheme
 import ru.sobeninalex.resources.R
 import ru.sobeninalex.resources.Title_Bold16
 import ru.sobeninalex.resources.Title_Bold18
@@ -75,12 +81,9 @@ fun PostListItem(
             onProfileClick = { onProfileClick(post.userId) }
         )
 
-        ImageCard(
-            onClick = onPostClick,
-            model = post.imageUrls.first(), //todo
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1.0f),
+        MediaPager(
+            onMediaClick = onPostClick,
+            mediaFilesUrls = post.imageUrls,
         )
 
         PostLikesRow(
@@ -350,7 +353,7 @@ private fun PostLikesRowShimmer(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemPreview() {
-    ru.sobeninalex.resources.MainAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -369,7 +372,7 @@ private fun PostListItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemShimmerPreview() {
-    ru.sobeninalex.resources.MainAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -381,7 +384,7 @@ private fun PostListItemShimmerPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemPreviewDark() {
-    ru.sobeninalex.resources.MainAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -400,7 +403,7 @@ private fun PostListItemPreviewDark() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 private fun PostListItemShimmerPreviewDark() {
-    ru.sobeninalex.resources.MainAppTheme {
+    MainAppTheme {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
