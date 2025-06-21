@@ -22,4 +22,9 @@ https://github.com/SobeninAlex/social-app
 ![scheme.svg](scheme.svg)
 
 ### preview
-
+![screen_cast_1.gif](screen_cast_1.gif)
+![screen_cast_2.gif](screen_cast_2.gif)
+![screen_cast_3.gif](screen_cast_3.gif)
+![screen_cast_4.gif](screen_cast_4.gif)
+![screen_cast_5.gif](screen_cast_5.gif)
+![screen_cast_6.gif](screen_cast_6.gif)
