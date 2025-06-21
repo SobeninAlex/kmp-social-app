@@ -1,6 +1,9 @@
 ## android-social-app
 
-## stack
+### server 
+https://github.com/SobeninAlex/social-app
+
+### stack
 - multi-modules architecture
 - UI (JetpackCompose)
 - MVVM
@@ -14,6 +17,9 @@
 - Coroutines + Flow
 - media3
 
-## architecture
+### architecture
 
 ![scheme.svg](scheme.svg)
+
+### preview
+
